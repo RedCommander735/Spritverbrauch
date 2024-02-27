@@ -1,11 +1,11 @@
 {
-    "name": "test_drive",
-    "short_name": "test_drive",
+    "name": "spritverbrauch",
+    "short_name": "spritverbrauch",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A simple app to keep track of how much fuel you're using on average.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

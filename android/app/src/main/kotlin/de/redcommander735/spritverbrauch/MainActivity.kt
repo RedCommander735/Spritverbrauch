@@ -1,4 +1,4 @@
-package com.example.test_drive
+package de.redcommander735.spritverbrauch
 
 import io.flutter.embedding.android.FlutterActivity
 
