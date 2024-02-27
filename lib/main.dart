@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:icon_decoration/icon_decoration.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Spritpreise());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Spritpreise extends StatefulWidget {
+  const Spritpreise({super.key});
 
   static final themeLight = ThemeData(
     colorScheme: ColorScheme.fromSeed(
@@ -24,6 +25,11 @@ class MyApp extends StatelessWidget {
   );
 
   @override
+  State<Spritpreise> createState() => _SpritpreiseState();
+}
+
+class _SpritpreiseState extends State<Spritpreise> {
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor:
@@ -33,9 +39,11 @@ class MyApp extends StatelessWidget {
     ));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
+    final PageController controller = PageController();
+
     return MaterialApp(
-      theme: themeLight,
-      darkTheme: themeDark,
+      theme: Spritpreise.themeLight,
+      darkTheme: Spritpreise.themeDark,
       themeMode: ThemeMode.system,
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -44,97 +52,292 @@ class MyApp extends StatelessWidget {
               print("pressed");
               print(MediaQuery.of(context).size.height);
             }),
-        body: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: FractionallySizedBox(
-                child: Overview(),
-                widthFactor: 0.6,
+        body: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              child: SizedBox(
+                height: 60,
+                child: TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.home),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.list),
+                    )
+                  ],
+                ),
               ),
             ),
-            Container(
-              color: Colors.amber,
-              height: 100,
-            )
-          ],
+            body: TabBarView(
+              physics: const ScrollPhysics(parent: ClampingScrollPhysics()),
+              children: [
+                Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Text(
+                        "Overview",
+                        style: TextStyle(fontSize: 34),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 80),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.55,
+                          child: Overview(),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const DetailsListView()
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
-class Overview extends StatelessWidget {
-  static const padding = 10.0;
-
-  static const textSize = 24.0;
-  static const iconSize = textSize * 12 / 7;
+class DetailsListView extends StatelessWidget {
+  const DetailsListView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: textSize);
+    return ListView(
+      addAutomaticKeepAlives: false,
+      children: const [
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+        ListItem(),
+      ],
+    );
+  }
+}
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height -
-          MediaQuery.of(context).viewPadding.top,
-      child: const Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          OverviewElement(
-            "8,16 L/km",
-            Icon(
-              Icons.local_gas_station_outlined,
-              size: iconSize,
-            ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
+class ListItem extends StatelessWidget {
+  const ListItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const DefaultTextStyle(
+      style: TextStyle(fontSize: 16),
+      child: Padding(
+          padding: EdgeInsets.only(left: 5, right: 5),
+          child: Column(
+            children: [
+              Divider(),
+              Padding(
+                padding: EdgeInsets.only(top: 4, bottom: 4),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 7, bottom: 7),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Row(
+                            children: [
+                              Icon(Icons.date_range_outlined),
+                              SizedBox(width: 2),
+                              Text("01.01.20XX"),
+                            ],
+                          )),
+                          Expanded(
+                              child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CompoundIcon(
+                                  firstIcon: Icons.local_gas_station_outlined,
+                                  secondIcon: Icons.route_outlined,
+                                ),
+                                SizedBox(width: 2),
+                                Text("8,26 l/km"),
+                              ],
+                            ),
+                          )),
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.euro_outlined),
+                                SizedBox(width: 2),
+                                Text("72,37 €"),
+                              ],
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 7, bottom: 7),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Row(
+                            children: [
+                              Icon(Icons.route_outlined),
+                              SizedBox(width: 2),
+                              Text("518 km"),
+                            ],
+                          )),
+                          Expanded(
+                              child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.local_gas_station_outlined),
+                                SizedBox(width: 2),
+                                Text("42,85 l"),
+                              ],
+                            ),
+                          )),
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CompoundIcon(
+                                  firstIcon: Icons.euro_outlined,
+                                  secondIcon: Icons.local_gas_station_outlined,
+                                ),
+                                SizedBox(width: 2),
+                                Text("1,689 €"),
+                              ],
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
+    );
+  }
+}
+
+class Overview extends StatefulWidget {
+  static const padding = 10.0;
+
+  static const textSize = 22.0;
+  static const iconSize = textSize * 12 / 7;
+
+  @override
+  State<Overview> createState() => _OverviewState();
+}
+
+class _OverviewState extends State<Overview> {
+  @override
+  Widget build(BuildContext context) {
+    const textStyle = TextStyle(fontSize: Overview.textSize);
+
+    return const Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        OverviewElement(
+          "8,16 L/km",
+          CompoundIcon(
+            firstIcon: Icons.local_gas_station_outlined,
+            secondIcon: Icons.route_outlined,
+            size: Overview.iconSize,
           ),
-          OverviewElement(
-            "74,62 €",
-            Icon(
-              Icons.euro_outlined,
-              size: iconSize,
-            ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
+          padding: Overview.padding,
+          textStyle: textStyle,
+          iconSize: Overview.iconSize,
+        ),
+        OverviewElement(
+          "74,62 €",
+          Icon(
+            Icons.euro_outlined,
+            size: Overview.iconSize,
           ),
-          OverviewElement(
-            "525,1 km",
-            Icon(
-              Icons.route_outlined,
-              size: iconSize,
-            ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
+          padding: Overview.padding,
+          textStyle: textStyle,
+          iconSize: Overview.iconSize,
+        ),
+        OverviewElement(
+          "525,1 km",
+          Icon(
+            Icons.route_outlined,
+            size: Overview.iconSize,
           ),
-          OverviewElement(
-            "1,74 €/L",
-            CompoundIcon(
-              firstIcon: Icons.local_gas_station_outlined,
-              secondIcon: Icons.euro_outlined,
-              size: iconSize,
-            ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
+          padding: Overview.padding,
+          textStyle: textStyle,
+          iconSize: Overview.iconSize,
+        ),
+        OverviewElement(
+          "1,74 €/L",
+          CompoundIcon(
+            firstIcon: Icons.local_gas_station_outlined,
+            secondIcon: Icons.euro_outlined,
+            size: Overview.iconSize,
           ),
-          OverviewElement(
-            "0,14 €/km",
-            CompoundIcon(
-              firstIcon: Icons.route_outlined,
-              secondIcon: Icons.euro_outlined,
-              size: iconSize,
-            ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
+          padding: Overview.padding,
+          textStyle: textStyle,
+          iconSize: Overview.iconSize,
+        ),
+        OverviewElement(
+          "0,14 €/km",
+          CompoundIcon(
+            firstIcon: Icons.route_outlined,
+            secondIcon: Icons.euro_outlined,
+            size: Overview.iconSize,
           ),
-        ],
-      ),
+          padding: Overview.padding,
+          textStyle: textStyle,
+          iconSize: Overview.iconSize,
+        ),
+      ],
     );
   }
 }
@@ -157,7 +360,6 @@ class OverviewElement extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Row(
-        // durchschnittlicher verbrauch
         mainAxisSize: MainAxisSize.min,
         children: [
           icon,
@@ -220,7 +422,7 @@ class CompoundIcon extends StatelessWidget {
                 decoration: IconDecoration(
                     border: IconBorder(
                         color: Theme.of(context).colorScheme.background,
-                        width: size / 10)),
+                        width: size / 8)),
               ),
             ),
           ),
