@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spritverbrauch/Overview.dart';
@@ -11,17 +12,11 @@ void main() {
 class Spritpreise extends StatelessWidget {
   const Spritpreise({super.key});
 
-  static final themeLight = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.red[900]!, brightness: Brightness.light),
-    useMaterial3: true,
-  );
+  static final _defaultLightColorScheme = ColorScheme.fromSeed(
+      seedColor: Colors.blue[900]!, brightness: Brightness.light);
 
-  static final themeDark = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.red[900]!, brightness: Brightness.dark),
-    useMaterial3: true,
-  );
+  static final _defaultDarkColorScheme = ColorScheme.fromSeed(
+      seedColor: Colors.blue[900]!, brightness: Brightness.dark);
 
   @override
   Widget build(BuildContext context) {
@@ -40,71 +35,79 @@ class Spritpreise extends StatelessWidget {
     }
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-    return MaterialApp(
-      theme: themeLight,
-      darkTheme: themeDark,
-      themeMode: ThemeMode.system,
-      home: Scaffold(
-        floatingActionButton: Builder(
-            builder: (context) => FloatingActionButton(
-                  child: const Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AddItem()),
-                    );
-                  },
-                )),
-        body: const SafeArea(
-          child: DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              appBar: PreferredSize(
-                preferredSize: Size.fromHeight(60),
-                child: SizedBox(
-                  height: 60,
-                  child: TabBar(
-                    tabs: [
-                      Tab(
-                        icon: Icon(Icons.home),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.list),
-                      )
-                    ],
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      return MaterialApp(
+        theme: ThemeData(
+          colorScheme: lightColorScheme ?? _defaultLightColorScheme,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
+        home: Scaffold(
+          floatingActionButton: Builder(
+              builder: (context) => FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddItem()),
+                      );
+                    },
+                  )),
+          body: const SafeArea(
+            child: DefaultTabController(
+              length: 2,
+              child: Scaffold(
+                appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(60),
+                  child: SizedBox(
+                    height: 60,
+                    child: TabBar(
+                      tabs: [
+                        Tab(
+                          icon: Icon(Icons.home),
+                        ),
+                        Tab(
+                          icon: Icon(Icons.list),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              body: TabBarView(
-                physics: ScrollPhysics(parent: ClampingScrollPhysics()),
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 100),
-                        child: Text(
-                          "Überblick",
-                          style: TextStyle(fontSize: 34),
-                        ),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 80),
-                          child: FractionallySizedBox(
-                            widthFactor: 0.55,
-                            child: Overview(),
+                body: TabBarView(
+                  physics: ScrollPhysics(parent: ClampingScrollPhysics()),
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 100),
+                          child: Text(
+                            "Überblick",
+                            style: TextStyle(fontSize: 34),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  DetailsListView()
-                ],
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 80),
+                            child: FractionallySizedBox(
+                              widthFactor: 0.55,
+                              child: Overview(),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    DetailsListView()
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
