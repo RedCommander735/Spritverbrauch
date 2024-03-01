@@ -1,6 +1,42 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+
+class ListEnty {
+  final int id;
+  final DateTime date;
+  final double distance;
+  final double priceTotal;
+  final double fuelInLiters;
+  final double pricePerLiter;
+  final double literPerKilometer;
+
+  const ListEnty({
+    required this.id,
+    required this.date,
+    required this.distance,
+    required this.priceTotal,
+    required this.fuelInLiters,
+    required this.pricePerLiter,
+    required this.literPerKilometer,
+  });
+
+  // Convert a Dog into a Map. The keys must correspond to the names of the
+  // columns in the database.
+  // TODO continue here
+  Map<String, Object?> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+    };
+  }
+
+  // Implement toString to make it easier to see information about
+  // each dog when using the print statement.
+  @override
+  String toString() {
+    return 'Dog{id: $id, name: $name, age: $age}';
+  }
+}
 
 class AddItem extends StatefulWidget {
   const AddItem({super.key});
@@ -12,8 +48,8 @@ class AddItem extends StatefulWidget {
 class _AddItemState extends State<AddItem> {
   final _formKey = GlobalKey<FormState>();
   late double distance;
-  late double fuel;
-  late double price;
+  late double fuelInLiter;
+  late double priceTotal;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +101,7 @@ class _AddItemState extends State<AddItem> {
                     labelText: 'getankter Sprit in Litern',
                   ),
                   onChanged: (value) {
-                    fuel = double.parse(value.replaceAll(',', '.'));
+                    fuelInLiter = double.parse(value.replaceAll(',', '.'));
                   },
                 ),
                 const SizedBox(
@@ -86,7 +122,7 @@ class _AddItemState extends State<AddItem> {
                     labelText: 'Spritpreis in Euro',
                   ),
                   onChanged: (value) {
-                    price = double.parse(value.replaceAll(',', '.'));
+                    priceTotal = double.parse(value.replaceAll(',', '.'));
                   },
                 ),
                 const SizedBox(
@@ -111,7 +147,7 @@ class _AddItemState extends State<AddItem> {
                       builder: (context) => AlertDialog(
                         title: const Text('Your story'),
                         content: Text(
-                            'The $fuel developer saw a $distance and $price'),
+                            'The $fuelInLiter developer saw a $distance and $priceTotal'),
                         actions: [
                           TextButton(
                             child: const Text('Done'),

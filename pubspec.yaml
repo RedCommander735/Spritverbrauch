@@ -38,6 +38,8 @@ dependencies:
   icon_decoration: ^2.0.2
   json_annotation: ^4.8.1
   dynamic_color: ^1.7.0
+  sqflite: ^2.3.2
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
