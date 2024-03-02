@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:spritverbrauch/CompoundIcon.dart';
+import 'package:spritverbrauch/sqlite_service.dart';
 
 class ListItem extends StatelessWidget {
-  const ListItem({super.key});
+  final ListEntity item;
+  const ListItem({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultTextStyle(
-      style: TextStyle(fontSize: 16),
+    var date = DateTime.fromMillisecondsSinceEpoch(item.date);
+    var day = date.day.toString().padLeft(2, '0');
+    var month = date.month.toString().padLeft(2, '0');
+    var year = date.year.toString();
+
+    var litersPerKilometer = item.litersPerKilometer;
+
+    var price = item.priceTotal;
+
+    var distance = item.distance;
+
+    var fuel = item.fuelInLiters;
+
+    var pricePerLiter = item.pricePerLiter;
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 16),
       child: Padding(
-          padding: EdgeInsets.only(left: 5, right: 5),
+          padding: const EdgeInsets.only(left: 5, right: 5),
           child: Column(
             children: [
-              Divider(),
+              const Divider(),
               Padding(
-                padding: EdgeInsets.only(top: 4, bottom: 4),
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 7, bottom: 7),
+                      padding: const EdgeInsets.only(top: 7, bottom: 7),
                       child: Row(
                         children: [
                           Expanded(
                               child: Row(
                             children: [
-                              Icon(Icons.date_range_outlined),
-                              SizedBox(width: 2),
-                              Text("01.01.20XX"),
+                              const Icon(Icons.date_range_outlined),
+                              const SizedBox(width: 2),
+                              Text("$day.$month.$year"),
                             ],
                           )),
                           Expanded(
@@ -34,12 +51,12 @@ class ListItem extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CompoundIcon(
+                                const CompoundIcon(
                                   firstIcon: Icons.local_gas_station_outlined,
                                   secondIcon: Icons.route_outlined,
                                 ),
-                                SizedBox(width: 2),
-                                Text("8,26 l/km"),
+                                const SizedBox(width: 2),
+                                Text("$litersPerKilometer l/km"),
                               ],
                             ),
                           )),
@@ -49,9 +66,9 @@ class ListItem extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.euro_outlined),
-                                SizedBox(width: 2),
-                                Text("72,37 €"),
+                                const Icon(Icons.euro_outlined),
+                                const SizedBox(width: 2),
+                                Text("$price €"),
                               ],
                             ),
                           )),
@@ -59,15 +76,15 @@ class ListItem extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 7, bottom: 7),
+                      padding: const EdgeInsets.only(top: 7, bottom: 7),
                       child: Row(
                         children: [
                           Expanded(
                               child: Row(
                             children: [
-                              Icon(Icons.route_outlined),
-                              SizedBox(width: 2),
-                              Text("518 km"),
+                              const Icon(Icons.route_outlined),
+                              const SizedBox(width: 2),
+                              Text("$distance km"),
                             ],
                           )),
                           Expanded(
@@ -75,9 +92,9 @@ class ListItem extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.local_gas_station_outlined),
-                                SizedBox(width: 2),
-                                Text("42,85 l"),
+                                const Icon(Icons.local_gas_station_outlined),
+                                const SizedBox(width: 2),
+                                Text("$fuel l"),
                               ],
                             ),
                           )),
@@ -87,12 +104,12 @@ class ListItem extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CompoundIcon(
+                                const CompoundIcon(
                                   firstIcon: Icons.euro_outlined,
                                   secondIcon: Icons.local_gas_station_outlined,
                                 ),
-                                SizedBox(width: 2),
-                                Text("1,689 €"),
+                                const SizedBox(width: 2),
+                                Text("$pricePerLiter €"),
                               ],
                             ),
                           )),
