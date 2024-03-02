@@ -6,10 +6,10 @@ class DetailsListView extends StatefulWidget {
   const DetailsListView({super.key});
 
   @override
-  State<DetailsListView> createState() => _DetailsListViewState();
+  State<DetailsListView> createState() => DetailsListViewState();
 }
 
-class _DetailsListViewState extends State<DetailsListView> {
+class DetailsListViewState extends State<DetailsListView> {
   late SqliteService _sqliteService;
 
   List<ListEntity> _items = [];
@@ -33,9 +33,19 @@ class _DetailsListViewState extends State<DetailsListView> {
       child: ListView.builder(
         itemCount: _items.length,
         itemBuilder: (context, index) {
-          return ListItem(item: _items[index]);
+          return ListItem(
+            item: _items[index],
+            update: update,
+          );
         },
       ),
     );
+  }
+
+  void update() async {
+    final data = await _sqliteService.getItems();
+    setState(() {
+      _items = data;
+    });
   }
 }

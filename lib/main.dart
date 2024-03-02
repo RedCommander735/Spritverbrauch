@@ -7,17 +7,11 @@ import 'package:spritverbrauch/Overview.dart';
 import 'package:spritverbrauch/DetailsView.dart';
 import 'package:spritverbrauch/addItem.dart';
 
-import 'package:flutter/widgets.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-
-import 'dart:async';
-
 void main() {
   runApp(const Spritpreise());
 }
 
-class Spritpreise extends StatelessWidget {
+class Spritpreise extends StatefulWidget {
   const Spritpreise({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSeed(
@@ -25,6 +19,19 @@ class Spritpreise extends StatelessWidget {
 
   static final _defaultDarkColorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue[900]!, brightness: Brightness.dark);
+
+  @override
+  State<Spritpreise> createState() => _SpritpreiseState();
+}
+
+class _SpritpreiseState extends State<Spritpreise> {
+  final GlobalKey<DetailsListViewState> _key = GlobalKey();
+
+// TODO ???????
+  void update() {
+    _key.currentState!.update();
+    print("test");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +54,11 @@ class Spritpreise extends StatelessWidget {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: lightColorScheme ?? _defaultLightColorScheme,
+          colorScheme: lightColorScheme ?? Spritpreise._defaultLightColorScheme,
           useMaterial3: true,
         ),
         darkTheme: ThemeData(
-          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+          colorScheme: darkColorScheme ?? Spritpreise._defaultDarkColorScheme,
           useMaterial3: true,
         ),
         themeMode: ThemeMode.system,
@@ -63,7 +70,9 @@ class Spritpreise extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddItem()),
+                            builder: (context) => AddItem(
+                                  update: update,
+                                )),
                       );
                     },
                   )),

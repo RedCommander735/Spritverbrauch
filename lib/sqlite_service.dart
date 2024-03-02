@@ -30,7 +30,7 @@ class SqliteService {
     return queryResult.map((e) => ListEntity.fromMap(e)).toList();
   }
 
-  Future<void> deleteItem(String id) async {
+  Future<void> deleteItem(int id) async {
     final db = await initDB();
     try {
       await db.delete("fuel_usage", where: "id = ?", whereArgs: [id]);

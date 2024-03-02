@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:spritverbrauch/sqlite_service.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({super.key});
+  final Function update;
+  const AddItem({super.key, required this.update});
 
   @override
   State<AddItem> createState() => _AddItemState();
@@ -126,6 +127,9 @@ class _AddItemState extends State<AddItem> {
                       content: Text("Eintrag hinzugefügt"),
                       showCloseIcon: true,
                     ));
+
+                    Navigator.of(context).pop();
+                    widget.update();
                   },
                 ),
               ],
