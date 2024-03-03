@@ -12,7 +12,7 @@ A simple app to keep track of how much fuel you're using on average.
     - [x] ListView displays things
     - [x] Delete things from ListView
     - [x] Home screen works
-    - [ ] Make Date selectable on addItem
+    - [x] Make Date selectable on addItem
 - [ ] Time date selector for overview
 - [ ] Fun facts (how much money used for gas, etc.)
 - [ ] Backup to csv/xslx/...?

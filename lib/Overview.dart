@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/compound_icon.dart';
 import 'package:spritverbrauch/item_list_model.dart';
@@ -20,11 +21,11 @@ class Overview extends StatelessWidget {
       builder: (BuildContext context, ItemListModel value, Widget? child) {
         var items = value.items;
 
-        double lpk = 0.0;
-        double price = 0.0;
-        double dist = 0.0;
-        double ppl = 0.0;
-        double ppk = 0.0;
+        String lpk = "0.00";
+        String price = "0.00";
+        String dist = "0.00";
+        String ppl = "0.00";
+        String ppk = "0.00";
 
         if (items.isNotEmpty) {
           List<double> litersPerKilometer = [];
@@ -39,38 +40,31 @@ class Overview extends StatelessWidget {
             liters.add(element.fuelInLiters);
           }
 
-          lpk = roundDouble(
-              (litersPerKilometer.fold(0.0,
-                      (previousValue, element) => previousValue + element)) /
-                  litersPerKilometer.length *
-                  100,
-              2);
+          String locale = Intl.systemLocale;
+          var formatter = NumberFormat.decimalPatternDigits(
+              decimalDigits: 2, locale: locale);
 
-          price = roundDouble(
-              (priceTotal.fold(0.0,
-                      (previousValue, element) => previousValue + element)) /
-                  priceTotal.length,
-              2);
+          lpk = formatter.format((litersPerKilometer.fold(
+                  0.0, (previousValue, element) => previousValue + element)) /
+              litersPerKilometer.length);
 
-          dist = roundDouble(
-              (distance.fold(0.0,
-                      (previousValue, element) => previousValue + element)) /
-                  distance.length,
-              2);
+          price = formatter.format((priceTotal.fold(
+                  0.0, (previousValue, element) => previousValue + element)) /
+              priceTotal.length);
 
-          ppl = roundDouble(
-              (priceTotal.fold(0.0,
-                      (previousValue, element) => previousValue + element)) /
-                  (liters.fold(0.0,
-                      (previousValue, element) => previousValue + element)),
-              3);
+          dist = formatter.format((distance.fold(
+                  0.0, (previousValue, element) => previousValue + element)) /
+              distance.length);
 
-          ppk = roundDouble(
-              (priceTotal.fold(0.0,
-                      (previousValue, element) => previousValue + element)) /
-                  (distance.fold(0.0,
-                      (previousValue, element) => previousValue + element)),
-              3);
+          ppl = formatter.format((priceTotal.fold(
+                  0.0, (previousValue, element) => previousValue + element)) /
+              (liters.fold(
+                  0.0, (previousValue, element) => previousValue + element)));
+
+          ppk = formatter.format((priceTotal.fold(
+                  0.0, (previousValue, element) => previousValue + element)) /
+              (distance.fold(
+                  0.0, (previousValue, element) => previousValue + element)));
         }
 
         return Column(

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/compound_icon.dart';
 import 'package:spritverbrauch/item_list_model.dart';
@@ -37,15 +38,19 @@ class _ListItemState extends State<ListItem> {
     var month = date.month.toString().padLeft(2, '0');
     var year = date.year.toString();
 
-    var litersPerKilometer = roundDouble(widget.item.litersPerKilometer, 2);
+    String locale = Intl.systemLocale;
+    var formatter =
+        NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
 
-    var price = roundDouble(widget.item.priceTotal, 2);
+    var litersPerKilometer = formatter.format(widget.item.litersPerKilometer);
 
-    var distance = roundDouble(widget.item.distance, 2);
+    var price = formatter.format(widget.item.priceTotal);
 
-    var fuel = roundDouble(widget.item.fuelInLiters, 2);
+    var distance = formatter.format(widget.item.distance);
 
-    var pricePerLiter = roundDouble(widget.item.pricePerLiter, 3);
+    var fuel = formatter.format(widget.item.fuelInLiters);
+
+    var pricePerLiter = formatter.format(widget.item.pricePerLiter);
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 16),

@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:spritverbrauch/item_list_model.dart';
 import 'package:spritverbrauch/sqlite_service.dart';
 
+import 'package:intl/intl.dart'; //for date format
+import 'package:intl/date_symbol_data_local.dart';
+
 class AddItem extends StatefulWidget {
   const AddItem({super.key});
 
@@ -16,6 +19,20 @@ class _AddItemState extends State<AddItem> {
   late double fuelInLiters;
   late double pricePerLiter;
 
+  final TextEditingController _dateController = TextEditingController();
+
+  DateTime _dateTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    String locale = Intl.systemLocale;
+    var formatter = DateFormat.yMMMd(locale);
+    setState(() {
+      _dateController.text = formatter.format(DateTime.now());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +44,29 @@ class _AddItemState extends State<AddItem> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
+                TextFormField(
+                  controller: _dateController,
+                  keyboardType: TextInputType.datetime,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    filled: true,
+                    labelText: 'Datum',
+                    prefixIcon: const Icon(Icons.calendar_today),
+                    enabledBorder:
+                        const OutlineInputBorder(borderSide: BorderSide.none),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ),
+                  readOnly: true,
+                  onTap: () {
+                    _selectDate();
+                  },
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
                 // A text field that validates that the text is an adjective.
                 TextFormField(
                   keyboardType: TextInputType.number,
@@ -112,17 +152,13 @@ class _AddItemState extends State<AddItem> {
 
                     var item = ListEntity(
                       id: 0,
-                      date: DateTime.now().millisecondsSinceEpoch,
+                      date: _dateTime.millisecondsSinceEpoch,
                       distance: distance,
                       priceTotal: priceTotal,
                       fuelInLiters: fuelInLiters,
                       pricePerLiter: pricePerLiter,
                       litersPerKilometer: litersPerKilometer,
                     );
-
-                    var sqlitesevice = SqliteService();
-
-                    sqlitesevice.createItem(item);
 
                     Provider.of<ItemListModel>(context, listen: false)
                         .add(item);
@@ -141,5 +177,24 @@ class _AddItemState extends State<AddItem> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1970),
+      lastDate: DateTime.now(),
+    );
+
+    String locale = Intl.systemLocale;
+    var formatter = DateFormat.yMMMd(locale);
+
+    if (pickedDate != null) {
+      setState(() {
+        _dateController.text = formatter.format(pickedDate);
+        _dateTime = pickedDate;
+      });
+    }
   }
 }
