@@ -13,6 +13,11 @@ A simple app to keep track of how much fuel you're using on average.
     - [x] Delete things from ListView
     - [x] Home screen works
     - [x] Make Date selectable on addItem
+- [ ] Make Overview items clickable for extra stats
+    - [ ] Usage for usage over time graph
+    - [ ] Price for all time money spent and graph
+    - [ ] distance and price graphs
+    - [ ] price per kilometer for distance price calc
 - [ ] Time date selector for overview
 - [ ] Fun facts (how much money used for gas, etc.)
 - [ ] Backup to csv/xslx/...?
