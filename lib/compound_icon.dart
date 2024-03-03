@@ -38,19 +38,15 @@ class CompoundIcon extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: Container(
-              // decoration: const BoxDecoration(
-              //     shape: BoxShape.circle, color: Colors.white),
-              child: DecoratedIcon(
-                icon: Icon(
-                  secondIcon,
-                  size: size * .55,
-                ),
-                decoration: IconDecoration(
-                    border: IconBorder(
-                        color: Theme.of(context).colorScheme.background,
-                        width: size / 8)),
+            child: DecoratedIcon(
+              icon: Icon(
+                secondIcon,
+                size: size * .55,
               ),
+              decoration: IconDecoration(
+                  border: IconBorder(
+                      color: Theme.of(context).colorScheme.background,
+                      width: size / 8)),
             ),
           ),
         ],

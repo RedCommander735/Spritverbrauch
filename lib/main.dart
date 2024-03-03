@@ -68,7 +68,8 @@ class _SpritpreiseState extends State<Spritpreise> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AddItem()),
+                        MaterialPageRoute(
+                            builder: (context) => const AddItem()),
                       );
                     },
                   )),
