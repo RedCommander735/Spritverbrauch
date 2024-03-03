@@ -2,13 +2,18 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spritverbrauch/item_list_model.dart';
 
-import 'package:spritverbrauch/Overview.dart';
-import 'package:spritverbrauch/DetailsView.dart';
-import 'package:spritverbrauch/addItem.dart';
+import 'package:spritverbrauch/overview.dart';
+import 'package:spritverbrauch/details_view.dart';
+import 'package:spritverbrauch/add_item.dart';
+
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const Spritpreise());
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) => ItemListModel(),
+      child: const Spritpreise()));
 }
 
 class Spritpreise extends StatefulWidget {
@@ -25,14 +30,6 @@ class Spritpreise extends StatefulWidget {
 }
 
 class _SpritpreiseState extends State<Spritpreise> {
-  final GlobalKey<DetailsListViewState> _key = GlobalKey();
-
-// TODO ???????
-  void update() {
-    _key.currentState!.update();
-    print("test");
-  }
-
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).platformBrightness == Brightness.light) {
@@ -49,6 +46,8 @@ class _SpritpreiseState extends State<Spritpreise> {
       ));
     }
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    Provider.of<ItemListModel>(context, listen: false).load();
 
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
@@ -69,10 +68,7 @@ class _SpritpreiseState extends State<Spritpreise> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AddItem(
-                                  update: update,
-                                )),
+                        MaterialPageRoute(builder: (context) => AddItem()),
                       );
                     },
                   )),

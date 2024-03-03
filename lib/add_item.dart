@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spritverbrauch/item_list_model.dart';
 import 'package:spritverbrauch/sqlite_service.dart';
 
 class AddItem extends StatefulWidget {
-  final Function update;
-  const AddItem({super.key, required this.update});
+  const AddItem({super.key});
 
   @override
   State<AddItem> createState() => _AddItemState();
@@ -33,7 +34,7 @@ class _AddItemState extends State<AddItem> {
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter an adjective.';
+                      return 'Bitte gültige Strecke eingeben.';
                     }
                     return null;
                   },
@@ -55,7 +56,7 @@ class _AddItemState extends State<AddItem> {
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter a noun.';
+                      return 'Bitte gültige Menge eingeben';
                     }
                     return null;
                   },
@@ -76,7 +77,7 @@ class _AddItemState extends State<AddItem> {
                   textInputAction: TextInputAction.done,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter a noun.';
+                      return 'Bitte gültigen Preis eingeben';
                     }
                     return null;
                   },
@@ -96,7 +97,7 @@ class _AddItemState extends State<AddItem> {
                 ElevatedButton(
                   child: const Padding(
                     padding: EdgeInsets.only(left: 16, right: 16),
-                    child: Text('Submit'),
+                    child: Text('Hinzufügen'),
                   ),
                   onPressed: () {
                     // Validate the form by getting the FormState from the GlobalKey
@@ -123,13 +124,15 @@ class _AddItemState extends State<AddItem> {
 
                     sqlitesevice.createItem(item);
 
+                    Provider.of<ItemListModel>(context, listen: false)
+                        .add(item);
+
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Eintrag hinzugefügt"),
                       showCloseIcon: true,
                     ));
 
                     Navigator.of(context).pop();
-                    widget.update();
                   },
                 ),
               ],

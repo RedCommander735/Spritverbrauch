@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:spritverbrauch/CompoundIcon.dart';
+import 'package:provider/provider.dart';
+import 'package:spritverbrauch/compound_icon.dart';
+import 'package:spritverbrauch/item_list_model.dart';
 import 'package:spritverbrauch/sqlite_service.dart';
 
 double roundDouble(double value, int places) {
@@ -11,21 +13,20 @@ double roundDouble(double value, int places) {
 
 class ListItem extends StatefulWidget {
   final ListEntity item;
-  final Function update;
-  const ListItem({super.key, required this.item, required this.update});
+  const ListItem({super.key, required this.item});
 
   @override
   State<ListItem> createState() => _ListItemState();
 }
 
 class _ListItemState extends State<ListItem> {
-  int id = 0;
+  late ListEntity item;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      id = widget.item.id;
+      item = widget.item;
     });
   }
 
@@ -70,10 +71,9 @@ class _ListItemState extends State<ListItem> {
                       showCloseIcon: true,
                     ));
 
-                    var sqlitesevice = SqliteService();
-                    sqlitesevice.deleteItem(id);
+                    Provider.of<ItemListModel>(context, listen: false)
+                        .remove(item);
 
-                    widget.update();
                     Navigator.of(context).pop();
                   },
                 ),

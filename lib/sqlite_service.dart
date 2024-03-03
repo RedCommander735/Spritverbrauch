@@ -27,7 +27,8 @@ class SqliteService {
     final db = await initDB();
     final List<Map<String, Object?>> queryResult =
         await db.query('fuel_usage', orderBy: 'date');
-    return queryResult.map((e) => ListEntity.fromMap(e)).toList();
+    final list = queryResult.map((e) => ListEntity.fromMap(e)).toList();
+    return list.reversed.toList();
   }
 
   Future<void> deleteItem(int id) async {
