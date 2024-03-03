@@ -4,7 +4,6 @@ import 'package:spritverbrauch/item_list_model.dart';
 import 'package:spritverbrauch/sqlite_service.dart';
 
 import 'package:intl/intl.dart'; //for date format
-import 'package:intl/date_symbol_data_local.dart';
 
 class AddItem extends StatefulWidget {
   const AddItem({super.key});

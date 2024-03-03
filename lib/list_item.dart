@@ -53,8 +53,9 @@ class _ListItemState extends State<ListItem> {
     var pricePerLiter = formatter.format(widget.item.pricePerLiter);
 
     return DefaultTextStyle(
-      style: const TextStyle(fontSize: 16),
-      child: GestureDetector(
+      style: TextStyle(
+          fontSize: 16, color: Theme.of(context).colorScheme.onBackground),
+      child: InkWell(
         onLongPress: () {
           showDialog<void>(
             context: context,
@@ -87,80 +88,80 @@ class _ListItemState extends State<ListItem> {
           );
         },
         child: Padding(
-            padding: const EdgeInsets.only(left: 5, right: 5),
-            child: Column(
-              children: [
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4, bottom: 4),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 7, bottom: 7),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Row(
+          padding: const EdgeInsets.only(left: 5, right: 5),
+          child: Column(
+            children: [
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 7, bottom: 7),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Row(
+                            children: [
+                              const Icon(Icons.date_range_outlined),
+                              const SizedBox(width: 2),
+                              Text("$day.$month.$year"),
+                            ],
+                          )),
+                          Expanded(
+                              child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.date_range_outlined),
+                                const CompoundIcon(
+                                  firstIcon: Icons.local_gas_station_outlined,
+                                  secondIcon: Icons.route_outlined,
+                                ),
                                 const SizedBox(width: 2),
-                                Text("$day.$month.$year"),
+                                Text("$litersPerKilometer l/km"),
                               ],
-                            )),
-                            Expanded(
-                                child: Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const CompoundIcon(
-                                    firstIcon: Icons.local_gas_station_outlined,
-                                    secondIcon: Icons.route_outlined,
-                                  ),
-                                  const SizedBox(width: 2),
-                                  Text("$litersPerKilometer l/km"),
-                                ],
-                              ),
-                            )),
-                            Expanded(
-                                child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.euro_outlined),
-                                  const SizedBox(width: 2),
-                                  Text("$price €"),
-                                ],
-                              ),
-                            )),
-                          ],
-                        ),
+                            ),
+                          )),
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.euro_outlined),
+                                const SizedBox(width: 2),
+                                Text("$price €"),
+                              ],
+                            ),
+                          )),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 7, bottom: 7),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Row(
-                              children: [
-                                const Icon(Icons.route_outlined),
-                                const SizedBox(width: 2),
-                                Text("$distance km"),
-                              ],
-                            )),
-                            Expanded(
-                                child: Center(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 7, bottom: 7),
+                      child: Row(
+                        children: [
+                          Expanded(
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.local_gas_station_outlined),
-                                  const SizedBox(width: 2),
-                                  Text("$fuel l"),
-                                ],
-                              ),
-                            )),
-                            Expanded(
-                                child: Align(
+                            children: [
+                              const Icon(Icons.route_outlined),
+                              const SizedBox(width: 2),
+                              Text("$distance km"),
+                            ],
+                          )),
+                          Expanded(
+                              child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.local_gas_station_outlined),
+                                const SizedBox(width: 2),
+                                Text("$fuel l"),
+                              ],
+                            ),
+                          )),
+                          Expanded(
+                            child: Align(
                               alignment: Alignment.centerRight,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -174,15 +175,17 @@ class _ListItemState extends State<ListItem> {
                                   Text("$pricePerLiter €"),
                                 ],
                               ),
-                            )),
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            )),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
