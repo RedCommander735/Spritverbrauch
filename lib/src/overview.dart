@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:spritverbrauch/compound_icon.dart';
-import 'package:spritverbrauch/item_list_model.dart';
+import 'package:spritverbrauch/src/compound_icon.dart';
+import 'package:spritverbrauch/src/item_list_model.dart';
 
 class Overview extends StatelessWidget {
   static const padding = 10.0;

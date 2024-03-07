@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:spritverbrauch/sqlite_service.dart';
+import 'package:spritverbrauch/src/sqlite_service.dart';
 
 class ItemListModel extends ChangeNotifier {
   /// Internal, private state of the cart.
