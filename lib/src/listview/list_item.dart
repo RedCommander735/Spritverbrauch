@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:spritverbrauch/src/compound_icon.dart';
-import 'package:spritverbrauch/src/item_list_model.dart';
-import 'package:spritverbrauch/src/sqlite_service.dart';
+import 'package:spritverbrauch/src/utils/compound_icon.dart';
+import 'package:spritverbrauch/src/listview/item_list_model.dart';
+import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
 double roundDouble(double value, int places) {
   num mod = pow(10.0, places);

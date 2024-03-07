@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spritverbrauch/src/item_list_model.dart';
-import 'package:spritverbrauch/src/sqlite_service.dart';
+import 'package:spritverbrauch/src/listview/item_list_model.dart';
+import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
 import 'package:intl/intl.dart'; //for date format
 
