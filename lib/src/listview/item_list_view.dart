@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/listview/list_item.dart';
 
-class DetailsListView extends StatefulWidget {
-  const DetailsListView({super.key});
+class ItemListView extends StatefulWidget {
+  const ItemListView({super.key});
 
   @override
-  State<DetailsListView> createState() => DetailsListViewState();
+  State<ItemListView> createState() => ItemListViewState();
 }
 
-class DetailsListViewState extends State<DetailsListView> {
+class ItemListViewState extends State<ItemListView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ItemListModel>(
@@ -21,7 +21,7 @@ class DetailsListViewState extends State<DetailsListView> {
           child: ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) {
-              return ListItem(item: items[index]);
+              return ListEntry(item: items[index]);
             },
           ),
         );

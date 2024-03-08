@@ -149,7 +149,7 @@ class _AddItemState extends State<AddItem> {
                     var priceTotal = fuelInLiters * pricePerLiter;
                     var litersPerKilometer = (fuelInLiters * 100) / distance;
 
-                    var item = ListEntity(
+                    var item = ListItem(
                       id: 0,
                       date: _dateTime.millisecondsSinceEpoch,
                       distance: distance,

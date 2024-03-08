@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/overview.dart';
-import 'package:spritverbrauch/src/listview/details_view.dart';
+import 'package:spritverbrauch/src/listview/item_list_view.dart';
 import 'package:spritverbrauch/src/add_item.dart';
 
 import 'package:provider/provider.dart';
@@ -116,7 +116,7 @@ class _SpritpreiseState extends State<Spritpreise> {
                         )
                       ],
                     ),
-                    DetailsListView()
+                    ItemListView()
                   ],
                 ),
               ),

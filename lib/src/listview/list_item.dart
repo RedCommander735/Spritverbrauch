@@ -12,16 +12,16 @@ double roundDouble(double value, int places) {
   return ((value * mod).round().toDouble() / mod);
 }
 
-class ListItem extends StatefulWidget {
-  final ListEntity item;
-  const ListItem({super.key, required this.item});
+class ListEntry extends StatefulWidget {
+  final ListItem item;
+  const ListEntry({super.key, required this.item});
 
   @override
-  State<ListItem> createState() => _ListItemState();
+  State<ListEntry> createState() => _ListEntryState();
 }
 
-class _ListItemState extends State<ListItem> {
-  late ListEntity item;
+class _ListEntryState extends State<ListEntry> {
+  late ListItem item;
 
   @override
   void initState() {

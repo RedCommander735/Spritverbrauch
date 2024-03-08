@@ -16,18 +16,18 @@ class SqliteService {
     return database;
   }
 
-  Future<int> createItem(ListEntity entity) async {
+  Future<int> createItem(ListItem entity) async {
     final Database db = await initDB();
     final id = await db.insert('fuel_usage', entity.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
   }
 
-  Future<List<ListEntity>> getItems() async {
+  Future<List<ListItem>> getItems() async {
     final db = await initDB();
     final List<Map<String, Object?>> queryResult =
         await db.query('fuel_usage', orderBy: 'date');
-    final list = queryResult.map((e) => ListEntity.fromMap(e)).toList();
+    final list = queryResult.map((e) => ListItem.fromMap(e)).toList();
     return list.reversed.toList();
   }
 
@@ -41,7 +41,7 @@ class SqliteService {
   }
 }
 
-class ListEntity {
+class ListItem {
   final int id;
   final int date;
   final double distance;
@@ -50,7 +50,7 @@ class ListEntity {
   final double pricePerLiter;
   final double litersPerKilometer;
 
-  const ListEntity({
+  const ListItem({
     required this.id,
     required this.date,
     required this.distance,
@@ -73,7 +73,7 @@ class ListEntity {
     };
   }
 
-  ListEntity.fromMap(Map<String, dynamic> item)
+  ListItem.fromMap(Map<String, dynamic> item)
       : id = item["id"],
         date = item["date"],
         distance = item['distance'],
