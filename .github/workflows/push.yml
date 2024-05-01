@@ -1,4 +1,4 @@
-name: Android Release
+name: Build
 
 
 on:
@@ -10,13 +10,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  decrypt:
+    name: decrypt
     runs-on: ubuntu-latest
-
-
     steps:
+      - uses: actions/checkout@v4
+      - name: Decrypt
+        run: ./decrypt.sh
+        env:
+          KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
 
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
