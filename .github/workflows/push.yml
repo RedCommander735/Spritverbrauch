@@ -44,6 +44,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Start release build
         run: flutter build apk
+        env: 
+          storePassword: ${{ secrets.STOREPASSWORD }}
+          keyPassword: ${{ secrets.KEYPASSWORD }}
+          keyAlias: 'upload'
+          storeFile: './keystore/upload-keystore.jks'
 
       - name: test
         run: tree
