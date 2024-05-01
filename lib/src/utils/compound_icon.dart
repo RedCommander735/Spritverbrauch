@@ -26,8 +26,8 @@ class CompoundIcon extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.background,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
                 shape: BoxShape.circle,
               ),
               child: Icon(

@@ -14,18 +14,18 @@ class ItemListViewState extends State<ItemListView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ItemListModel>(
-      builder: (BuildContext context, ItemListModel value, Widget? child) {
-        var items = value.items;
-        return FractionallySizedBox(
-          widthFactor: 0.95,
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return ListEntry(item: items[index]);
-            },
-          ),
-        );
-      },
-    );
+        builder: (BuildContext context, ItemListModel value, Widget? child) {
+      var items = value.items;
+      return ListView.separated(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return ListEntry(item: items[index]);
+        },
+        separatorBuilder: (context, build) => const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Divider(height: 1),
+        ),
+      );
+    });
   }
 }

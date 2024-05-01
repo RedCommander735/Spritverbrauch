@@ -16,6 +16,7 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: textSize);
     Provider.of<ItemListModel>(context, listen: false).load();
+    // Stats
     return Consumer<ItemListModel>(
       builder: (BuildContext context, ItemListModel value, Widget? child) {
         var items = value.items;
