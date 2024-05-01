@@ -40,5 +40,8 @@ jobs:
           keyAlias: 'upload'
           storeFile: './keystore/upload-keystore.jks'
 
-      - name: test
-        run: tree
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/*.apk
