@@ -18,7 +18,7 @@ jobs:
       - name: ls
         run: ls
       - name: Decrypt
-        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYPASSWORD }}" --output ./keystore/upload-keystore.jks ./keystore/upload-keystore.jks.gpg
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYPASSWORD }}" --output .android/app/keystore/upload-keystore.jks .android/app/keystore/upload-keystore.jks.gpg
 
 
 
