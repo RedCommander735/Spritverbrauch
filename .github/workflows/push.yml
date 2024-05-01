@@ -19,6 +19,8 @@ jobs:
         run: ./decrypt.sh
         env:
           KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+      - name: ls
+        run: ls
 
 
   build:
