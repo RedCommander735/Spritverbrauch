@@ -18,9 +18,7 @@ jobs:
       - name: ls
         run: ls
       - name: Decrypt
-        run: ./keystore/decrypt.sh
-        env:
-          KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYPASSWORD }}" --output upload-keystore.jks upload-keystore.jks.gpg
 
 
 
