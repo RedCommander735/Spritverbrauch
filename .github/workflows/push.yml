@@ -18,7 +18,7 @@ jobs:
       - name: ls
         run: ls
       - name: Decrypt
-        run: ./decrypt.sh
+        run: ./keystore/decrypt.sh
         env:
           KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
 
