@@ -15,12 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: ls
+        run: ls
       - name: Decrypt
         run: ./decrypt.sh
         env:
           KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
-      - name: ls
-        run: ls
+
 
 
   build:
