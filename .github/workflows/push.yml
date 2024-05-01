@@ -10,24 +10,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  decrypt:
-    name: decrypt
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: ls
-        run: ls
-      - name: Decrypt
-        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYPASSWORD }}" --output ./android/app/keystore/upload-keystore.jks ./android/app/keystore/upload-keystore.jks.gpg
-
-
-
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: tree
-        run: tree
+      - uses: actions/checkout@v4
+      - name: Decrypt
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYPASSWORD }}" --output ./android/app/keystore/upload-keystore.jks ./android/app/keystore/upload-keystore.jks.gpg
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
