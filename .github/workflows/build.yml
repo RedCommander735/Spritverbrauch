@@ -51,7 +51,7 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Rename apk
-        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{ github.ref_name }}-release.apk
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{ github.ref_name }}-app-release.apk
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -59,4 +59,4 @@ jobs:
         with:
           body_path: CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: build/app/outputs/flutter-apk/${{ github.ref_name }}-app-release.apk
