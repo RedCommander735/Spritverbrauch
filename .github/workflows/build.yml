@@ -50,6 +50,9 @@ jobs:
           name: build
           path: build/app/outputs/flutter-apk/app-release.apk
 
+      - name: Rename apk
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{ github.ref_name }}-release.apk
+
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
