@@ -18,8 +18,10 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
       - name: Decrypt
         run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYPASSWORD }}" --output ./android/app/keystore/upload-keystore.jks ./android/app/keystore/upload-keystore.jks.gpg
+
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
@@ -35,7 +37,6 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      # Runs a set of commands using the runners shell
       - name: Start release build
         run: flutter build apk
         env: 
@@ -44,19 +45,24 @@ jobs:
           keyAlias: 'upload'
           storeFile: './keystore/upload-keystore.jks'
 
-      - name: Archive code coverage results
+      - name: Archive build artefact
         uses: actions/upload-artifact@v4
         with:
           name: build
           path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Rename apk
-        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{ github.ref_name }}-app-release.apk
+        if: startsWith(github.ref, 'refs/tags/')
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{ github.ref_name }}-release.apk
 
-      - name: Release
+      - name: Save changelog
+        if: startsWith(github.ref, 'refs/tags/')
+        run: cp 'changelogs/CHANGELOG - latest.md' 'changelogs/CHANGELOG - ${{ github.ref_name }}.md'
+
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          body_path: CHANGELOG.md
+          body_path: 'changelogs/CHANGELOG - ${{ github.ref_name }}.md'
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: build/app/outputs/flutter-apk/${{ github.ref_name }}-app-release.apk
+          files: build/app/outputs/flutter-apk/${{ github.ref_name }}-release.apk
