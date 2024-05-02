@@ -14,6 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Decrypt
@@ -48,26 +50,10 @@ jobs:
           name: build
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Create Release 
-        if: startsWith(github.ref, 'refs/tags/') 
-        uses: actions/create-release@v1 
-        id: create_release 
-        with: 
-          draft: false 
-          prerelease: false 
-          release_name: ${{ github.ref }} 
-          tag_name: ${{ github.ref }} 
-          body_path: CHANGELOG.md 
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release 
-        if: startsWith(github.ref, 'refs/tags/') 
-        uses: actions/upload-release-asset@v1 
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        with: 
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: build/app/outputs/flutter-apk/app-release.apk
-          asset_name: ${{ github.ref_name }}-release.apk
-          asset_content_type: application/vnd.android.package-archive
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body_path: CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: build/app/outputs/flutter-apk/app-release.apk
