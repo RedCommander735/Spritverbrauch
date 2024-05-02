@@ -24,4 +24,5 @@ A simple app to keep track of how much fuel you're using on average.
     - [ ] Display selected date range and make resettable
     - [ ] Persist selected date range
 - [ ] Fun facts (how much money used for gas, etc.)
-- [ ] Backup to csv/xslx/...?
+- [ ] Settings page via breadcrumbs for app info
+    - [ ] Backup to csv/xslx/...?
