@@ -73,11 +73,11 @@ class _SpritpreiseState extends State<Spritpreise> {
                       );
                     },
                   )),
-          body: const SafeArea(
+          body: SafeArea(
             child: DefaultTabController(
               length: 2,
               child: Scaffold(
-                appBar: PreferredSize(
+                appBar: const PreferredSize(
                   preferredSize: Size.fromHeight(60),
                   child: SizedBox(
                     height: 60,
@@ -94,26 +94,35 @@ class _SpritpreiseState extends State<Spritpreise> {
                   ),
                 ),
                 body: TabBarView(
-                  physics: ScrollPhysics(parent: ClampingScrollPhysics()),
+                  physics: const ScrollPhysics(parent: ClampingScrollPhysics()),
                   children: [
                     Column(
                       children: [
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: IconButton(onPressed: null, icon: Icon(Icons.tune))
+                              padding: const EdgeInsets.all(8.0),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AddItem()),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.tune)),
                             ),
                           ],
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(top: 100),
                           child: Text(
                             "Überblick",
                             style: TextStyle(fontSize: 34),
                           ),
                         ),
-                        Center(
+                        const Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 80),
                             child: FractionallySizedBox(
@@ -124,7 +133,7 @@ class _SpritpreiseState extends State<Spritpreise> {
                         )
                       ],
                     ),
-                    ItemListView()
+                    const ItemListView()
                   ],
                 ),
               ),
