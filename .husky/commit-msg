@@ -3,12 +3,12 @@
 
 
 message="$(cat $1)"
-requiredPattern="^(fix:|feat:|style:|refactor:|ci:|chore:|config:) .*$"
+requiredPattern="^(wip:|fix:|feat:|style:|refactor:|ci:|chore:|config:) .*$"
 if ! [[ $message =~ $requiredPattern ]];
 then
   echo "Wrong format!"
   echo "The commit message must start with one of the following:"
-  echo "'fix:', 'feat:', 'style:', 'refactor:', 'ci:', 'chore:', 'config:'"
+  echo "'wip:', 'fix:', 'feat:', 'style:', 'refactor:', 'ci:', 'chore:', 'config:'"
   echo "Example: 'feat: login button'"
   echo "-"
   echo "Your commit message was:"
