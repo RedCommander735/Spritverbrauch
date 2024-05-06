@@ -133,42 +133,60 @@ class _AddItemState extends State<AddItem> {
                   height: 24,
                 ),
 
-                ElevatedButton(
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    child: Text('Hinzufügen'),
-                  ),
-                  onPressed: () {
-                    // Validate the form by getting the FormState from the GlobalKey
-                    // and calling validate() on it.
-                    var valid = _formKey.currentState!.validate();
-                    if (!valid) {
-                      return;
-                    }
-
-                    var priceTotal = fuelInLiters * pricePerLiter;
-                    var litersPerKilometer = (fuelInLiters * 100) / distance;
-
-                    var item = ListItem(
-                      id: 0,
-                      date: _dateTime.millisecondsSinceEpoch,
-                      distance: distance,
-                      priceTotal: priceTotal,
-                      fuelInLiters: fuelInLiters,
-                      pricePerLiter: pricePerLiter,
-                      litersPerKilometer: litersPerKilometer,
-                    );
-
-                    Provider.of<ItemListModel>(context, listen: false)
-                        .add(item);
-
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Eintrag hinzugefügt"),
-                      showCloseIcon: true,
-                    ));
-
-                    Navigator.of(context).pop();
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom( backgroundColor: Theme.of(context).primaryColor ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: Text(
+                          'Hinzufügen',
+                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      onPressed: () {
+                        // Validate the form by getting the FormState from the GlobalKey
+                        // and calling validate() on it.
+                        var valid = _formKey.currentState!.validate();
+                        if (!valid) {
+                          return;
+                        }
+                    
+                        var priceTotal = fuelInLiters * pricePerLiter;
+                        var litersPerKilometer = (fuelInLiters * 100) / distance;
+                    
+                        var item = ListItem(
+                          id: 0,
+                          date: _dateTime.millisecondsSinceEpoch,
+                          distance: distance,
+                          priceTotal: priceTotal,
+                          fuelInLiters: fuelInLiters,
+                          pricePerLiter: pricePerLiter,
+                          litersPerKilometer: litersPerKilometer,
+                        );
+                    
+                        Provider.of<ItemListModel>(context, listen: false)
+                            .add(item);
+                    
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Eintrag hinzugefügt"),
+                          showCloseIcon: true,
+                        ));
+                    
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    ElevatedButton(
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Text('Abbrechen'),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
                 ),
               ],
             ),
