@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spritverbrauch/src/filter.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/overview.dart';
@@ -61,7 +62,19 @@ class _SpritpreiseState extends State<Spritpreise> {
           useMaterial3: true,
         ),
         themeMode: ThemeMode.system,
-        home: Scaffold(
+        home: const Main(),
+      );
+    });
+  }
+}
+
+
+class Main extends StatelessWidget {
+  const Main({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
           floatingActionButton: Builder(
               builder: (context) => FloatingActionButton(
                     child: const Icon(Icons.add),
@@ -103,20 +116,22 @@ class _SpritpreiseState extends State<Spritpreise> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AddItem()),
-                                    );
+                                  onPressed: () { //NOTE - Temporarily disabled
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) =>
+                                    //           const Filter()),
+                                    // );
                                   },
-                                  icon: const Icon(Icons.tune)),
+                                  icon: const Icon(Icons.tune),
+                                  color: Theme.of(context).colorScheme.background, //NOTE - Temporarily made invisible
+                                  ),
                             ),
                           ],
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 100),
+                          padding: EdgeInsets.only(top: 70),
                           child: Text(
                             "Überblick",
                             style: TextStyle(fontSize: 34),
@@ -139,8 +154,6 @@ class _SpritpreiseState extends State<Spritpreise> {
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
   }
 }
