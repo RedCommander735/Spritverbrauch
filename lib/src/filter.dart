@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:spritverbrauch/src/listview/item_list_model.dart';
-import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
-import 'package:intl/intl.dart'; //for date format
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart'; //for date format
+
+enum DateFilter {
+  fromDate,
+  dateRange
+}
 
 class Filter extends StatefulWidget {
   const Filter({super.key});
@@ -14,9 +17,11 @@ class Filter extends StatefulWidget {
 
 class _FilterState extends State<Filter> {
   final _formKey = GlobalKey<FormState>();
-  late double distance;
-  late double fuelInLiters;
-  late double pricePerLiter;
+
+  late SharedPreferences prefs;
+  DateFilter? _dateFilter = DateFilter.fromDate;
+  bool _filterEnabled = false;
+
 
   final TextEditingController _dateController = TextEditingController();
 
@@ -27,13 +32,52 @@ class _FilterState extends State<Filter> {
     super.initState();
     String locale = Intl.systemLocale;
     var formatter = DateFormat.yMMMd(locale);
+
+    asyncInitState();
+
     setState(() {
       _dateController.text = formatter.format(DateTime.now());
     });
   }
 
+  void asyncInitState() async {
+    prefs = await SharedPreferences.getInstance();
+
+    var filterEnabledDb = prefs.getBool('filterEnabled');
+    var dateFilterDb = prefs.getString('dateFilter'); 
+
+    if (dateFilterDb == null) {
+      dateFilterDb = 'fromDate';
+      prefs.setString('dateFilter', 'fromDate');
+    }
+
+    if (filterEnabledDb == null) {
+      filterEnabledDb = false;
+      prefs.setBool('filterEnabled', false);
+    } 
+
+    setState(() {
+      _filterEnabled = filterEnabledDb ?? false;
+
+      // FIXME DateFilter persitance broken
+      switch (dateFilterDb) {
+        case 'fromDate':
+          _dateFilter = DateFilter.fromDate;
+          break;
+        case 'dateRange':
+          _dateFilter = DateFilter.dateRange;
+          break;
+        default:
+          _dateFilter = DateFilter.fromDate;
+    }
+    });
+  }
+
+  static const textSize = 18.0;
+
   @override
   Widget build(BuildContext context) {
+    const textStyle = TextStyle(fontSize: textSize);
     return Scaffold(
       appBar: AppBar(title: const Text('Filter konfigurieren')),
       body: Form(
@@ -43,6 +87,61 @@ class _FilterState extends State<Filter> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
+                Row(
+                  // Filter Toggle
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Anzeige-Zeitraum einschränken",
+                      style: textStyle,
+                    ),
+                    Switch(
+                      value: _filterEnabled,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _filterEnabled = value;
+                          _setFilterEnabled(value);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                if(_filterEnabled) Column(
+                  // Filter Switcher
+                  children: [
+                    RadioListTile(
+                      title: const Text(
+                        'Datum - Heute',
+                        style: textStyle,
+                        ),
+                      value: DateFilter.fromDate, 
+                      groupValue: _dateFilter, 
+                      onChanged: (DateFilter? value) {
+                          setState(() {
+                            _dateFilter = value;
+                            _setDateFilter(value);
+                          }
+                        );
+                      }
+                    ),
+                    RadioListTile(
+                      title: const Text(
+                        'Ausgewählter Zeitraum',
+                        style: textStyle,
+                        ),
+                      value: DateFilter.dateRange, 
+                      groupValue: _dateFilter, 
+                      onChanged: (DateFilter? value) {
+                          setState(() {
+                            _dateFilter = value;
+                            _setDateFilter(value);
+                          }
+                        );
+                      }
+                    ),
+                  ],
+                ),
+                if(_filterEnabled && _dateFilter == DateFilter.fromDate) 
                 TextFormField(
                   controller: _dateController,
                   keyboardType: TextInputType.datetime,
@@ -63,113 +162,13 @@ class _FilterState extends State<Filter> {
                     _selectDate();
                   },
                 ),
-                const SizedBox(
-                  height: 24,
+                if(_filterEnabled && _dateFilter == DateFilter.dateRange) const Row(
+                  // Date-Range-Filter
+                  children: [
+                    Text("Date-Range-Filter")
+                  ],
                 ),
-                // A text field that validates that the text is an adjective.
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  autofocus: true,
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Bitte gültige Strecke eingeben.';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    filled: true,
-                    hintText: 'z.B. 473,7',
-                    labelText: 'gefahrene Strecke in Kilometer',
-                  ),
-                  onChanged: (value) {
-                    distance = double.parse(value.replaceAll(',', '.'));
-                  },
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                // A text field that validates that the text is a noun.
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Bitte gültige Menge eingeben';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    filled: true,
-                    hintText: 'z.B. 42,35',
-                    labelText: 'getankter Sprit in Litern',
-                  ),
-                  onChanged: (value) {
-                    fuelInLiters = double.parse(value.replaceAll(',', '.'));
-                  },
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Bitte gültigen Preis eingeben';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    filled: true,
-                    hintText: 'z.B. 1,75',
-                    labelText: 'Spritpreis in Euro',
-                  ),
-                  onChanged: (value) {
-                    pricePerLiter = double.parse(value.replaceAll(',', '.'));
-                  },
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-
-                ElevatedButton(
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    child: Text('Hinzufügen'),
-                  ),
-                  onPressed: () {
-                    // Validate the form by getting the FormState from the GlobalKey
-                    // and calling validate() on it.
-                    var valid = _formKey.currentState!.validate();
-                    if (!valid) {
-                      return;
-                    }
-
-                    var priceTotal = fuelInLiters * pricePerLiter;
-                    var litersPerKilometer = (fuelInLiters * 100) / distance;
-
-                    var item = ListItem(
-                      id: 0,
-                      date: _dateTime.millisecondsSinceEpoch,
-                      distance: distance,
-                      priceTotal: priceTotal,
-                      fuelInLiters: fuelInLiters,
-                      pricePerLiter: pricePerLiter,
-                      litersPerKilometer: litersPerKilometer,
-                    );
-
-                    Provider.of<ItemListModel>(context, listen: false)
-                        .add(item);
-
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Eintrag hinzugefügt"),
-                      showCloseIcon: true,
-                    ));
-
-                    Navigator.of(context).pop();
-                  },
-                ),
+                
               ],
             ),
           ),
@@ -196,4 +195,13 @@ class _FilterState extends State<Filter> {
       });
     }
   }
+
+  Future<void> _setDateFilter(DateFilter? value) async {
+    prefs.setString('dateFilter', (value ?? DateFilter.fromDate).toString());
+  }
+
+  Future<void> _setFilterEnabled(bool? value) async {
+    prefs.setBool('filterEnabled', (value ?? false));
+  }
 }
+
