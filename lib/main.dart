@@ -12,6 +12,7 @@ import 'package:spritverbrauch/src/add_item.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(ChangeNotifierProvider(
       create: (BuildContext context) => ItemListModel(),
       child: const Spritpreise()));
@@ -68,92 +69,89 @@ class _SpritpreiseState extends State<Spritpreise> {
   }
 }
 
-
 class Main extends StatelessWidget {
   const Main({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          floatingActionButton: Builder(
-              builder: (context) => FloatingActionButton(
-                    child: const Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddItem()),
-                      );
-                    },
-                  )),
-          body: SafeArea(
-            child: DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                appBar: const PreferredSize(
-                  preferredSize: Size.fromHeight(60),
-                  child: SizedBox(
-                    height: 60,
-                    child: TabBar(
-                      tabs: [
-                        Tab(
-                          icon: Icon(Icons.home),
-                        ),
-                        Tab(
-                          icon: Icon(Icons.list),
-                        )
-                      ],
+      floatingActionButton: Builder(
+          builder: (context) => FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddItem()),
+                  );
+                },
+              )),
+      body: SafeArea(
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              child: SizedBox(
+                height: 60,
+                child: TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.home),
                     ),
-                  ),
-                ),
-                body: TabBarView(
-                  physics: const ScrollPhysics(parent: ClampingScrollPhysics()),
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: IconButton(
-                                  onPressed: () { //NOTE - Temporarily disabled
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) =>
-                                    //           const Filter()),
-                                    // );
-                                  },
-                                  icon: const Icon(Icons.tune),
-                                  color: Theme.of(context).colorScheme.background, //NOTE - Temporarily made invisible
-                                  ),
-                            ),
-                          ],
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 70),
-                          child: Text(
-                            "Überblick",
-                            style: TextStyle(fontSize: 34),
-                          ),
-                        ),
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 80),
-                            child: FractionallySizedBox(
-                              widthFactor: 0.55,
-                              child: Overview(),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const ItemListView()
+                    Tab(
+                      icon: Icon(Icons.list),
+                    )
                   ],
                 ),
               ),
             ),
+            body: TabBarView(
+              physics: const ScrollPhysics(parent: ClampingScrollPhysics()),
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Filter(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.tune),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 70),
+                      child: Text(
+                        "Überblick",
+                        style: TextStyle(fontSize: 34),
+                      ),
+                    ),
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 80),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.55,
+                          child: Overview(),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const ItemListView()
+              ],
+            ),
           ),
-        );
+        ),
+      ),
+    );
   }
 }
