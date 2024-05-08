@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+
+message="$(cat $1)"
+requiredPattern="^(Merge|wip:|fix:|feat:|style:|refactor:|ci:|chore:|config:) .*$"
+if ! [[ $message =~ $requiredPattern ]];
+then
+  echo "Wrong format!"
+  echo "The commit message must start with one of the following:"
+  echo "'wip:', 'fix:', 'feat:', 'style:', 'refactor:', 'ci:', 'chore:', 'config:'"
+  echo "Example: 'feat: login button'"
+  echo "-"
+  echo "Your commit message was:"
+  echo $message
+  echo "-"
+  echo "For more information, check script in .husky/commit-msg"
+  echo "-"
+  exit 1
+fi
