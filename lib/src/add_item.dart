@@ -137,7 +137,7 @@ class _AddItemState extends State<AddItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom( backgroundColor: Theme.of(context).primaryColor ),
+                      style: ElevatedButton.styleFrom( backgroundColor: Theme.of(context).colorScheme.primary ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Text(
