@@ -28,7 +28,7 @@ A simple app to keep track of how much fuel you're using on average.
     - [ ] distance and price graphs
     - [ ] price per kilometer for distance price calc
 - [ ] Fun facts (how much money used for gas, etc.)
-- Time date selector for overview
+- [ ] Time date selector for overview
     - [ ] Add option set starting date from listview item
-- Settings page via breadcrumbs
+- [ ] Settings page via breadcrumbs
     - [ ] Color Theme changer
