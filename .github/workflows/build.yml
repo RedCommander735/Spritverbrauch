@@ -50,6 +50,11 @@ jobs:
       - name: Start debug build
         if: github.ref_name != 'main'
         run: flutter build apk --debug
+        env: 
+          storePassword: ${{ secrets.STOREPASSWORD }}
+          keyPassword: ${{ secrets.KEYPASSWORD }}
+          keyAlias: 'upload'
+          storeFile: './keystore/upload-keystore.jks'
 
       - name: Archive build artefact
         uses: actions/upload-artifact@v4
