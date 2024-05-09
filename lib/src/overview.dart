@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/filter/filter_model.dart';
 import 'package:spritverbrauch/src/utils/compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 
@@ -15,7 +16,28 @@ class Overview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: textSize);
-    Provider.of<ItemListModel>(context, listen: false).load();
+
+    final filterEnabled = Provider.of<FilterModel>(context, listen: false).filterEnabled;
+    final dateFilter = Provider.of<FilterModel>(context, listen: false).dateFilter;
+    final startDate = Provider.of<FilterModel>(context, listen: false).startDate;
+    final endDate = Provider.of<FilterModel>(context, listen: false).endDate;
+
+    // FIXME Filter does not appyl correctly
+    if (filterEnabled) {
+      switch (dateFilter) {
+        case DateFilter.fromDate:
+          Provider.of<ItemListModel>(context, listen: false).loadFiltered(startDate);
+          break;
+        case DateFilter.dateRange:
+          Provider.of<ItemListModel>(context, listen: false).loadFiltered(startDate, end: endDate);
+          break;
+        default:
+          Provider.of<ItemListModel>(context, listen: false).loadFiltered(startDate);
+          break;
+      }
+    } else {
+      Provider.of<ItemListModel>(context, listen: false).load();
+    }
     // Stats
     return Consumer<ItemListModel>(
       builder: (BuildContext context, ItemListModel value, Widget? child) {

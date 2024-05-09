@@ -12,3 +12,4 @@
   - added filter type switcher
 - feat: filter page stores state
 - refactor: moved filter page state to own model
+- feat: implement filter in overview section

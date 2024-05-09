@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spritverbrauch/src/utils/sqlite_service.dart';
@@ -10,20 +8,22 @@ class FilterModel extends ChangeNotifier {
   
   late SharedPreferences preferences;
   
-
   bool _filterEnabled = false;
-
   DateFilter _dateFilter = DateFilter.fromDate;
+  DateTime _startDateSingle = DateTime(1970);
+  DateTime _startDate = DateTime(1970);
+  DateTime _endDate = DateTime.now();
 
-  
   bool get filterEnabled => _filterEnabled;
-
   DateFilter get dateFilter => _dateFilter;
-
+  DateTime get startDateSingle => _startDateSingle;
+  DateTime get startDate => _startDate;
+  DateTime get endDate => _endDate;
 
   void loadPreferences() async {
     preferences = await SharedPreferences.getInstance();
 
+    // Filter Toggle
     var filterEnabledDb = preferences.getBool('filterEnabled');
 
     if (filterEnabledDb == null) {
@@ -33,7 +33,7 @@ class FilterModel extends ChangeNotifier {
 
     _filterEnabled = filterEnabledDb;
 
-
+    // Filter State
     var dateFilterDb = preferences.getString('dateFilter');
 
     if (dateFilterDb == null) {
@@ -51,6 +51,43 @@ class FilterModel extends ChangeNotifier {
       default:
         _dateFilter = DateFilter.fromDate;
     }
+
+    // Value for fromDate Filter
+    var dateStartSingleDb = preferences.getInt('dateStartSingle');
+
+    if (dateStartSingleDb == null) {
+      var sqlitesevice = SqliteService();
+      var list = await sqlitesevice.getItems();
+
+      dateStartSingleDb = list.last.date;
+      preferences.setInt('dateStartSingle', dateStartSingleDb);
+    }
+
+    _startDateSingle = DateTime.fromMillisecondsSinceEpoch(dateStartSingleDb);
+
+    // Start value for dateRange Filter
+    var dateStartDb = preferences.getInt('dateStart');
+
+    if (dateStartDb == null) {
+      var sqlitesevice = SqliteService();
+      var list = await sqlitesevice.getItems();
+
+      dateStartDb = list.last.date;
+      preferences.setInt('dateStart', dateStartDb);
+    }
+
+    _startDate = DateTime.fromMillisecondsSinceEpoch(dateStartDb);
+
+    // End value for dateRange Filter
+    var dateEndDb = preferences.getInt('dateEnd');
+
+    if (dateEndDb == null) {
+      dateEndDb = DateTime.now().millisecondsSinceEpoch;
+      preferences.setInt('dateEnd', dateEndDb);
+    }
+
+    _endDate = DateTime.fromMillisecondsSinceEpoch(dateEndDb);
+
     notifyListeners();
   }
 
@@ -67,6 +104,30 @@ class FilterModel extends ChangeNotifier {
   void setDateFilter(DateFilter filter) {
     _dateFilter = filter;
     preferences.setString('dateFilter', filter.toString());
+
+    // This call tells the widgets that are listening to this model to rebuild.
+    notifyListeners();
+  }
+
+  void setStartDateSingle(DateTime date) {
+    _startDateSingle = date;
+    preferences.setInt('dateStartSingle', date.millisecondsSinceEpoch);
+
+    // This call tells the widgets that are listening to this model to rebuild.
+    notifyListeners();
+  }
+
+  void setStartDate(DateTime date) {
+    _startDate = date;
+    preferences.setInt('dateStart', date.millisecondsSinceEpoch);
+
+    // This call tells the widgets that are listening to this model to rebuild.
+    notifyListeners();
+  }
+
+  void setEndDate(DateTime date) {
+    _endDate = date;
+    preferences.setInt('dateEnd', date.millisecondsSinceEpoch);
 
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
