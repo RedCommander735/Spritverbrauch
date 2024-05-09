@@ -31,6 +31,17 @@ class SqliteService {
     return list.reversed.toList();
   }
 
+  Future<List<ListItem>> getItemsFiltered(DateTime startingDate, DateTime endDate) async {
+    final start = startingDate.millisecondsSinceEpoch;
+    final end = endDate.millisecondsSinceEpoch;
+
+    final db = await initDB();
+    final List<Map<String, Object?>> queryResult =
+        await db.query('fuel_usage', orderBy: 'date', where: 'date >= ? AND date <= ?', whereArgs: [start, end]);
+    final list = queryResult.map((e) => ListItem.fromMap(e)).toList();
+    return list.reversed.toList();
+  }
+
   Future<void> deleteItem(int id) async {
     final db = await initDB();
     try {

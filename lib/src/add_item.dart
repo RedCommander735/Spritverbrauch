@@ -66,7 +66,6 @@ class _AddItemState extends State<AddItem> {
                 const SizedBox(
                   height: 24,
                 ),
-                // A text field that validates that the text is an adjective.
                 TextFormField(
                   keyboardType: TextInputType.number,
                   autofocus: true,
@@ -89,7 +88,6 @@ class _AddItemState extends State<AddItem> {
                 const SizedBox(
                   height: 24,
                 ),
-                // A text field that validates that the text is a noun.
                 TextFormField(
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
@@ -146,8 +144,6 @@ class _AddItemState extends State<AddItem> {
                         ),
                       ),
                       onPressed: () {
-                        // Validate the form by getting the FormState from the GlobalKey
-                        // and calling validate() on it.
                         var valid = _formKey.currentState!.validate();
                         if (!valid) {
                           return;

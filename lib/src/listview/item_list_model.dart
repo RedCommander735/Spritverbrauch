@@ -6,7 +6,7 @@ import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 class ItemListModel extends ChangeNotifier {
   /// Internal, private state of the cart.
   List<ListItem> _items = [];
-
+  
   /// An unmodifiable view of the items in the cart.
   UnmodifiableListView<ListItem> get items => UnmodifiableListView(_items);
 
@@ -18,8 +18,15 @@ class ItemListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Adds [item] to cart. This and [removeAll] are the only ways to modify the
-  /// cart from the outside.
+  void loadFiltered(DateTime start, {DateTime? end}) async {
+    var sqlitesevice = SqliteService();
+    var list = await sqlitesevice.getItemsFiltered(start, end ?? DateTime.now());
+    _items = list;
+    // This call tells the widgets that are listening to this model to rebuild.
+    notifyListeners();
+  }
+
+  /// Adds [item] to the list.
   void add(ListItem item) {
     var sqlitesevice = SqliteService();
     sqlitesevice.createItem(item);
@@ -28,7 +35,7 @@ class ItemListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Removes all items from the cart.
+  /// Removes an items from the list.
   void remove(ListItem item) {
     var sqlitesevice = SqliteService();
     sqlitesevice.deleteItem(item.id);
