@@ -69,11 +69,17 @@ android {
    buildTypes {
        release {
            signingConfig signingConfigs.release
-           manifestPlaceholders = [ applicationLabelSuffix: '' ]
+           manifestPlaceholders = [ 
+                applicationLabelSuffix: '',
+                applicationIconSuffix: '' 
+            ]
        }
        debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [ applicationLabelSuffix: ' Debug' ]
+            manifestPlaceholders = [ 
+                applicationLabelSuffix: ' Debug',
+                applicationIconSuffix: '_debug' 
+            ]
        }
    }
 }
