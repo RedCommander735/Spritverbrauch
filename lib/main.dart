@@ -2,17 +2,22 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spritverbrauch/src/filter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
-import 'package:spritverbrauch/src/overview.dart';
 import 'package:spritverbrauch/src/listview/item_list_view.dart';
+import 'package:spritverbrauch/src/overview.dart';
 import 'package:spritverbrauch/src/add_item.dart';
+import 'package:spritverbrauch/src/filter.dart';
 
 import 'package:provider/provider.dart';
 
-void main() {
+late SharedPreferences preferences;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  preferences = await SharedPreferences.getInstance();
+
   runApp(ChangeNotifierProvider(
       create: (BuildContext context) => ItemListModel(),
       child: const Spritpreise()));

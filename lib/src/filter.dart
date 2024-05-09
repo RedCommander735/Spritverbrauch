@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:spritverbrauch/main.dart';
 
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart'; //for date format
 
-enum DateFilter {
-  fromDate,
-  dateRange
-}
+enum DateFilter { fromDate, dateRange }
 
 class Filter extends StatefulWidget {
   const Filter({super.key});
@@ -18,10 +15,8 @@ class Filter extends StatefulWidget {
 class _FilterState extends State<Filter> {
   final _formKey = GlobalKey<FormState>();
 
-  late SharedPreferences prefs;
   DateFilter? _dateFilter = DateFilter.fromDate;
   bool _filterEnabled = false;
-
 
   final TextEditingController _dateController = TextEditingController();
 
@@ -41,35 +36,32 @@ class _FilterState extends State<Filter> {
   }
 
   void asyncInitState() async {
-    prefs = await SharedPreferences.getInstance();
-
-    var filterEnabledDb = prefs.getBool('filterEnabled');
-    var dateFilterDb = prefs.getString('dateFilter'); 
-
-    if (dateFilterDb == null) {
-      dateFilterDb = 'fromDate';
-      prefs.setString('dateFilter', 'fromDate');
-    }
+    var filterEnabledDb = preferences.getBool('filterEnabled');
+    var dateFilterDb = preferences.getString('dateFilter');
 
     if (filterEnabledDb == null) {
       filterEnabledDb = false;
-      prefs.setBool('filterEnabled', false);
-    } 
+      preferences.setBool('filterEnabled', false);
+    }
+
+    if (dateFilterDb == null) {
+      dateFilterDb = DateFilter.fromDate.toString();
+      preferences.setString('dateFilter', DateFilter.fromDate.toString());
+    }
 
     setState(() {
       _filterEnabled = filterEnabledDb ?? false;
 
-      // FIXME DateFilter persitance broken
       switch (dateFilterDb) {
-        case 'fromDate':
+        case 'DateFilter.fromDate':
           _dateFilter = DateFilter.fromDate;
           break;
-        case 'dateRange':
+        case 'DateFilter.dateRange':
           _dateFilter = DateFilter.dateRange;
           break;
         default:
           _dateFilter = DateFilter.fromDate;
-    }
+      }
     });
   }
 
@@ -106,69 +98,64 @@ class _FilterState extends State<Filter> {
                     ),
                   ],
                 ),
-                if(_filterEnabled) Column(
-                  // Filter Switcher
-                  children: [
-                    RadioListTile(
-                      title: const Text(
-                        'Datum - Heute',
-                        style: textStyle,
-                        ),
-                      value: DateFilter.fromDate, 
-                      groupValue: _dateFilter, 
-                      onChanged: (DateFilter? value) {
-                          setState(() {
-                            _dateFilter = value;
-                            _setDateFilter(value);
-                          }
-                        );
-                      }
-                    ),
-                    RadioListTile(
-                      title: const Text(
-                        'Ausgewählter Zeitraum',
-                        style: textStyle,
-                        ),
-                      value: DateFilter.dateRange, 
-                      groupValue: _dateFilter, 
-                      onChanged: (DateFilter? value) {
-                          setState(() {
-                            _dateFilter = value;
-                            _setDateFilter(value);
-                          }
-                        );
-                      }
-                    ),
-                  ],
-                ),
-                if(_filterEnabled && _dateFilter == DateFilter.fromDate) 
-                TextFormField(
-                  controller: _dateController,
-                  keyboardType: TextInputType.datetime,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    filled: true,
-                    labelText: 'Datum',
-                    prefixIcon: const Icon(Icons.calendar_today),
-                    enabledBorder:
-                        const OutlineInputBorder(borderSide: BorderSide.none),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary),
-                    ),
+                if (_filterEnabled)
+                  Column(
+                    // Filter Switcher
+                    children: [
+                      RadioListTile(
+                          title: const Text(
+                            'Datum - Heute',
+                            style: textStyle,
+                          ),
+                          value: DateFilter.fromDate,
+                          groupValue: _dateFilter,
+                          onChanged: (DateFilter? value) {
+                            setState(() {
+                              _dateFilter = value;
+                              _setDateFilter(value);
+                            });
+                          }),
+                      RadioListTile(
+                          title: const Text(
+                            'Ausgewählter Zeitraum',
+                            style: textStyle,
+                          ),
+                          value: DateFilter.dateRange,
+                          groupValue: _dateFilter,
+                          onChanged: (DateFilter? value) {
+                            setState(() {
+                              _dateFilter = value;
+                              _setDateFilter(value);
+                            });
+                          }),
+                    ],
                   ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate();
-                  },
-                ),
-                if(_filterEnabled && _dateFilter == DateFilter.dateRange) const Row(
-                  // Date-Range-Filter
-                  children: [
-                    Text("Date-Range-Filter")
-                  ],
-                ),
-                
+                if (_filterEnabled && _dateFilter == DateFilter.fromDate)
+                  TextFormField(
+                    controller: _dateController,
+                    keyboardType: TextInputType.datetime,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      filled: true,
+                      labelText: 'Datum',
+                      prefixIcon: const Icon(Icons.calendar_today),
+                      enabledBorder:
+                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                    ),
+                    readOnly: true,
+                    onTap: () {
+                      _selectDate();
+                    },
+                  ),
+                if (_filterEnabled && _dateFilter == DateFilter.dateRange)
+                  const Row(
+                    // Date-Range-Filter
+                    children: [Text("Date-Range-Filter")],
+                  ),
               ],
             ),
           ),
@@ -197,11 +184,11 @@ class _FilterState extends State<Filter> {
   }
 
   Future<void> _setDateFilter(DateFilter? value) async {
-    prefs.setString('dateFilter', (value ?? DateFilter.fromDate).toString());
+    preferences.setString(
+        'dateFilter', (value ?? DateFilter.fromDate).toString());
   }
 
   Future<void> _setFilterEnabled(bool? value) async {
-    prefs.setBool('filterEnabled', (value ?? false));
+    preferences.setBool('filterEnabled', (value ?? false));
   }
 }
-
