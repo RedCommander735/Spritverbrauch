@@ -5,19 +5,10 @@ A simple app to keep track of how much fuel you're using on average.
 
 ## TODO:
 
+#### Initial functionality:
 - [x] Swipe left to access list view
 - [x] Add floating action button action
 - [x] Database and backend stuff (actual function)
-    - [x] Add items to list
-    - [x] ListView displays things
-    - [x] Delete things from ListView
-    - [x] Home screen works
-    - [x] Make Date selectable on addItem
-- [ ] Make Overview items clickable for extra stats
-    - [ ] Usage for usage over time graph
-    - [ ] Price for all time money spent and graph
-    - [ ] distance and price graphs
-    - [ ] price per kilometer for distance price calc
 - [ ] Prices with 3rd digit ^
 - [ ] Time date selector for overview
     - [x] Filter Icon
@@ -25,8 +16,19 @@ A simple app to keep track of how much fuel you're using on average.
     - [ ] Date range selector
     - [ ] Display selected date range and make resettable
     - [ ] Persist selected date range
-- [ ] Fun facts (how much money used for gas, etc.)
 - [ ] Settings page via breadcrumbs
     - [ ] App info
-    - [ ] Color changer
     - [ ] Backup to csv/xslx/...?
+
+#### Extra stuff:
+- [ ] Edit Items on longpress instead of deleting
+- [ ] Make Overview items clickable for extra stats
+    - [ ] Usage for usage over time graph
+    - [ ] Price for all time money spent and graph
+    - [ ] distance and price graphs
+    - [ ] price per kilometer for distance price calc
+- [ ] Fun facts (how much money used for gas, etc.)
+- [ ] Time date selector for overview
+    - [ ] Add option set starting date from listview item
+- [ ] Settings page via breadcrumbs
+    - [ ] Color Theme changer
