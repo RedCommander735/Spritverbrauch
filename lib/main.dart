@@ -2,7 +2,6 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:spritverbrauch/src/filter/filter_model.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';

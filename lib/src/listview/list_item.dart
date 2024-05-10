@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:spritverbrauch/src/utils/compound_icon.dart';
+import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 

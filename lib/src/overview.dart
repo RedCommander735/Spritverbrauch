@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/filter/filter_model.dart';
-import 'package:spritverbrauch/src/utils/compound_icon.dart';
+import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 
 class Overview extends StatelessWidget {
@@ -31,15 +31,15 @@ class Overview extends StatelessWidget {
         switch (dateFilter) {
           case DateFilter.fromDate:
             Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(startDateSingle);
+                .loadFiltered(start: startDateSingle);
             break;
           case DateFilter.dateRange:
             Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(startDate, end: endDate);
+                .loadFiltered(start: startDate, end: endDate);
             break;
           default:
             Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(startDateSingle);
+                .loadFiltered(start: startDateSingle);
             break;
         }
       } else {

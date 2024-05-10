@@ -18,9 +18,9 @@ class ItemListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadFiltered(DateTime start, {DateTime? end}) async {
+  void loadFiltered({DateTime? start, DateTime? end}) async {
     var sqlitesevice = SqliteService();
-    var list = await sqlitesevice.getItemsFiltered(start, end ?? DateTime.now());
+    var list = await sqlitesevice.getItemsFiltered(start ?? DateTime(1970), end ?? DateTime.now());
     _items = list;
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
