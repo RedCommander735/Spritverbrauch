@@ -71,6 +71,11 @@ class ListItem {
     required this.litersPerKilometer,
   });
 
+  @override
+  String toString() {
+    return toMap().toString();
+  }
+
   // Convert a ListEnty into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, Object?> toMap() {

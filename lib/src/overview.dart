@@ -17,140 +17,144 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: textSize);
 
-    final filterEnabled = Provider.of<FilterModel>(context, listen: false).filterEnabled;
-    final dateFilter = Provider.of<FilterModel>(context, listen: false).dateFilter;
-    final startDate = Provider.of<FilterModel>(context, listen: false).startDate;
-    final endDate = Provider.of<FilterModel>(context, listen: false).endDate;
+    Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
-    // FIXME Filter does not appyl correctly
-    if (filterEnabled) {
-      switch (dateFilter) {
-        case DateFilter.fromDate:
-          Provider.of<ItemListModel>(context, listen: false).loadFiltered(startDate);
-          break;
-        case DateFilter.dateRange:
-          Provider.of<ItemListModel>(context, listen: false).loadFiltered(startDate, end: endDate);
-          break;
-        default:
-          Provider.of<ItemListModel>(context, listen: false).loadFiltered(startDate);
-          break;
+    return Consumer2<FilterModel, ItemListModel>(builder:
+        (BuildContext context, FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
+      final filterEnabled = filterModel.filterEnabled;
+      final dateFilter = filterModel.dateFilter;
+      final startDateSingle = filterModel.startDateSingle;
+      final startDate = filterModel.startDate;
+      final endDate = filterModel.endDate;
+
+      if (filterEnabled) {
+        switch (dateFilter) {
+          case DateFilter.fromDate:
+            Provider.of<ItemListModel>(context, listen: false)
+                .loadFiltered(startDateSingle);
+            break;
+          case DateFilter.dateRange:
+            Provider.of<ItemListModel>(context, listen: false)
+                .loadFiltered(startDate, end: endDate);
+            break;
+          default:
+            Provider.of<ItemListModel>(context, listen: false)
+                .loadFiltered(startDateSingle);
+            break;
+        }
+      } else {
+        Provider.of<ItemListModel>(context, listen: false).load();
       }
-    } else {
-      Provider.of<ItemListModel>(context, listen: false).load();
-    }
-    // Stats
-    return Consumer<ItemListModel>(
-      builder: (BuildContext context, ItemListModel value, Widget? child) {
-        var items = value.items;
 
-        String lpk = "0.00";
-        String price = "0.00";
-        String dist = "0.00";
-        String ppl = "0.00";
-        String ppk = "0.00";
+      var items = itemListModel.items;
 
-        if (items.isNotEmpty) {
-          List<double> litersPerKilometer = [];
-          List<double> priceTotal = [];
-          List<double> distance = [];
-          List<double> liters = [];
+      String lpk = "0.00";
+      String price = "0.00";
+      String dist = "0.00";
+      String ppl = "0.00";
+      String ppk = "0.00";
 
-          for (var element in items) {
-            litersPerKilometer.add(element.litersPerKilometer);
-            priceTotal.add(element.priceTotal);
-            distance.add(element.distance);
-            liters.add(element.fuelInLiters);
-          }
+      if (items.isNotEmpty) {
+        List<double> litersPerKilometer = [];
+        List<double> priceTotal = [];
+        List<double> distance = [];
+        List<double> liters = [];
 
-          String locale = Intl.systemLocale;
-          var formatter = NumberFormat.decimalPatternDigits(
-              decimalDigits: 2, locale: locale);
-
-          lpk = formatter.format((litersPerKilometer.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              litersPerKilometer.length);
-
-          price = formatter.format((priceTotal.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              priceTotal.length);
-
-          dist = formatter.format((distance.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              distance.length);
-
-          ppl = formatter.format((priceTotal.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              (liters.fold(
-                  0.0, (previousValue, element) => previousValue + element)));
-
-          ppk = formatter.format((priceTotal.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              (distance.fold(
-                  0.0, (previousValue, element) => previousValue + element)));
+        for (var element in items) {
+          litersPerKilometer.add(element.litersPerKilometer);
+          priceTotal.add(element.priceTotal);
+          distance.add(element.distance);
+          liters.add(element.fuelInLiters);
         }
 
-        return Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Liter pro 100 km
-            OverviewElement(
-              "$lpk L/km",
-              const CompoundIcon(
-                firstIcon: Icons.local_gas_station_outlined,
-                secondIcon: Icons.route_outlined,
-                size: iconSize,
-              ),
-              padding: padding,
-              textStyle: textStyle,
-              iconSize: iconSize,
+        String locale = Intl.systemLocale;
+        var formatter = NumberFormat.decimalPatternDigits(
+            decimalDigits: 2, locale: locale);
+
+        lpk = formatter.format((litersPerKilometer.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            litersPerKilometer.length);
+
+        price = formatter.format((priceTotal.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            priceTotal.length);
+
+        dist = formatter.format((distance.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            distance.length);
+
+        ppl = formatter.format((priceTotal.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            (liters.fold(
+                0.0, (previousValue, element) => previousValue + element)));
+
+        ppk = formatter.format((priceTotal.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            (distance.fold(
+                0.0, (previousValue, element) => previousValue + element)));
+      }
+
+      return Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Liter pro 100 km
+          OverviewElement(
+            "$lpk L/km",
+            const CompoundIcon(
+              firstIcon: Icons.local_gas_station_outlined,
+              secondIcon: Icons.route_outlined,
+              size: iconSize,
             ),
-            OverviewElement(
-              "$price €",
-              const Icon(
-                Icons.euro_outlined,
-                size: iconSize,
-              ),
-              padding: padding,
-              textStyle: textStyle,
-              iconSize: iconSize,
+            padding: padding,
+            textStyle: textStyle,
+            iconSize: iconSize,
+          ),
+          OverviewElement(
+            "$price €",
+            const Icon(
+              Icons.euro_outlined,
+              size: iconSize,
             ),
-            OverviewElement(
-              "$dist km",
-              const Icon(
-                Icons.route_outlined,
-                size: iconSize,
-              ),
-              padding: padding,
-              textStyle: textStyle,
-              iconSize: iconSize,
+            padding: padding,
+            textStyle: textStyle,
+            iconSize: iconSize,
+          ),
+          OverviewElement(
+            "$dist km",
+            const Icon(
+              Icons.route_outlined,
+              size: iconSize,
             ),
-            OverviewElement(
-              "$ppl €/L",
-              const CompoundIcon(
-                firstIcon: Icons.local_gas_station_outlined,
-                secondIcon: Icons.euro_outlined,
-                size: iconSize,
-              ),
-              padding: padding,
-              textStyle: textStyle,
-              iconSize: iconSize,
+            padding: padding,
+            textStyle: textStyle,
+            iconSize: iconSize,
+          ),
+          OverviewElement(
+            "$ppl €/L",
+            const CompoundIcon(
+              firstIcon: Icons.local_gas_station_outlined,
+              secondIcon: Icons.euro_outlined,
+              size: iconSize,
             ),
-            OverviewElement(
-              "$ppk €/km",
-              const CompoundIcon(
-                firstIcon: Icons.route_outlined,
-                secondIcon: Icons.euro_outlined,
-                size: iconSize,
-              ),
-              padding: padding,
-              textStyle: textStyle,
-              iconSize: iconSize,
+            padding: padding,
+            textStyle: textStyle,
+            iconSize: iconSize,
+          ),
+          OverviewElement(
+            "$ppk €/km",
+            const CompoundIcon(
+              firstIcon: Icons.route_outlined,
+              secondIcon: Icons.euro_outlined,
+              size: iconSize,
             ),
-          ],
-        );
-      },
-    );
+            padding: padding,
+            textStyle: textStyle,
+            iconSize: iconSize,
+          ),
+        ],
+      );
+    });
   }
 }
 
