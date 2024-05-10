@@ -12,7 +12,6 @@ class Filter extends StatefulWidget {
 }
 
 class _FilterState extends State<Filter> {
-
   DateFilter _dateFilter = DateFilter.fromDate;
   bool _filterEnabled = false;
 
@@ -26,7 +25,8 @@ class _FilterState extends State<Filter> {
     String locale = Intl.systemLocale;
     var formatter = DateFormat.yMMMd(locale);
 
-    var startDateSingle = Provider.of<FilterModel>(context, listen: false).startDateSingle;
+    var startDateSingle =
+        Provider.of<FilterModel>(context, listen: false).startDateSingle;
     setState(() {
       _dateController.text = formatter.format(startDateSingle);
     });
@@ -45,7 +45,8 @@ class _FilterState extends State<Filter> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Consumer<FilterModel>(
-            builder: (BuildContext context, FilterModel filterModel, Widget? child) {
+            builder:
+                (BuildContext context, FilterModel filterModel, Widget? child) {
               _filterEnabled = filterModel.filterEnabled;
               _dateFilter = filterModel.dateFilter;
               return Column(
@@ -80,8 +81,7 @@ class _FilterState extends State<Filter> {
                             groupValue: _dateFilter,
                             onChanged: (DateFilter? value) {
                               Provider.of<FilterModel>(context, listen: false)
-                                  .setDateFilter(
-                                      value ?? DateFilter.fromDate);
+                                  .setDateFilter(value ?? DateFilter.fromDate);
                             }),
                         RadioListTile(
                             title: const Text(
@@ -92,8 +92,7 @@ class _FilterState extends State<Filter> {
                             groupValue: _dateFilter,
                             onChanged: (DateFilter? value) {
                               Provider.of<FilterModel>(context, listen: false)
-                                  .setDateFilter(
-                                      value ?? DateFilter.dateRange);
+                                  .setDateFilter(value ?? DateFilter.dateRange);
                             }),
                       ],
                     ),
@@ -123,6 +122,36 @@ class _FilterState extends State<Filter> {
                       // Date-Range-Filter
                       children: [Text("Date-Range-Filter")],
                     ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32),
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom( backgroundColor: Theme.of(context).colorScheme.primary ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: Text(
+                          'Schließen',
+                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    ElevatedButton(
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        child: Text('Zurücksetzen'),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ),
+              ),
                 ],
               );
             },
@@ -147,7 +176,8 @@ class _FilterState extends State<Filter> {
       setState(() {
         _dateController.text = formatter.format(pickedDate);
         _dateTime = pickedDate;
-        Provider.of<FilterModel>(context, listen: false).setStartDateSingle(_dateTime);
+        Provider.of<FilterModel>(context, listen: false)
+            .setStartDateSingle(_dateTime);
       });
     }
   }
