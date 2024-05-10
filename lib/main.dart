@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:spritverbrauch/src/filter/filter_model.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
@@ -114,7 +115,7 @@ class Main extends StatelessWidget {
             body: TabBarView(
               physics: const ScrollPhysics(parent: ClampingScrollPhysics()),
               children: [
-                Column(
+                Stack(
                   children: [
                     Row(
                       children: [
@@ -134,22 +135,24 @@ class Main extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 70),
-                      child: Text(
-                        "Überblick",
-                        style: TextStyle(fontSize: 34),
-                      ),
-                    ),
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 80),
-                        child: FractionallySizedBox(
-                          widthFactor: 0.55,
-                          child: Overview(),
+                    const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Überblick",
+                          style: TextStyle(fontSize: 34),
                         ),
-                      ),
-                    )
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 80),
+                            child: FractionallySizedBox(
+                              widthFactor: 0.55,
+                              child: Overview(),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
                 const ItemListView()
