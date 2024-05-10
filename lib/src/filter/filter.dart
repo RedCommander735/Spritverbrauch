@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:intl/intl.dart';
+import 'package:spritverbrauch/src/components/sp_button.dart';
 import 'package:spritverbrauch/src/filter/filter_model.dart';
 
 class Filter extends StatefulWidget {
@@ -125,33 +126,24 @@ class _FilterState extends State<Filter> {
                   Padding(
                     padding: const EdgeInsets.only(top: 32),
                     child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom( backgroundColor: Theme.of(context).colorScheme.primary ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Text(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SPButton(
                           'Schließen',
-                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          primary: true,
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                        SPButton(
+                          'Zurücksetzen',
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6),
-                        child: Text('Zurücksetzen'),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ),
-              ),
+                  ),
                 ],
               );
             },
