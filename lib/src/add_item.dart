@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/components/sp_button.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
@@ -130,59 +131,41 @@ class _AddItemState extends State<AddItem> {
                 const SizedBox(
                   height: 24,
                 ),
+                SPButtonGroup(
+                  primartyText: 'Hinzufügen',
+                  secondaryText: 'Abbrechen',
+                  primaryOnPressed: () {
+                    var valid = _formKey.currentState!.validate();
+                    if (!valid) {
+                      return;
+                    }
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom( backgroundColor: Theme.of(context).colorScheme.primary ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Text(
-                          'Hinzufügen',
-                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                        ),
-                      ),
-                      onPressed: () {
-                        var valid = _formKey.currentState!.validate();
-                        if (!valid) {
-                          return;
-                        }
-                    
-                        var priceTotal = fuelInLiters * pricePerLiter;
-                        var litersPerKilometer = (fuelInLiters * 100) / distance;
-                    
-                        var item = ListItem(
-                          id: 0,
-                          date: _dateTime.millisecondsSinceEpoch,
-                          distance: distance,
-                          priceTotal: priceTotal,
-                          fuelInLiters: fuelInLiters,
-                          pricePerLiter: pricePerLiter,
-                          litersPerKilometer: litersPerKilometer,
-                        );
-                    
-                        Provider.of<ItemListModel>(context, listen: false)
-                            .add(item);
-                    
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Eintrag hinzugefügt"),
-                          showCloseIcon: true,
-                        ));
-                    
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    ElevatedButton(
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Text('Abbrechen'),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
+                    var priceTotal = fuelInLiters * pricePerLiter;
+                    var litersPerKilometer = (fuelInLiters * 100) / distance;
+
+                    var item = ListItem(
+                      id: 0,
+                      date: _dateTime.millisecondsSinceEpoch,
+                      distance: distance,
+                      priceTotal: priceTotal,
+                      fuelInLiters: fuelInLiters,
+                      pricePerLiter: pricePerLiter,
+                      litersPerKilometer: litersPerKilometer,
+                    );
+
+                    Provider.of<ItemListModel>(context, listen: false)
+                        .add(item);
+
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Eintrag hinzugefügt"),
+                      showCloseIcon: true,
+                    ));
+
+                    Navigator.of(context).pop();
+                  },
+                  secondaryOnPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),

@@ -42,112 +42,104 @@ class _FilterState extends State<Filter> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Filter konfigurieren')),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Consumer<FilterModel>(
-            builder:
-                (BuildContext context, FilterModel filterModel, Widget? child) {
-              _filterEnabled = filterModel.filterEnabled;
-              _dateFilter = filterModel.dateFilter;
-              return Column(
-                children: [
-                  Row(
-                    // Filter Toggle
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Anzeige-Zeitraum einschränken",
-                        style: textStyle,
-                      ),
-                      Switch(
-                        value: _filterEnabled,
-                        onChanged: (bool value) {
-                          Provider.of<FilterModel>(context, listen: false)
-                              .setFilterEnabled(value);
-                        },
-                      ),
-                    ],
-                  ),
-                  if (_filterEnabled)
-                    Column(
-                      // Filter Switcher
-                      children: [
-                        RadioListTile(
-                            title: const Text(
-                              'Datum - Heute',
-                              style: textStyle,
-                            ),
-                            value: DateFilter.fromDate,
-                            groupValue: _dateFilter,
-                            onChanged: (DateFilter? value) {
-                              Provider.of<FilterModel>(context, listen: false)
-                                  .setDateFilter(value ?? DateFilter.fromDate);
-                            }),
-                        RadioListTile(
-                            title: const Text(
-                              'Ausgewählter Zeitraum',
-                              style: textStyle,
-                            ),
-                            value: DateFilter.dateRange,
-                            groupValue: _dateFilter,
-                            onChanged: (DateFilter? value) {
-                              Provider.of<FilterModel>(context, listen: false)
-                                  .setDateFilter(value ?? DateFilter.dateRange);
-                            }),
-                      ],
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Consumer<FilterModel>(
+          builder:
+              (BuildContext context, FilterModel filterModel, Widget? child) {
+            _filterEnabled = filterModel.filterEnabled;
+            _dateFilter = filterModel.dateFilter;
+            return Column(
+              children: [
+                Row(
+                  // Filter Toggle
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Anzeige-Zeitraum einschränken",
+                      style: textStyle,
                     ),
-                  if (_filterEnabled && _dateFilter == DateFilter.fromDate)
-                    TextFormField(
-                      controller: _dateController,
-                      keyboardType: TextInputType.datetime,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        filled: true,
-                        labelText: 'Datum',
-                        prefixIcon: const Icon(Icons.calendar_today),
-                        enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide.none),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.primary),
-                        ),
-                      ),
-                      readOnly: true,
-                      onTap: () {
-                        _selectDate(filterModel.startDateSingle);
+                    Switch(
+                      value: _filterEnabled,
+                      onChanged: (bool value) {
+                        Provider.of<FilterModel>(context, listen: false)
+                            .setFilterEnabled(value);
                       },
                     ),
-                  if (_filterEnabled && _dateFilter == DateFilter.dateRange)
-                    const Row(
-                      // Date-Range-Filter
-                      children: [Text("Date-Range-Filter")],
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 32),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SPButton(
-                          'Schließen',
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          primary: true,
-                        ),
-                        SPButton(
-                          'Zurücksetzen',
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
+                  ],
+                ),
+                if (_filterEnabled)
+                  Column(
+                    // Filter Switcher
+                    children: [
+                      RadioListTile(
+                          title: const Text(
+                            'Datum - Heute',
+                            style: textStyle,
+                          ),
+                          value: DateFilter.fromDate,
+                          groupValue: _dateFilter,
+                          onChanged: (DateFilter? value) {
+                            Provider.of<FilterModel>(context, listen: false)
+                                .setDateFilter(value ?? DateFilter.fromDate);
+                          }),
+                      RadioListTile(
+                          title: const Text(
+                            'Ausgewählter Zeitraum',
+                            style: textStyle,
+                          ),
+                          value: DateFilter.dateRange,
+                          groupValue: _dateFilter,
+                          onChanged: (DateFilter? value) {
+                            Provider.of<FilterModel>(context, listen: false)
+                                .setDateFilter(value ?? DateFilter.dateRange);
+                          }),
+                    ],
                   ),
-                ],
-              );
-            },
-          ),
+                if (_filterEnabled && _dateFilter == DateFilter.fromDate)
+                  TextFormField(
+                    controller: _dateController,
+                    keyboardType: TextInputType.datetime,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      filled: true,
+                      labelText: 'Datum',
+                      prefixIcon: const Icon(Icons.calendar_today),
+                      enabledBorder:
+                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                    ),
+                    readOnly: true,
+                    onTap: () {
+                      _selectDate(filterModel.startDateSingle);
+                    },
+                  ),
+                if (_filterEnabled && _dateFilter == DateFilter.dateRange)
+                  const Row(
+                    // Date-Range-Filter
+                    // TODO Implement date range selector
+                    children: [Text("Date-Range-Filter")],
+                  ),
+                Expanded(child: Container()),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: SPButtonGroup(
+                    primartyText: 'Schließen',
+                    secondaryText: 'Zurücksetzen',
+                    primaryOnPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    secondaryOnPressed: () {
+                      // TODO Implement reset function
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

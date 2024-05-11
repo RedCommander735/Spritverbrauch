@@ -13,3 +13,6 @@
 - feat: filter page stores state
 - refactor: moved filter page state to own model
 - feat: implement filter in overview section
+- style: tweaked overview position
+- feat: added close and reset button to filters
+- refactor: created custom button widget and replaced buttons to avoid boilerplate

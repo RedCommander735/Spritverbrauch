@@ -59,7 +59,7 @@ class FilterModel extends ChangeNotifier {
       var sqlitesevice = SqliteService();
       var list = await sqlitesevice.getItems();
 
-      dateStartSingleDb = list.last.date;
+      dateStartSingleDb = (list.isNotEmpty) ? list.last.date : DateTime.now().millisecondsSinceEpoch;
       preferences.setInt('dateStartSingle', dateStartSingleDb);
     }
 
@@ -72,7 +72,7 @@ class FilterModel extends ChangeNotifier {
       var sqlitesevice = SqliteService();
       var list = await sqlitesevice.getItems();
 
-      dateStartDb = list.last.date;
+      dateStartDb = (list.isNotEmpty) ? list.last.date : DateTime.now().millisecondsSinceEpoch;
       preferences.setInt('dateStart', dateStartDb);
     }
 
