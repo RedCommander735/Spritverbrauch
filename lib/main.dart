@@ -15,12 +15,11 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MultiProvider(
-    providers: [
+  runApp(
+    MultiProvider(providers: [
       ChangeNotifierProvider(create: (BuildContext context) => ItemListModel()),
       ChangeNotifierProvider(create: (BuildContext context) => FilterModel())
-      ],
-    child: const Spritpreise()),
+    ], child: const Spritpreise()),
   );
 }
 
@@ -116,23 +115,45 @@ class Main extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Filter(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Consumer2<FilterModel, ItemListModel>(
+                        builder: (BuildContext context, FilterModel filterModel,
+                            ItemListModel itemListModel, Widget? child) {
+                          return Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Filter(),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.tune),
+                              ),
+                              if (filterModel.filterEnabled)
+                                const Text(
+                                  'Filter aktiv',
+                                  style: TextStyle(fontSize: 14),
                                 ),
-                              );
-                            },
-                            icon: const Icon(Icons.tune),
-                          ),
-                        ),
-                      ],
+                              if (filterModel.filterEnabled && itemListModel.hiddenEntries > 0)
+                                Text(
+                                  ', ausgeblendete Enträge: ${itemListModel.hiddenEntries}',
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              if (filterModel.filterEnabled)
+                                IconButton(
+                                  onPressed: () {
+                                    filterModel.setFilterEnabled(false);
+                                  },
+                                  icon: const Icon(Icons.close),
+                                )
+                            ],
+                          );
+                        },
+                      ),
                     ),
                     const Column(
                       mainAxisAlignment: MainAxisAlignment.center,

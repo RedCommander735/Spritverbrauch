@@ -16,7 +16,7 @@ A simple app to keep track of how much fuel you're using on average.
     - [x] Date range selector
     - [x] Display selected date range and make resettable
     - [x] Persist selected date range
-    - [ ] Display notice with how many elements are not visible
+    - [x] Display notice with how many elements are not visible
 - [ ] Settings page via breadcrumbs
     - [ ] App info
     - [ ] Backup to csv/xslx/...?

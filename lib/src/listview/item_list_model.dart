@@ -6,11 +6,11 @@ import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 class ItemListModel extends ChangeNotifier {
   /// Internal, private state of the cart.
   List<ListItem> _items = [];
-  int _filteredHidden = 0;
+  int _hiddenEntries = 0;
   
   /// An unmodifiable view of the items in the cart.
   UnmodifiableListView<ListItem> get items => UnmodifiableListView(_items);
-  int get filteredHidden => _filteredHidden;
+  int get hiddenEntries => _hiddenEntries;
 
   void load() async {
     final sqlitesevice = SqliteService();
@@ -25,7 +25,7 @@ class ItemListModel extends ChangeNotifier {
     final list = await sqlitesevice.getItems();
     final listFiltered = await sqlitesevice.getItemsFiltered(start ?? DateTime(1970), end ?? DateTime.now());
     _items = listFiltered;
-    _filteredHidden = list.length - listFiltered.length;
+    _hiddenEntries = list.length - listFiltered.length;
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
