@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/components/sp_button.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
@@ -66,7 +67,6 @@ class _AddItemState extends State<AddItem> {
                 const SizedBox(
                   height: 24,
                 ),
-                // A text field that validates that the text is an adjective.
                 TextFormField(
                   keyboardType: TextInputType.number,
                   autofocus: true,
@@ -89,7 +89,6 @@ class _AddItemState extends State<AddItem> {
                 const SizedBox(
                   height: 24,
                 ),
-                // A text field that validates that the text is a noun.
                 TextFormField(
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
@@ -132,15 +131,10 @@ class _AddItemState extends State<AddItem> {
                 const SizedBox(
                   height: 24,
                 ),
-
-                ElevatedButton(
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    child: Text('Hinzufügen'),
-                  ),
-                  onPressed: () {
-                    // Validate the form by getting the FormState from the GlobalKey
-                    // and calling validate() on it.
+                SPButtonGroup(
+                  primartyText: 'Hinzufügen',
+                  secondaryText: 'Abbrechen',
+                  primaryOnPressed: () {
                     var valid = _formKey.currentState!.validate();
                     if (!valid) {
                       return;
@@ -167,6 +161,9 @@ class _AddItemState extends State<AddItem> {
                       showCloseIcon: true,
                     ));
 
+                    Navigator.of(context).pop();
+                  },
+                  secondaryOnPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),

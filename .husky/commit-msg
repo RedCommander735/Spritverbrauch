@@ -3,7 +3,7 @@
 
 
 message="$(cat $1)"
-requiredPattern="^(wip:|fix:|feat:|style:|refactor:|ci:|chore:|config:) .*$"
+requiredPattern="^(Merge|wip:|fix:|feat:|style:|refactor:|ci:|chore:|config:) .*$"
 if ! [[ $message =~ $requiredPattern ]];
 then
   echo "Wrong format!"

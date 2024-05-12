@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:spritverbrauch/src/utils/compound_icon.dart';
+import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 
 class Overview extends StatelessWidget {
@@ -14,60 +15,86 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: textSize);
-    Provider.of<ItemListModel>(context, listen: false).load();
-    // Stats
-    return Consumer<ItemListModel>(
-      builder: (BuildContext context, ItemListModel value, Widget? child) {
-        var items = value.items;
+    Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
-        String lpk = "0.00";
-        String price = "0.00";
-        String dist = "0.00";
-        String ppl = "0.00";
-        String ppk = "0.00";
+    return Consumer2<FilterModel, ItemListModel>(builder:
+        (BuildContext context, FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
+      final filterEnabled = filterModel.filterEnabled;
+      final dateFilter = filterModel.dateFilter;
+      final startDateSingle = filterModel.startDateSingle;
+      final startDate = filterModel.startDate;
+      final endDate = filterModel.endDate;
 
-        if (items.isNotEmpty) {
-          List<double> litersPerKilometer = [];
-          List<double> priceTotal = [];
-          List<double> distance = [];
-          List<double> liters = [];
+      if (filterEnabled) {
+        switch (dateFilter) {
+          case DateFilter.fromDate:
+            Provider.of<ItemListModel>(context, listen: false)
+                .loadFiltered(start: startDateSingle);
+            break;
+          case DateFilter.dateRange:
+            Provider.of<ItemListModel>(context, listen: false)
+                .loadFiltered(start: startDate, end: endDate);
+            break;
+          default:
+            Provider.of<ItemListModel>(context, listen: false)
+                .loadFiltered(start: startDateSingle);
+            break;
+        }
+      } else {
+        Provider.of<ItemListModel>(context, listen: false).load();
+      }
 
-          for (var element in items) {
-            litersPerKilometer.add(element.litersPerKilometer);
-            priceTotal.add(element.priceTotal);
-            distance.add(element.distance);
-            liters.add(element.fuelInLiters);
-          }
+      var items = itemListModel.items;
 
-          String locale = Intl.systemLocale;
-          var formatter = NumberFormat.decimalPatternDigits(
-              decimalDigits: 2, locale: locale);
+      String lpk = "0.00";
+      String price = "0.00";
+      String dist = "0.00";
+      String ppl = "0.00";
+      String ppk = "0.00";
 
-          lpk = formatter.format((litersPerKilometer.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              litersPerKilometer.length);
+      if (items.isNotEmpty) {
+        List<double> litersPerKilometer = [];
+        List<double> priceTotal = [];
+        List<double> distance = [];
+        List<double> liters = [];
 
-          price = formatter.format((priceTotal.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              priceTotal.length);
-
-          dist = formatter.format((distance.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              distance.length);
-
-          ppl = formatter.format((priceTotal.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              (liters.fold(
-                  0.0, (previousValue, element) => previousValue + element)));
-
-          ppk = formatter.format((priceTotal.fold(
-                  0.0, (previousValue, element) => previousValue + element)) /
-              (distance.fold(
-                  0.0, (previousValue, element) => previousValue + element)));
+        for (var element in items) {
+          litersPerKilometer.add(element.litersPerKilometer);
+          priceTotal.add(element.priceTotal);
+          distance.add(element.distance);
+          liters.add(element.fuelInLiters);
         }
 
-        return Column(
+        String locale = Intl.systemLocale;
+        var formatter = NumberFormat.decimalPatternDigits(
+            decimalDigits: 2, locale: locale);
+
+        lpk = formatter.format((litersPerKilometer.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            litersPerKilometer.length);
+
+        price = formatter.format((priceTotal.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            priceTotal.length);
+
+        dist = formatter.format((distance.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            distance.length);
+
+        ppl = formatter.format((priceTotal.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            (liters.fold(
+                0.0, (previousValue, element) => previousValue + element)));
+
+        ppk = formatter.format((priceTotal.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            (distance.fold(
+                0.0, (previousValue, element) => previousValue + element)));
+      }
+
+      return DefaultTextStyle(
+        style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
+        child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -80,7 +107,6 @@ class Overview extends StatelessWidget {
                 size: iconSize,
               ),
               padding: padding,
-              textStyle: textStyle,
               iconSize: iconSize,
             ),
             OverviewElement(
@@ -90,7 +116,6 @@ class Overview extends StatelessWidget {
                 size: iconSize,
               ),
               padding: padding,
-              textStyle: textStyle,
               iconSize: iconSize,
             ),
             OverviewElement(
@@ -100,7 +125,6 @@ class Overview extends StatelessWidget {
                 size: iconSize,
               ),
               padding: padding,
-              textStyle: textStyle,
               iconSize: iconSize,
             ),
             OverviewElement(
@@ -111,7 +135,6 @@ class Overview extends StatelessWidget {
                 size: iconSize,
               ),
               padding: padding,
-              textStyle: textStyle,
               iconSize: iconSize,
             ),
             OverviewElement(
@@ -122,28 +145,25 @@ class Overview extends StatelessWidget {
                 size: iconSize,
               ),
               padding: padding,
-              textStyle: textStyle,
               iconSize: iconSize,
             ),
           ],
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 }
 
 class OverviewElement extends StatelessWidget {
   final double padding;
   final double iconSize;
-  final TextStyle textStyle;
   final String text;
   final dynamic icon; // Icon or CompoundIcon
 
   const OverviewElement(this.text, this.icon,
       {super.key,
       this.padding = 10.0,
-      this.iconSize = 24.0,
-      this.textStyle = const TextStyle(fontSize: 14)});
+      this.iconSize = 24.0});
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +175,7 @@ class OverviewElement extends StatelessWidget {
           icon,
           const Spacer(),
           Text(
-            text,
-            style: textStyle,
+            text
           )
         ],
       ),
