@@ -19,3 +19,5 @@
 - feat: implemented reset function
 - refactor: replace textstyles with defaulttextstyle
 - feat: implement date range filter
+- refactor: optimize code structure in filter
+- feat: label that shows filter is active

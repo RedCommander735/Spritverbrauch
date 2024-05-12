@@ -10,13 +10,7 @@ A simple app to keep track of how much fuel you're using on average.
 - [x] Add floating action button action
 - [x] Database and backend stuff (actual function)
 - [ ] Prices with 3rd digit ^
-- [ ] Time date selector for overview
-    - [x] Filter Icon
-    - [x] Filter config page
-    - [x] Date range selector
-    - [x] Display selected date range and make resettable
-    - [x] Persist selected date range
-    - [x] Display notice with how many elements are not visible
+- [x] Time date selector for overview
 - [ ] Settings page via breadcrumbs
     - [ ] App info
     - [ ] Backup to csv/xslx/...?
