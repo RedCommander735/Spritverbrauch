@@ -15,8 +15,6 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: textSize);
-
     Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
     return Consumer2<FilterModel, ItemListModel>(builder:
@@ -94,65 +92,63 @@ class Overview extends StatelessWidget {
                 0.0, (previousValue, element) => previousValue + element)));
       }
 
-      return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Liter pro 100 km
-          OverviewElement(
-            "$lpk L/km",
-            const CompoundIcon(
-              firstIcon: Icons.local_gas_station_outlined,
-              secondIcon: Icons.route_outlined,
-              size: iconSize,
+      return DefaultTextStyle(
+        style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Liter pro 100 km
+            OverviewElement(
+              "$lpk L/km",
+              const CompoundIcon(
+                firstIcon: Icons.local_gas_station_outlined,
+                secondIcon: Icons.route_outlined,
+                size: iconSize,
+              ),
+              padding: padding,
+              iconSize: iconSize,
             ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
-          ),
-          OverviewElement(
-            "$price €",
-            const Icon(
-              Icons.euro_outlined,
-              size: iconSize,
+            OverviewElement(
+              "$price €",
+              const Icon(
+                Icons.euro_outlined,
+                size: iconSize,
+              ),
+              padding: padding,
+              iconSize: iconSize,
             ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
-          ),
-          OverviewElement(
-            "$dist km",
-            const Icon(
-              Icons.route_outlined,
-              size: iconSize,
+            OverviewElement(
+              "$dist km",
+              const Icon(
+                Icons.route_outlined,
+                size: iconSize,
+              ),
+              padding: padding,
+              iconSize: iconSize,
             ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
-          ),
-          OverviewElement(
-            "$ppl €/L",
-            const CompoundIcon(
-              firstIcon: Icons.local_gas_station_outlined,
-              secondIcon: Icons.euro_outlined,
-              size: iconSize,
+            OverviewElement(
+              "$ppl €/L",
+              const CompoundIcon(
+                firstIcon: Icons.local_gas_station_outlined,
+                secondIcon: Icons.euro_outlined,
+                size: iconSize,
+              ),
+              padding: padding,
+              iconSize: iconSize,
             ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
-          ),
-          OverviewElement(
-            "$ppk €/km",
-            const CompoundIcon(
-              firstIcon: Icons.route_outlined,
-              secondIcon: Icons.euro_outlined,
-              size: iconSize,
+            OverviewElement(
+              "$ppk €/km",
+              const CompoundIcon(
+                firstIcon: Icons.route_outlined,
+                secondIcon: Icons.euro_outlined,
+                size: iconSize,
+              ),
+              padding: padding,
+              iconSize: iconSize,
             ),
-            padding: padding,
-            textStyle: textStyle,
-            iconSize: iconSize,
-          ),
-        ],
+          ],
+        ),
       );
     });
   }
@@ -161,15 +157,13 @@ class Overview extends StatelessWidget {
 class OverviewElement extends StatelessWidget {
   final double padding;
   final double iconSize;
-  final TextStyle textStyle;
   final String text;
   final dynamic icon; // Icon or CompoundIcon
 
   const OverviewElement(this.text, this.icon,
       {super.key,
       this.padding = 10.0,
-      this.iconSize = 24.0,
-      this.textStyle = const TextStyle(fontSize: 14)});
+      this.iconSize = 24.0});
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +175,7 @@ class OverviewElement extends StatelessWidget {
           icon,
           const Spacer(),
           Text(
-            text,
-            style: textStyle,
+            text
           )
         ],
       ),
