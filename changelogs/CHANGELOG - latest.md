@@ -17,3 +17,5 @@
 - feat: added close and reset button to filters
 - refactor: created custom button widget and replaced buttons to avoid boilerplate
 - feat: implemented reset function
+- refactor: replace textstyles with defaulttextstyle
+- feat: implement date range filter
