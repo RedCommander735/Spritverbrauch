@@ -28,35 +28,29 @@ class _FilterState extends State<Filter> {
     final startDateSingle =
         Provider.of<FilterModel>(context, listen: false).startDateSingle;
 
-    setState(() {
-      _dateController.text =
-          (startDateSingle == null) ? '' : formatter.format(startDateSingle);
-    });
-
     final startDate =
         Provider.of<FilterModel>(context, listen: false).startDate;
 
     final endDate =
         Provider.of<FilterModel>(context, listen: false).endDate;
 
-    if (startDate != null && endDate != null) {
-      String locale = Intl.systemLocale;
-      final format_yMMMd = DateFormat.yMMMd(locale);
-      final format_MMMd = DateFormat.MMMd(locale);
+    final format_yMMMd = DateFormat.yMMMd(locale);
+    final format_MMMd = DateFormat.MMMd(locale);
 
-      late String formatString;
+    late String formatString;
 
-      if (startDate.year == endDate.year) {
-        formatString = '${format_MMMd.format(startDate)} - ${format_yMMMd.format(endDate)}';
-      } else {
-        formatString = '${format_yMMMd.format(startDate)} - ${format_yMMMd.format(endDate)}';
-      }
-
-      setState(() {
-        _dateRangeController.text = formatString;
-      });
+    if (startDate.year == endDate.year) {
+      formatString = '${format_MMMd.format(startDate)} - ${format_yMMMd.format(endDate)}';
+    } else {
+      formatString = '${format_yMMMd.format(startDate)} - ${format_yMMMd.format(endDate)}';
     }
-  }
+
+    setState(() {
+      _dateController.text =
+          (startDateSingle == null) ? '' : formatter.format(startDateSingle);
+      _dateRangeController.text = formatString;
+    });
+    }
 
   static const textSize = 18.0;
 
