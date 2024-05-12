@@ -70,6 +70,14 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: cp 'changelogs/CHANGELOG - latest.md' 'changelogs/CHANGELOG - ${{ github.ref_name }}.md'
 
+      - name: Commit changelog
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email '40245965+RedCommander735@users.noreply.github.com'
+          git commit -am "Save changelog"
+          git push
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
