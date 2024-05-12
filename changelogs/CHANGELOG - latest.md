@@ -16,3 +16,4 @@
 - style: tweaked overview position
 - feat: added close and reset button to filters
 - refactor: created custom button widget and replaced buttons to avoid boilerplate
+- feat: implemented reset function
