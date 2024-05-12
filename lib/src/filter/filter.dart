@@ -29,7 +29,8 @@ class _FilterState extends State<Filter> {
     var startDateSingle =
         Provider.of<FilterModel>(context, listen: false).startDateSingle;
     setState(() {
-      _dateController.text = formatter.format(startDateSingle);
+      _dateController.text =
+          (startDateSingle == null) ? '' : formatter.format(startDateSingle);
     });
   }
 
@@ -127,13 +128,17 @@ class _FilterState extends State<Filter> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32),
                   child: SPButtonGroup(
-                    primartyText: 'Schließen',
+                    primartyText: 'Anwenden',
                     secondaryText: 'Zurücksetzen',
                     primaryOnPressed: () {
                       Navigator.of(context).pop();
                     },
                     secondaryOnPressed: () {
-                      // TODO Implement reset function
+                      Provider.of<FilterModel>(context, listen: false)
+                          .resetFilter();
+                      setState(() {
+                        _dateController.text = '';
+                      });
                     },
                   ),
                 ),
@@ -145,7 +150,7 @@ class _FilterState extends State<Filter> {
     );
   }
 
-  Future<void> _selectDate(DateTime initial) async {
+  Future<void> _selectDate(DateTime? initial) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: initial,
