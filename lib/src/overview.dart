@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -47,11 +49,11 @@ class Overview extends StatelessWidget {
 
       var items = itemListModel.items;
 
-      String litersPerKilometerDisplay = "0.00";
-      String priceDisplay = "0.00";
-      String distanceDisplay = "0.00";
-      String pricePerLiterDisplay = "0.00";
-      String pricePerKilometerDisplay = "0.00";
+      double litersPerKilometerDisplay = 0;
+      double priceDisplay = 0;
+      double distanceDisplay = 0;
+      double pricePerLiterDisplay = 0;
+      double pricePerKilometerDisplay = 0;
 
       if (items.isNotEmpty) {
         List<double> litersPerKilometerDB = [];
@@ -66,34 +68,27 @@ class Overview extends StatelessWidget {
           litersDB.add(element.fuelInLiters);
         }
 
-        String locale = Intl.systemLocale;
-        var formatterDigitsTwo =
-            NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
-        var formatterDigitsThree =
-            NumberFormat.decimalPatternDigits(decimalDigits: 3, locale: locale);
-
-        litersPerKilometerDisplay = formatterDigitsTwo.format(
-            (litersPerKilometerDB.fold(
-                    0.0, (previousValue, element) => previousValue + element)) /
-                litersPerKilometerDB.length);
-
-        priceDisplay = formatterDigitsThree.format((priceTotalDB.fold(
+        litersPerKilometerDisplay = (litersPerKilometerDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
-            priceTotalDB.length);
+            litersPerKilometerDB.length;
 
-        distanceDisplay = formatterDigitsTwo.format((distanceDB.fold(
+        priceDisplay = (priceTotalDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
-            distanceDB.length);
+            priceTotalDB.length;
 
-        pricePerLiterDisplay = formatterDigitsThree.format((priceTotalDB.fold(
+        distanceDisplay = (distanceDB.fold(
+                0.0, (previousValue, element) => previousValue + element)) /
+            distanceDB.length;
+
+        pricePerLiterDisplay = (priceTotalDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
             (litersDB.fold(
-                0.0, (previousValue, element) => previousValue + element)));
+                0.0, (previousValue, element) => previousValue + element));
 
-        pricePerKilometerDisplay = formatterDigitsThree.format((priceTotalDB.fold(
+        pricePerKilometerDisplay = (priceTotalDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
             (distanceDB.fold(
-                0.0, (previousValue, element) => previousValue + element)));
+                0.0, (previousValue, element) => previousValue + element));
       }
 
       return DefaultTextStyle(
@@ -125,6 +120,7 @@ class Overview extends StatelessWidget {
               ),
               padding: padding,
               iconSize: iconSize,
+              priceText: true,
             ),
             OverviewElement(
               value: distanceDisplay,
@@ -146,7 +142,7 @@ class Overview extends StatelessWidget {
               ),
               padding: padding,
               iconSize: iconSize,
-
+              priceText: true,
             ),
             OverviewElement(
               value: pricePerKilometerDisplay,
@@ -158,6 +154,7 @@ class Overview extends StatelessWidget {
               ),
               padding: padding,
               iconSize: iconSize,
+              priceText: true,
             ),
           ],
         ),
@@ -169,7 +166,7 @@ class Overview extends StatelessWidget {
 class OverviewElement extends StatelessWidget {
   final double padding;
   final double iconSize;
-  final String value;
+  final double value;
   final String unit;
   final Widget icon; // Icon or CompoundIcon
   final bool priceText;
@@ -185,6 +182,13 @@ class OverviewElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String locale = Intl.systemLocale;
+
+    final formatter =
+        NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
+
+    final textValue = formatter.format(value);
+
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Row(
@@ -192,8 +196,8 @@ class OverviewElement extends StatelessWidget {
         children: [
           icon,
           const Spacer(),
-          if (!priceText) 
-            Text('$value $unit')
+          if (!priceText)
+            Text('$textValue $unit')
           else
             SPPriceText(
               value: value,

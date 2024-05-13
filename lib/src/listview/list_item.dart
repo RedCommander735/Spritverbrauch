@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
+import 'package:spritverbrauch/src/components/sp_price_text.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
@@ -44,13 +45,13 @@ class _ListEntryState extends State<ListEntry> {
 
     var litersPerKilometer = formatter.format(widget.item.litersPerKilometer);
 
-    var price = formatter.format(widget.item.priceTotal);
+    var price = widget.item.priceTotal;
 
     var distance = formatter.format(widget.item.distance);
 
     var fuel = formatter.format(widget.item.fuelInLiters);
 
-    var pricePerLiter = formatter.format(widget.item.pricePerLiter);
+    var pricePerLiter = widget.item.pricePerLiter;
 
     return DefaultTextStyle(
       style: TextStyle(
@@ -128,7 +129,7 @@ class _ListEntryState extends State<ListEntry> {
                             children: [
                               const Icon(Icons.euro_outlined),
                               const SizedBox(width: 2),
-                              Text("$price €"),
+                              SPPriceText(value: price, unit: '€'),
                             ],
                           ),
                         )),
@@ -169,7 +170,7 @@ class _ListEntryState extends State<ListEntry> {
                                   secondIcon: Icons.local_gas_station_outlined,
                                 ),
                                 const SizedBox(width: 2),
-                                Text("$pricePerLiter €"),
+                                SPPriceText(value: pricePerLiter, unit: '€'),
                               ],
                             ),
                           ),
