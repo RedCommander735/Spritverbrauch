@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/components/sp_price_text.dart';
 import 'package:spritverbrauch/src/filter/filter_model.dart';
 import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
@@ -17,8 +18,8 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
-    return Consumer2<FilterModel, ItemListModel>(builder:
-        (BuildContext context, FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
+    return Consumer2<FilterModel, ItemListModel>(builder: (BuildContext context,
+        FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
       final filterEnabled = filterModel.filterEnabled;
       final dateFilter = filterModel.dateFilter;
       final startDateSingle = filterModel.startDateSingle;
@@ -46,62 +47,68 @@ class Overview extends StatelessWidget {
 
       var items = itemListModel.items;
 
-      String lpk = "0.00";
-      String price = "0.00";
-      String dist = "0.00";
-      String ppl = "0.00";
-      String ppk = "0.00";
+      String litersPerKilometerDisplay = "0.00";
+      String priceDisplay = "0.00";
+      String distanceDisplay = "0.00";
+      String pricePerLiterDisplay = "0.00";
+      String pricePerKilometerDisplay = "0.00";
 
       if (items.isNotEmpty) {
-        List<double> litersPerKilometer = [];
-        List<double> priceTotal = [];
-        List<double> distance = [];
-        List<double> liters = [];
+        List<double> litersPerKilometerDB = [];
+        List<double> priceTotalDB = [];
+        List<double> distanceDB = [];
+        List<double> litersDB = [];
 
         for (var element in items) {
-          litersPerKilometer.add(element.litersPerKilometer);
-          priceTotal.add(element.priceTotal);
-          distance.add(element.distance);
-          liters.add(element.fuelInLiters);
+          litersPerKilometerDB.add(element.litersPerKilometer);
+          priceTotalDB.add(element.priceTotal);
+          distanceDB.add(element.distance);
+          litersDB.add(element.fuelInLiters);
         }
 
         String locale = Intl.systemLocale;
-        var formatter = NumberFormat.decimalPatternDigits(
-            decimalDigits: 2, locale: locale);
+        var formatterDigitsTwo =
+            NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
+        var formatterDigitsThree =
+            NumberFormat.decimalPatternDigits(decimalDigits: 3, locale: locale);
 
-        lpk = formatter.format((litersPerKilometer.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            litersPerKilometer.length);
+        litersPerKilometerDisplay = formatterDigitsTwo.format(
+            (litersPerKilometerDB.fold(
+                    0.0, (previousValue, element) => previousValue + element)) /
+                litersPerKilometerDB.length);
 
-        price = formatter.format((priceTotal.fold(
+        priceDisplay = formatterDigitsThree.format((priceTotalDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
-            priceTotal.length);
+            priceTotalDB.length);
 
-        dist = formatter.format((distance.fold(
+        distanceDisplay = formatterDigitsTwo.format((distanceDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
-            distance.length);
+            distanceDB.length);
 
-        ppl = formatter.format((priceTotal.fold(
+        pricePerLiterDisplay = formatterDigitsThree.format((priceTotalDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
-            (liters.fold(
+            (litersDB.fold(
                 0.0, (previousValue, element) => previousValue + element)));
 
-        ppk = formatter.format((priceTotal.fold(
+        pricePerKilometerDisplay = formatterDigitsThree.format((priceTotalDB.fold(
                 0.0, (previousValue, element) => previousValue + element)) /
-            (distance.fold(
+            (distanceDB.fold(
                 0.0, (previousValue, element) => previousValue + element)));
       }
 
       return DefaultTextStyle(
-        style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
+        style: TextStyle(
+            fontSize: textSize,
+            color: Theme.of(context).colorScheme.onBackground),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Liter pro 100 km
             OverviewElement(
-              "$lpk L/km",
-              const CompoundIcon(
+              value: litersPerKilometerDisplay,
+              unit: 'L/km',
+              icon: const CompoundIcon(
                 firstIcon: Icons.local_gas_station_outlined,
                 secondIcon: Icons.route_outlined,
                 size: iconSize,
@@ -110,8 +117,9 @@ class Overview extends StatelessWidget {
               iconSize: iconSize,
             ),
             OverviewElement(
-              "$price €",
-              const Icon(
+              value: priceDisplay,
+              unit: '€',
+              icon: const Icon(
                 Icons.euro_outlined,
                 size: iconSize,
               ),
@@ -119,8 +127,9 @@ class Overview extends StatelessWidget {
               iconSize: iconSize,
             ),
             OverviewElement(
-              "$dist km",
-              const Icon(
+              value: distanceDisplay,
+              unit: 'km',
+              icon: const Icon(
                 Icons.route_outlined,
                 size: iconSize,
               ),
@@ -128,18 +137,21 @@ class Overview extends StatelessWidget {
               iconSize: iconSize,
             ),
             OverviewElement(
-              "$ppl €/L",
-              const CompoundIcon(
+              value: pricePerLiterDisplay,
+              unit: '€/L',
+              icon: const CompoundIcon(
                 firstIcon: Icons.local_gas_station_outlined,
                 secondIcon: Icons.euro_outlined,
                 size: iconSize,
               ),
               padding: padding,
               iconSize: iconSize,
+
             ),
             OverviewElement(
-              "$ppk €/km",
-              const CompoundIcon(
+              value: pricePerKilometerDisplay,
+              unit: '€/km',
+              icon: const CompoundIcon(
                 firstIcon: Icons.route_outlined,
                 secondIcon: Icons.euro_outlined,
                 size: iconSize,
@@ -157,13 +169,19 @@ class Overview extends StatelessWidget {
 class OverviewElement extends StatelessWidget {
   final double padding;
   final double iconSize;
-  final String text;
-  final dynamic icon; // Icon or CompoundIcon
+  final String value;
+  final String unit;
+  final Widget icon; // Icon or CompoundIcon
+  final bool priceText;
 
-  const OverviewElement(this.text, this.icon,
+  const OverviewElement(
       {super.key,
+      required this.value,
+      required this.unit,
+      required this.icon,
       this.padding = 10.0,
-      this.iconSize = 24.0});
+      this.iconSize = 24.0,
+      this.priceText = false});
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +192,13 @@ class OverviewElement extends StatelessWidget {
         children: [
           icon,
           const Spacer(),
-          Text(
-            text
-          )
+          if (!priceText) 
+            Text('$value $unit')
+          else
+            SPPriceText(
+              value: value,
+              unit: unit,
+            )
         ],
       ),
     );
