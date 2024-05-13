@@ -32,9 +32,6 @@ class SPPriceText extends StatelessWidget {
         children: [
           TextSpan(
             text: normal,
-            style: const TextStyle(
-              color: Colors.black,
-            ),
           ),
           WidgetSpan(
             child: Transform.translate(
@@ -50,9 +47,6 @@ class SPPriceText extends StatelessWidget {
           ),
           TextSpan(
             text: ' $unit',
-            style: const TextStyle(
-              color: Colors.black,
-            ),
           ),
         ],
       ),
