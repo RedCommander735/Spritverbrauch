@@ -9,7 +9,7 @@ A simple app to keep track of how much fuel you're using on average.
 - [x] Swipe left to access list view
 - [x] Add floating action button action
 - [x] Database and backend stuff (actual function)
-- [ ] Prices with 3rd digit ^
+- [x] Prices with 3rd digit ^
 - [x] Time date selector for overview
 - [ ] Settings page via breadcrumbs
     - [ ] App info
