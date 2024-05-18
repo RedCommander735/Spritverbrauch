@@ -59,7 +59,12 @@ class FormattedDouble {
   }
 
   String fractionalPartAsIntToString({bool roundLastDigit = true, int? fractionDigits}) {
-    return fractionalPartAsInt(roundLastDigit: roundLastDigit, fractionDigits: fractionDigits).toString();
+    int? frac = fractionalPartAsInt(roundLastDigit: roundLastDigit, fractionDigits: fractionDigits);
+    if (frac != null) {
+      return frac.toString();
+    }
+
+    return '';
   }
 
   int? fractionalPartAsInt({bool roundLastDigit = true, int? fractionDigits}) {
@@ -70,12 +75,13 @@ class FormattedDouble {
     }
 
     if (fractionDigits != null && roundLastDigit) {
-      fractionalString = _value.toStringAsFixed(fractionDigits).split('.').last;
+      fractionalString = _value.toStringAsFixed(fractionDigits).split('.').last.trimCharRight('0');
     } else if (fractionDigits != null &&
         fractionDigits > 0 &&
         !roundLastDigit) {
+          String fracPart = _value.toString().split('.').last;
       fractionalString =
-          _value.toString().split('.').last.substring(0, fractionDigits);
+          (fracPart.length > fractionDigits) ? fracPart.substring(0, fractionDigits) : fracPart;
     } else if (fractionDigits != null &&
         fractionDigits == 0 &&
         !roundLastDigit) {
@@ -83,7 +89,8 @@ class FormattedDouble {
     } else {
       fractionalString = _value.toString().split('.').last;
     }
-    final int fractionAsInt = int.parse(fractionalString);
+
+    final int? fractionAsInt = (fractionalString.isNotEmpty) ? int.parse(fractionalString) : null;
     return fractionAsInt;
   }
 }
@@ -111,5 +118,30 @@ class NegativeValue implements Exception {
     String result = 'NegativeValue';
     if (message is String) return '$result: $message';
     return result;
+  }
+}
+
+
+extension StringFuncs on String {
+  String trimCharLeft(String pattern) {
+    if (isEmpty || pattern.isEmpty || pattern.length > length) return this;
+    var tmp = this;
+    while (tmp.startsWith(pattern)) {
+      tmp = tmp.substring(pattern.length);
+    }
+    return tmp;
+  }
+
+  String trimCharRight(String pattern) {
+    if (isEmpty || pattern.isEmpty || pattern.length > length) return this;
+    var tmp = this;
+    while (tmp.endsWith(pattern)) {
+      tmp = tmp.substring(0, tmp.length - pattern.length);
+    }
+    return tmp;
+  }
+
+  String trimChar(String pattern) {
+    return trimCharLeft(pattern).trimCharRight(pattern);
   }
 }
