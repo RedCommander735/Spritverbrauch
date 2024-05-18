@@ -4,9 +4,13 @@ name: Build
 on:
   push:
     branches: 
-      - '*'
+      - 'main'
+      - 'develop'
     tags:
       - '*'
+  pull_request:
+    branches:
+      - 'develop'
 
   workflow_dispatch:
 
