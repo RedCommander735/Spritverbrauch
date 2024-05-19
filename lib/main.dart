@@ -120,36 +120,50 @@ class Main extends StatelessWidget {
                       child: Consumer2<FilterModel, ItemListModel>(
                         builder: (BuildContext context, FilterModel filterModel,
                             ItemListModel itemListModel, Widget? child) {
-                          return Row(
+                          return Column(
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Filter(),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.tune),
-                              ),
-                              if (filterModel.filterEnabled)
-                                const Text(
-                                  'Filter aktiv',
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              if (filterModel.filterEnabled && itemListModel.hiddenEntries > 0)
-                                Text(
-                                  ', ausgeblendete Enträge: ${itemListModel.hiddenEntries}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              if (filterModel.filterEnabled)
+                              Row(children: [
                                 IconButton(
                                   onPressed: () {
-                                    filterModel.setFilterEnabled(false);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Filter(),
+                                      ),
+                                    );
                                   },
-                                  icon: const Icon(Icons.close),
-                                )
+                                  icon: const Icon(Icons.settings),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Filter(),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.tune),
+                                ),
+                                if (filterModel.filterEnabled)
+                                  const Text(
+                                    'Filter aktiv',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                if (filterModel.filterEnabled)
+                                  IconButton(
+                                    onPressed: () {
+                                      filterModel.setFilterEnabled(false);
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
+                                // if (filterModel.filterEnabled &&
+                                //     itemListModel.hiddenEntries > 0)
+                                //   Text(
+                                //     ', ausgeblendete Enträge: ${itemListModel.hiddenEntries}',
+                                //     style: const TextStyle(fontSize: 14),
+                                //   ),
+                              ]),
                             ],
                           );
                         },
@@ -164,7 +178,7 @@ class Main extends StatelessWidget {
                         ),
                         Center(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 80),
+                            padding: EdgeInsets.only(top: 80),
                             child: FractionallySizedBox(
                               widthFactor: 0.55,
                               child: Overview(),
