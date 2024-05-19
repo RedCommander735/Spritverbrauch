@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/components/sp_price_text.dart';
-import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/settings/filter_model.dart';
 import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 

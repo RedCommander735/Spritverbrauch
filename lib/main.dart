@@ -2,13 +2,13 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/settings/filter_model.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/listview/item_list_view.dart';
 import 'package:spritverbrauch/src/overview.dart';
 import 'package:spritverbrauch/src/add_item.dart';
-import 'package:spritverbrauch/src/filter/filter.dart';
+import 'package:spritverbrauch/src/settings/filter.dart';
 
 import 'package:provider/provider.dart';
 

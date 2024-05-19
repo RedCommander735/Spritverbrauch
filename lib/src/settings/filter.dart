@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:intl/intl.dart';
 import 'package:spritverbrauch/src/components/sp_button.dart';
-import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/settings/filter_model.dart';
 
 class Filter extends StatefulWidget {
   const Filter({super.key});
