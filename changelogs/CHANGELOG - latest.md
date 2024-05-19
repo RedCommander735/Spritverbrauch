@@ -1,6 +1,9 @@
 ## Changelog:
-- Hotfix: Text color was always set to black
+- All prices had some rounding errors. Thats fixed now
 
 
 ## Technical changes:
-- fix: text color was set to black
+- feat: new custom number formatter
+- fix: all numbers should now display correctly
+- feat: new settings icon in main menu
+- style: adjusted 'filter active' text
