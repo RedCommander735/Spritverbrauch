@@ -150,6 +150,12 @@ class Main extends StatelessWidget {
                                     'Filter aktiv',
                                     style: TextStyle(fontSize: 14),
                                   ),
+                                if (filterModel.filterEnabled &&
+                                    itemListModel.hiddenEntries > 0)
+                                  Text(
+                                    ', ausgeblendet: ${itemListModel.hiddenEntries}',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
                                 if (filterModel.filterEnabled)
                                   IconButton(
                                     onPressed: () {
@@ -157,12 +163,6 @@ class Main extends StatelessWidget {
                                     },
                                     icon: const Icon(Icons.close),
                                   ),
-                                // if (filterModel.filterEnabled &&
-                                //     itemListModel.hiddenEntries > 0)
-                                //   Text(
-                                //     ', ausgeblendete Enträge: ${itemListModel.hiddenEntries}',
-                                //     style: const TextStyle(fontSize: 14),
-                                //   ),
                               ]),
                             ],
                           );
