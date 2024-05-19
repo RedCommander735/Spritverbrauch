@@ -47,7 +47,11 @@ class FormattedDouble {
 
   @override
   String toString({bool roundLastDigit = true, int? fractionDigits}) {
-    return '$_integer$_decimalSeperator${fractionalPartAsInt(roundLastDigit: roundLastDigit, fractionDigits: fractionDigits)}';
+    if (fractionDigits != null) {
+      return '$_integer$_decimalSeperator${fractionalPartAsIntToString(roundLastDigit: roundLastDigit, fractionDigits: fractionDigits).padRight(fractionDigits, '0')}';
+    }
+
+    return '$_integer$_decimalSeperator${fractionalPartAsIntToString(roundLastDigit: roundLastDigit, fractionDigits: fractionDigits)}';
   }
 
   String integerPartToString() {
