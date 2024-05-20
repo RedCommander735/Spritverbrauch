@@ -15,3 +15,9 @@
 - ci: new dependency to read app version
 - feat: first enty on about page in settings
 - chore: bump version number
+- feat: add settings group and license info
+- fix: typo in license
+- chore: removed cuppertino_icons and added url_launcher and fontawesome 5 brands
+- feat: add fontawesome 5 brands
+- fix: add all applicable licenses
+- feat: finished about page in settings
