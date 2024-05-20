@@ -127,7 +127,10 @@ class SettingsItem extends StatelessWidget {
                 if (subtitle != null)
                   Text(
                     subtitle!,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7)),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7),
+                        fontSize: DefaultTextStyle.of(context).style.fontSize! * 9 / 10),
+                    softWrap: true,
                   ),
               ],
             )
@@ -154,7 +157,10 @@ class SettingsGroup extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, top: 16),
               child: Text(
                 title,
-                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: DefaultTextStyle.of(context).style.fontSize! * 9 / 10),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: DefaultTextStyle.of(context).style.fontSize! * 17 / 20),
               ),
             ),
           ],
