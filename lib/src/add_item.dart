@@ -36,7 +36,7 @@ class _AddItemState extends State<AddItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Eintrag hinzufügen')),
+      appBar: AppBar(title: const Text('Eintrag hinzufügen'), centerTitle: true,),
       body: Form(
         key: _formKey,
         child: Scrollbar(
