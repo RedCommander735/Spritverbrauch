@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SettingsModel extends ChangeNotifier {
-  late SharedPreferences _preferences;
+  // late SharedPreferences _preferences;
 
   bool _filterEnabled = false;
 

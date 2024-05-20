@@ -42,18 +42,17 @@ class _AboutState extends State<About> {
         centerTitle: true,
       ),
       body: DefaultTextStyle(
-            style: TextStyle(
-                fontSize: textSize,
-                color: Theme.of(context).colorScheme.onBackground),
-            child: Column(
-        children: [
-          SettingsItem(
-            icon: Icons.local_gas_station_outlined,
-            title: appName,
-            subtitle: 'Version $version ($buildNumber)',
-          ),
-        ],
+        style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
+        child: Column(
+          children: [
+            SettingsItem(
+              icon: Icons.local_gas_station_outlined,
+              title: appName,
+              subtitle: 'Version $version ($buildNumber)',
+            ),
+          ],
+        ),
       ),
-    ),);
+    );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:intl/intl.dart';
-import 'package:spritverbrauch/src/components/sp_button.dart';
 import 'package:spritverbrauch/src/settings/filter_model.dart';
 import 'package:spritverbrauch/src/settings/pages/about.dart';
 
@@ -17,11 +15,6 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();
-
-    final startDateSingle =
-        Provider.of<FilterModel>(context, listen: false).startDateSingle;
-
-    setState(() {});
   }
 
   static const textSize = 18.0;
@@ -148,5 +141,20 @@ class SettingsItem extends StatelessWidget {
   }
 }
 
+class SettingsGroup extends StatelessWidget {
+  const SettingsGroup({super.key, required this.title, required this.children});
+  
+  final String title;
+  final List<Widget> children;
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: List.from([
+        Text(title)
+      ])..addAll(children),
+    );
+  }
+  
+}
 // TODO Settings group (inspired by betteruntis settings small headers)
