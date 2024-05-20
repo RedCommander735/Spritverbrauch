@@ -18,8 +18,8 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
-    return Consumer2<FilterModel, ItemListModel>(builder: (BuildContext context,
-        FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
+    return Consumer2<FilterModel, ItemListModel>(
+        builder: (BuildContext context, FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
       final filterEnabled = filterModel.filterEnabled;
       final dateFilter = filterModel.dateFilter;
       final startDateSingle = filterModel.startDateSingle;
@@ -29,16 +29,13 @@ class Overview extends StatelessWidget {
       if (filterEnabled) {
         switch (dateFilter) {
           case DateFilter.fromDate:
-            Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(start: startDateSingle);
+            Provider.of<ItemListModel>(context, listen: false).loadFiltered(start: startDateSingle);
             break;
           case DateFilter.dateRange:
-            Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(start: startDate, end: endDate);
+            Provider.of<ItemListModel>(context, listen: false).loadFiltered(start: startDate, end: endDate);
             break;
           default:
-            Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(start: startDateSingle);
+            Provider.of<ItemListModel>(context, listen: false).loadFiltered(start: startDateSingle);
             break;
         }
       } else {
@@ -66,33 +63,25 @@ class Overview extends StatelessWidget {
           litersDB.add(element.fuelInLiters);
         }
 
-        litersPerKilometerDisplay = (litersPerKilometerDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            litersPerKilometerDB.length;
+        litersPerKilometerDisplay =
+            (litersPerKilometerDB.fold(0.0, (previousValue, element) => previousValue + element)) /
+                litersPerKilometerDB.length;
 
-        priceDisplay = (priceTotalDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            priceTotalDB.length;
+        priceDisplay =
+            (priceTotalDB.fold(0.0, (previousValue, element) => previousValue + element)) / priceTotalDB.length;
 
-        distanceDisplay = (distanceDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            distanceDB.length;
+        distanceDisplay =
+            (distanceDB.fold(0.0, (previousValue, element) => previousValue + element)) / distanceDB.length;
 
-        pricePerLiterDisplay = (priceTotalDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            (litersDB.fold(
-                0.0, (previousValue, element) => previousValue + element));
+        pricePerLiterDisplay = (priceTotalDB.fold(0.0, (previousValue, element) => previousValue + element)) /
+            (litersDB.fold(0.0, (previousValue, element) => previousValue + element));
 
-        pricePerKilometerDisplay = (priceTotalDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            (distanceDB.fold(
-                0.0, (previousValue, element) => previousValue + element));
+        pricePerKilometerDisplay = (priceTotalDB.fold(0.0, (previousValue, element) => previousValue + element)) /
+            (distanceDB.fold(0.0, (previousValue, element) => previousValue + element));
       }
 
       return DefaultTextStyle(
-        style: TextStyle(
-            fontSize: textSize,
-            color: Theme.of(context).colorScheme.onBackground),
+        style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,8 +171,7 @@ class OverviewElement extends StatelessWidget {
   Widget build(BuildContext context) {
     String locale = Intl.systemLocale;
 
-    final formatter =
-        NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
+    final formatter = NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
 
     final textValue = formatter.format(value);
 

@@ -18,15 +18,13 @@ class SqliteService {
 
   Future<int> createItem(ListItem entity) async {
     final Database db = await initDB();
-    final id = await db.insert('fuel_usage', entity.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    final id = await db.insert('fuel_usage', entity.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
   }
 
   Future<List<ListItem>> getItems() async {
     final db = await initDB();
-    final List<Map<String, Object?>> queryResult =
-        await db.query('fuel_usage', orderBy: 'date');
+    final List<Map<String, Object?>> queryResult = await db.query('fuel_usage', orderBy: 'date');
     final list = queryResult.map((e) => ListItem.fromMap(e)).toList();
     return list.reversed.toList();
   }

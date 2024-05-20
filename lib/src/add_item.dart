@@ -36,7 +36,10 @@ class _AddItemState extends State<AddItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Eintrag hinzufügen'), centerTitle: true,),
+      appBar: AppBar(
+        title: const Text('Eintrag hinzufügen'),
+        centerTitle: true,
+      ),
       body: Form(
         key: _formKey,
         child: Scrollbar(
@@ -52,11 +55,9 @@ class _AddItemState extends State<AddItem> {
                     filled: true,
                     labelText: 'Datum',
                     prefixIcon: const Icon(Icons.calendar_today),
-                    enabledBorder:
-                        const OutlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: const OutlineInputBorder(borderSide: BorderSide.none),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                     ),
                   ),
                   readOnly: true,
@@ -153,8 +154,7 @@ class _AddItemState extends State<AddItem> {
                       litersPerKilometer: litersPerKilometer,
                     );
 
-                    Provider.of<ItemListModel>(context, listen: false)
-                        .add(item);
+                    Provider.of<ItemListModel>(context, listen: false).add(item);
 
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Eintrag hinzugefügt"),

@@ -80,15 +80,10 @@ class FormattedDouble {
 
     if (fractionDigits != null && roundLastDigit) {
       fractionalString = _value.toStringAsFixed(fractionDigits).split('.').last.trimCharRight('0');
-    } else if (fractionDigits != null &&
-        fractionDigits > 0 &&
-        !roundLastDigit) {
-          String fracPart = _value.toString().split('.').last;
-      fractionalString =
-          (fracPart.length > fractionDigits) ? fracPart.substring(0, fractionDigits) : fracPart;
-    } else if (fractionDigits != null &&
-        fractionDigits == 0 &&
-        !roundLastDigit) {
+    } else if (fractionDigits != null && fractionDigits > 0 && !roundLastDigit) {
+      String fracPart = _value.toString().split('.').last;
+      fractionalString = (fracPart.length > fractionDigits) ? fracPart.substring(0, fractionDigits) : fracPart;
+    } else if (fractionDigits != null && fractionDigits == 0 && !roundLastDigit) {
       return null;
     } else {
       fractionalString = _value.toString().split('.').last;
@@ -124,7 +119,6 @@ class NegativeValue implements Exception {
     return result;
   }
 }
-
 
 extension StringFuncs on String {
   String trimCharLeft(String pattern) {

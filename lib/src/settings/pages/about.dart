@@ -36,9 +36,7 @@ class _AboutState extends State<About> {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsTopicPage(
-      title: 'Informationen',
-      children: [
+    return SettingsTopicPage(title: 'Informationen', children: [
       SettingsItem(
         icon: Icons.local_gas_station_outlined,
         title: appName,

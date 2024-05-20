@@ -6,24 +6,17 @@ class SPButton extends StatelessWidget {
   final double width;
   final bool primary;
 
-  const SPButton(this.text,
-      {super.key,
-      required this.onPressed,
-      this.width = 150,
-      this.primary = false});
+  const SPButton(this.text, {super.key, required this.onPressed, this.width = 150, this.primary = false});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          backgroundColor:
-              primary ? Theme.of(context).colorScheme.primary : null,
-          fixedSize: Size.fromWidth(width)),
+          backgroundColor: primary ? Theme.of(context).colorScheme.primary : null, fixedSize: Size.fromWidth(width)),
       onPressed: onPressed,
       child: Text(
         text,
-        style: TextStyle(
-            color: primary ? Theme.of(context).colorScheme.onPrimary : null),
+        style: TextStyle(color: primary ? Theme.of(context).colorScheme.onPrimary : null),
       ),
     );
   }
@@ -35,24 +28,17 @@ class SPDynButton extends StatelessWidget {
   final double padding;
   final bool primary;
 
-  const SPDynButton(this.text,
-      {super.key,
-      required this.onPressed,
-      this.padding = 16,
-      this.primary = false});
+  const SPDynButton(this.text, {super.key, required this.onPressed, this.padding = 16, this.primary = false});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          backgroundColor:
-              primary ? Theme.of(context).colorScheme.primary : null),
+      style: ElevatedButton.styleFrom(backgroundColor: primary ? Theme.of(context).colorScheme.primary : null),
       child: Padding(
         padding: EdgeInsets.only(left: padding, right: padding),
         child: Text(
           text,
-          style: TextStyle(
-              color: primary ? Theme.of(context).colorScheme.onPrimary : null),
+          style: TextStyle(color: primary ? Theme.of(context).colorScheme.onPrimary : null),
         ),
       ),
       onPressed: () {

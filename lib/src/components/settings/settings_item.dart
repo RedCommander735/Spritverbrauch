@@ -48,4 +48,3 @@ class SettingsItem extends StatelessWidget {
     );
   }
 }
-

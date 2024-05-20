@@ -31,11 +31,11 @@ void main() async {
 class Spritpreise extends StatefulWidget {
   const Spritpreise({super.key});
 
-  static final _defaultLightColorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue[900]!, brightness: Brightness.light);
+  static final _defaultLightColorScheme =
+      ColorScheme.fromSeed(seedColor: Colors.blue[900]!, brightness: Brightness.light);
 
-  static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue[900]!, brightness: Brightness.dark, background: Colors.black);
+  static final _defaultDarkColorScheme =
+      ColorScheme.fromSeed(seedColor: Colors.blue[900]!, brightness: Brightness.dark, background: Colors.black);
 
   @override
   State<Spritpreise> createState() => _SpritpreiseState();
@@ -126,8 +126,8 @@ class Main extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Consumer2<FilterModel, ItemListModel>(
-                        builder: (BuildContext context, FilterModel filterModel,
-                            ItemListModel itemListModel, Widget? child) {
+                        builder: (BuildContext context, FilterModel filterModel, ItemListModel itemListModel,
+                            Widget? child) {
                           return Column(
                             children: [
                               Row(children: [
@@ -158,8 +158,7 @@ class Main extends StatelessWidget {
                                     'Filter aktiv',
                                     style: TextStyle(fontSize: 14),
                                   ),
-                                if (filterModel.filterEnabled &&
-                                    itemListModel.hiddenEntries > 0)
+                                if (filterModel.filterEnabled && itemListModel.hiddenEntries > 0)
                                   Text(
                                     ', ausgeblendet: ${itemListModel.hiddenEntries}',
                                     style: const TextStyle(fontSize: 14),

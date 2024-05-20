@@ -60,9 +60,7 @@ class FilterModel extends ChangeNotifier {
     // Value for fromDate Filter
     var dateStartSingleDb = _preferences.getInt(dateStartSingleKey);
 
-    _startDateSingle = (dateStartSingleDb == null)
-        ? null
-        : DateTime.fromMillisecondsSinceEpoch(dateStartSingleDb);
+    _startDateSingle = (dateStartSingleDb == null) ? null : DateTime.fromMillisecondsSinceEpoch(dateStartSingleDb);
 
     // Start value for dateRange Filter
     var dateStartDb = _preferences.getInt(dateStartKey);
@@ -71,9 +69,7 @@ class FilterModel extends ChangeNotifier {
       var sqlitesevice = SqliteService();
       var list = await sqlitesevice.getItems();
 
-      dateStartDb = (list.isNotEmpty)
-          ? list.last.date
-          : DateTime.now().millisecondsSinceEpoch;
+      dateStartDb = (list.isNotEmpty) ? list.last.date : DateTime.now().millisecondsSinceEpoch;
     }
     _startDate = DateTime.fromMillisecondsSinceEpoch(dateStartDb);
 
@@ -86,23 +82,19 @@ class FilterModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Adds [item] to the list.
   void setFilterEnabled(bool enabled) {
     _filterEnabled = enabled;
     _preferences.setBool(filterEnabledKey, enabled);
 
     if (reset) loadPreferences();
 
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
-  /// Removes an items from the list.
   void setDateFilter(DateFilter filter) {
     _dateFilter = filter;
     _preferences.setString(dateFilterKey, filter.toString());
 
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
@@ -110,7 +102,6 @@ class FilterModel extends ChangeNotifier {
     _startDateSingle = date;
     _preferences.setInt(dateStartSingleKey, date.millisecondsSinceEpoch);
 
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
@@ -118,7 +109,6 @@ class FilterModel extends ChangeNotifier {
     _startDate = date;
     _preferences.setInt(dateStartKey, date.millisecondsSinceEpoch);
 
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
@@ -126,7 +116,6 @@ class FilterModel extends ChangeNotifier {
     _endDate = date;
     _preferences.setInt(dateEndKey, date.millisecondsSinceEpoch);
 
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
@@ -142,7 +131,6 @@ class FilterModel extends ChangeNotifier {
 
     reset = true;
 
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 }
