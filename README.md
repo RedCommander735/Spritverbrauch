@@ -11,9 +11,7 @@ A simple app to keep track of how much fuel you're using on average.
 - [x] Database and backend stuff (actual function)
 - [x] Prices with 3rd digit ^
 - [x] Time date selector for overview
-- [ ] Settings page via breadcrumbs
-    - [x] App info
-    - [x] Backup to csv/xslx/...?
+- [x] Settings page via breadcrumbs
 
 #### Extra stuff:
 - [ ] Edit Items on longpress instead of deleting
@@ -26,4 +24,5 @@ A simple app to keep track of how much fuel you're using on average.
 - [ ] Time date selector for overview
     - [ ] Add option set starting date from listview item
 - [ ] Settings page via breadcrumbs
+    - [ ] File explorer for csv import
     - [ ] Color Theme changer
