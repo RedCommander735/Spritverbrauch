@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/components/settings/settings_topic.dart';
 
 import 'package:spritverbrauch/src/settings/filter_model.dart';
 import 'package:spritverbrauch/src/settings/pages/about.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  const Settings({super.key, this.textSize = 18});
+
+  final double textSize;
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -16,8 +19,6 @@ class _SettingsState extends State<Settings> {
   void initState() {
     super.initState();
   }
-
-  static const textSize = 18.0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class _SettingsState extends State<Settings> {
       body: Consumer<FilterModel>(
         builder: (BuildContext context, FilterModel filterModel, Widget? child) {
           return DefaultTextStyle(
-            style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
+            style: TextStyle(fontSize: widget.textSize, color: Theme.of(context).colorScheme.onBackground),
             child: Column(
               children: [
                 const SettingsTopic(
@@ -58,118 +59,3 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
-
-class SettingsTopic extends StatelessWidget {
-  const SettingsTopic({
-    super.key,
-    this.icon,
-    this.title,
-    this.onTap,
-  });
-
-  final IconData? icon;
-  final String? title;
-  final void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (onTap == null) ? () {} : onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SizedBox(
-          height: 64,
-          child: Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(icon),
-            ),
-            Text((title == null) ? '' : title!)
-          ]),
-        ),
-      ),
-    );
-  }
-}
-
-class SettingsItem extends StatelessWidget {
-  const SettingsItem({
-    super.key,
-    this.icon,
-    this.title,
-    this.subtitle,
-    this.onTap,
-  });
-
-  final IconData? icon;
-  final String? title;
-  final String? subtitle;
-  final void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (onTap == null) ? () {} : onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SizedBox(
-          height: 72,
-          child: Row(children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(icon),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (title != null) Text(title!),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7),
-                        fontSize: DefaultTextStyle.of(context).style.fontSize! * 9 / 10),
-                    softWrap: true,
-                  ),
-              ],
-            )
-          ]),
-        ),
-      ),
-    );
-  }
-}
-
-class SettingsGroup extends StatelessWidget {
-  const SettingsGroup({super.key, required this.title, required this.children});
-
-  final String title;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.from([
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16),
-              child: Text(
-                title,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: DefaultTextStyle.of(context).style.fontSize! * 17 / 20),
-              ),
-            ),
-          ],
-        )
-      ])
-        ..addAll(children),
-    );
-  }
-}
-
-
-// TODO Add own settings page widget to extend
