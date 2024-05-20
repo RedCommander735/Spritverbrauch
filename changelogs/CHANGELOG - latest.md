@@ -21,3 +21,5 @@
 - feat: add fontawesome 5 brands
 - fix: add all applicable licenses
 - feat: finished about page in settings
+- refactor: move all settings components to their own file
+- chore: format all documents
