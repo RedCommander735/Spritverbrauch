@@ -4,6 +4,7 @@ import 'package:spritverbrauch/src/components/settings/settings_topic.dart';
 
 import 'package:spritverbrauch/src/settings/filter_model.dart';
 import 'package:spritverbrauch/src/settings/pages/about.dart';
+import 'package:spritverbrauch/src/settings/pages/general.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key, this.textSize = 18});
@@ -35,9 +36,17 @@ class _SettingsState extends State<Settings> {
             style: TextStyle(fontSize: widget.textSize, color: Theme.of(context).colorScheme.onBackground),
             child: Column(
               children: [
-                const SettingsTopic(
-                  icon: Icons.settings_outlined,
+                SettingsTopic(
+                  icon: Icons.settings_rounded,
                   title: 'Allgemein',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => General(),
+                      ),
+                    );
+                  },
                 ),
                 SettingsTopic(
                   icon: Icons.info_outline,

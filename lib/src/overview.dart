@@ -91,8 +91,8 @@ class Overview extends StatelessWidget {
               value: litersPerKilometerDisplay,
               unit: 'L/km',
               icon: const CompoundIcon(
-                firstIcon: Icons.local_gas_station_outlined,
-                secondIcon: Icons.route_outlined,
+                firstIcon: Icons.local_gas_station_rounded,
+                secondIcon: Icons.route_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -102,7 +102,7 @@ class Overview extends StatelessWidget {
               value: priceDisplay,
               unit: '€',
               icon: const Icon(
-                Icons.euro_outlined,
+                Icons.euro_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -113,7 +113,7 @@ class Overview extends StatelessWidget {
               value: distanceDisplay,
               unit: 'km',
               icon: const Icon(
-                Icons.route_outlined,
+                Icons.route_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -123,8 +123,8 @@ class Overview extends StatelessWidget {
               value: pricePerLiterDisplay,
               unit: '€/L',
               icon: const CompoundIcon(
-                firstIcon: Icons.local_gas_station_outlined,
-                secondIcon: Icons.euro_outlined,
+                firstIcon: Icons.local_gas_station_rounded,
+                secondIcon: Icons.euro_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -135,8 +135,8 @@ class Overview extends StatelessWidget {
               value: pricePerKilometerDisplay,
               unit: '€/km',
               icon: const CompoundIcon(
-                firstIcon: Icons.route_outlined,
-                secondIcon: Icons.euro_outlined,
+                firstIcon: Icons.route_rounded,
+                secondIcon: Icons.euro_rounded,
                 size: iconSize,
               ),
               padding: padding,

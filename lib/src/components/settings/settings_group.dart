@@ -25,7 +25,9 @@ class SettingsGroup extends StatelessWidget {
           ],
         )
       ])
-        ..addAll(children),
+        ..addAll(children)..add(const Divider(
+          height: 0,
+        )),
     );
   }
 }

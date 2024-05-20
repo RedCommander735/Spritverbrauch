@@ -38,7 +38,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return SettingsTopicPage(title: 'Informationen', children: [
       SettingsItem(
-        icon: Icons.local_gas_station_outlined,
+        icon: Icons.local_gas_station_rounded,
         title: appName,
         subtitle: 'Version $version ($buildNumber)',
         onTap: () {
@@ -66,9 +66,9 @@ class _AboutState extends State<About> {
           },
         ),
         SettingsItem(
-          icon: Icons.extension_outlined,
+          icon: Icons.extension_rounded,
           title: 'Libraries',
-          subtitle: 'A list of all used libraries',
+          subtitle: 'Eine Liste aller verwendeten Bibliotheken',
           onTap: () {
             showLicensePage(
                 context: context,

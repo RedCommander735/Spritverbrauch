@@ -96,7 +96,7 @@ class _ListEntryState extends State<ListEntry> {
                     Expanded(
                         child: Row(
                       children: [
-                        const Icon(Icons.date_range_outlined),
+                        const Icon(Icons.date_range_rounded),
                         const SizedBox(width: 2),
                         Text("$day.$month.$year"),
                       ],
@@ -107,8 +107,8 @@ class _ListEntryState extends State<ListEntry> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const CompoundIcon(
-                            firstIcon: Icons.local_gas_station_outlined,
-                            secondIcon: Icons.route_outlined,
+                            firstIcon: Icons.local_gas_station_rounded,
+                            secondIcon: Icons.route_rounded,
                           ),
                           const SizedBox(width: 2),
                           Text("$litersPerKilometer l/km"),
@@ -121,7 +121,7 @@ class _ListEntryState extends State<ListEntry> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.euro_outlined),
+                          const Icon(Icons.euro_rounded),
                           const SizedBox(width: 2),
                           SPPriceText(value: price, unit: '€'),
                         ],
@@ -137,7 +137,7 @@ class _ListEntryState extends State<ListEntry> {
                     Expanded(
                         child: Row(
                       children: [
-                        const Icon(Icons.route_outlined),
+                        const Icon(Icons.route_rounded),
                         const SizedBox(width: 2),
                         Text("$distance km"),
                       ],
@@ -147,7 +147,7 @@ class _ListEntryState extends State<ListEntry> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.local_gas_station_outlined),
+                          const Icon(Icons.local_gas_station_rounded),
                           const SizedBox(width: 2),
                           Text("$fuel l"),
                         ],
@@ -160,8 +160,8 @@ class _ListEntryState extends State<ListEntry> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const CompoundIcon(
-                              firstIcon: Icons.euro_outlined,
-                              secondIcon: Icons.local_gas_station_outlined,
+                              firstIcon: Icons.euro_rounded,
+                              secondIcon: Icons.local_gas_station_rounded,
                             ),
                             const SizedBox(width: 2),
                             SPPriceText(value: pricePerLiter, unit: '€'),
