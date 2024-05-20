@@ -2,6 +2,8 @@
 - All prices had some rounding errors. Thats fixed now
 - Adjusted background color for dark mode
 - New settings menu
+  - General
+    - Backup
   - About
 
 
@@ -23,3 +25,10 @@
 - feat: finished about page in settings
 - refactor: move all settings components to their own file
 - chore: format all documents
+- feat: added general settings page
+- style: changed all icons to their rounded variants
+- style: added spacing below group headline
+- chore: add csv and storage perm handler
+- feat: new deleteAll and createItems methods
+- feat: csv ex and import
+- feat: confirmation dialog to prevent accidental loads
