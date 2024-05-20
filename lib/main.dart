@@ -11,6 +11,7 @@ import 'package:spritverbrauch/src/add_item.dart';
 import 'package:spritverbrauch/src/settings/filter.dart';
 
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/settings/settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +31,7 @@ class Spritpreise extends StatefulWidget {
       seedColor: Colors.blue[900]!, brightness: Brightness.light);
 
   static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue[900]!, brightness: Brightness.dark);
+      seedColor: Colors.blue[900]!, brightness: Brightness.dark, background: Colors.black);
 
   @override
   State<Spritpreise> createState() => _SpritpreiseState();
@@ -61,10 +62,12 @@ class _SpritpreiseState extends State<Spritpreise> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: lightColorScheme ?? Spritpreise._defaultLightColorScheme,
+          scaffoldBackgroundColor: Spritpreise._defaultLightColorScheme.background,
           useMaterial3: true,
         ),
         darkTheme: ThemeData(
           colorScheme: darkColorScheme ?? Spritpreise._defaultDarkColorScheme,
+          scaffoldBackgroundColor: Spritpreise._defaultDarkColorScheme.background,
           useMaterial3: true,
         ),
         themeMode: ThemeMode.system,
@@ -128,7 +131,7 @@ class Main extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const Filter(),
+                                        builder: (context) => const Settings(),
                                       ),
                                     );
                                   },
