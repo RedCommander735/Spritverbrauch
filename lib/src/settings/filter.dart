@@ -59,7 +59,7 @@ class _FilterState extends State<Filter> {
     Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Filter konfigurieren')),
+      appBar: AppBar(title: const Text('Filter konfigurieren'), centerTitle: true,),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Consumer<FilterModel>(
