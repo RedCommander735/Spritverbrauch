@@ -65,21 +65,44 @@ class _GeneralState extends State<General> {
           title: 'Laden',
           subtitle: 'Aus csv Datei laden',
           onTap: () async {
-            // TODO Implement file explorer
-            final backupstorage = BackupStorage();
-            bool success = await backupstorage.readBackup();
+            showDialog<void>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Backup laden?'),
+                content: const Text(
+                    'Das Laden des Backups wird ein Backup aller zur Zeit gespeicherten Einträge machen, diese dann löschen und das Backup aus der Datei laden.'),
+                actions: [
+                  TextButton(
+                    child: const Text('Abbrechen'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('Bestätigen'),
+                    onPressed: () async {
+                      // TODO Implement file explorer
+                      final backupstorage = BackupStorage();
+                      bool success = await backupstorage.readBackup();
 
-            if (!success) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Beim lesen der Datei ist ein Fehler aufgetreten."),
-                showCloseIcon: true,
-              ));
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Das Backup wurde erfolgreich geladen."),
-                showCloseIcon: true,
-              ));
-            }
+                      if (!success) {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Beim lesen der Datei ist ein Fehler aufgetreten."),
+                          showCloseIcon: true,
+                        ));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Das Backup wurde erfolgreich geladen."),
+                          showCloseIcon: true,
+                        ));
+                      }
+
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
           },
         ),
       ])
