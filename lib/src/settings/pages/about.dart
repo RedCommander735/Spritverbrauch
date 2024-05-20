@@ -50,6 +50,9 @@ class _AboutState extends State<About> {
               title: appName,
               subtitle: 'Version $version ($buildNumber)',
             ),
+            const SettingsGroup(title: 'General', children: [
+              SettingsItem(icon: Icons.description_outlined, title: 'License', subtitle: 'GPL-3.0',)
+            ])
           ],
         ),
       ),

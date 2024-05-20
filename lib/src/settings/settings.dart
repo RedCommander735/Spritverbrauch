@@ -29,12 +29,9 @@ class _SettingsState extends State<Settings> {
         centerTitle: true,
       ),
       body: Consumer<FilterModel>(
-        builder:
-            (BuildContext context, FilterModel filterModel, Widget? child) {
+        builder: (BuildContext context, FilterModel filterModel, Widget? child) {
           return DefaultTextStyle(
-            style: TextStyle(
-                fontSize: textSize,
-                color: Theme.of(context).colorScheme.onBackground),
+            style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
             child: Column(
               children: [
                 const SettingsTopic(
@@ -143,7 +140,7 @@ class SettingsItem extends StatelessWidget {
 
 class SettingsGroup extends StatelessWidget {
   const SettingsGroup({super.key, required this.title, required this.children});
-  
+
   final String title;
   final List<Widget> children;
 
@@ -151,10 +148,22 @@ class SettingsGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: List.from([
-        Text(title)
-      ])..addAll(children),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 16),
+              child: Text(
+                title,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: DefaultTextStyle.of(context).style.fontSize! * 9 / 10),
+              ),
+            ),
+          ],
+        )
+      ])
+        ..addAll(children),
     );
   }
-  
 }
-// TODO Settings group (inspired by betteruntis settings small headers)
+
+
+// TODO Add own settings page widget to extend
