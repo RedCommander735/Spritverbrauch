@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 
 class SqliteService {
-  Future<Database> initDB() async {
+  Future<Database> _initDB() async {
     final database = openDatabase(
       join(await getDatabasesPath(), 'fuel_usage.db'),
       onCreate: (db, version) {
@@ -17,23 +17,39 @@ class SqliteService {
   }
 
   Future<int> createItem(ListItem entity) async {
-    final Database db = await initDB();
+    final Database db = await _initDB();
     final id = await db.insert('fuel_usage', entity.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
   }
 
+  Future<List<int>> createItems(List<ListItem> entitys) async {
+    final Database db = await _initDB();
+    List<int> ids = [];
+    for (var entity in entitys) {
+      int id = await db.insert('fuel_usage', entity.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+      ids.add(id);
+    }
+    return ids;
+  }
+
   Future<List<ListItem>> getItems() async {
-    final db = await initDB();
+    final db = await _initDB();
     final List<Map<String, Object?>> queryResult = await db.query('fuel_usage', orderBy: 'date');
     final list = queryResult.map((e) => ListItem.fromMap(e)).toList();
     return list.reversed.toList();
+  }
+
+  Future<List<Map<String, Object?>>> getItemsAsMap() async {
+    final db = await _initDB();
+    final List<Map<String, Object?>> queryResult = await db.query('fuel_usage', orderBy: 'date');
+    return queryResult.reversed.toList();
   }
 
   Future<List<ListItem>> getItemsFiltered(DateTime startingDate, DateTime endDate) async {
     final start = startingDate.millisecondsSinceEpoch;
     final end = endDate.millisecondsSinceEpoch;
 
-    final db = await initDB();
+    final db = await _initDB();
     final List<Map<String, Object?>> queryResult =
         await db.query('fuel_usage', orderBy: 'date', where: 'date >= ? AND date <= ?', whereArgs: [start, end]);
     final list = queryResult.map((e) => ListItem.fromMap(e)).toList();
@@ -41,9 +57,18 @@ class SqliteService {
   }
 
   Future<void> deleteItem(int id) async {
-    final db = await initDB();
+    final db = await _initDB();
     try {
       await db.delete("fuel_usage", where: "id = ?", whereArgs: [id]);
+    } catch (err) {
+      debugPrint("Something went wrong when deleting an item: $err");
+    }
+  }
+
+  Future<void> deleteAll() async {
+    final db = await _initDB();
+    try {
+      await db.delete("fuel_usage");
     } catch (err) {
       debugPrint("Something went wrong when deleting an item: $err");
     }
