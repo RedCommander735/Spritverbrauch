@@ -13,8 +13,7 @@ class ItemListView extends StatefulWidget {
 class ItemListViewState extends State<ItemListView> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ItemListModel>(
-        builder: (BuildContext context, ItemListModel value, Widget? child) {
+    return Consumer<ItemListModel>(builder: (BuildContext context, ItemListModel value, Widget? child) {
       var items = value.items;
       return ListView.separated(
         itemCount: items.length,

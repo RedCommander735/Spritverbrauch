@@ -2,23 +2,28 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/settings/filter_model.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/listview/item_list_view.dart';
 import 'package:spritverbrauch/src/overview.dart';
 import 'package:spritverbrauch/src/add_item.dart';
-import 'package:spritverbrauch/src/filter/filter.dart';
+import 'package:spritverbrauch/src/settings/filter.dart';
 
 import 'package:provider/provider.dart';
+import 'package:spritverbrauch/src/settings/settings.dart';
+import 'package:spritverbrauch/src/settings/settings_model.dart';
+import 'package:spritverbrauch/src/utils/licenses.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  addLicenses();
 
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (BuildContext context) => ItemListModel()),
-      ChangeNotifierProvider(create: (BuildContext context) => FilterModel())
+      ChangeNotifierProvider(create: (BuildContext context) => FilterModel()),
+      ChangeNotifierProvider(create: (BuildContext context) => SettingsModel()),
     ], child: const Spritpreise()),
   );
 }
@@ -26,11 +31,11 @@ void main() async {
 class Spritpreise extends StatefulWidget {
   const Spritpreise({super.key});
 
-  static final _defaultLightColorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue[900]!, brightness: Brightness.light);
+  static final _defaultLightColorScheme =
+      ColorScheme.fromSeed(seedColor: Colors.blue[900]!, brightness: Brightness.light);
 
-  static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue[900]!, brightness: Brightness.dark);
+  static final _defaultDarkColorScheme =
+      ColorScheme.fromSeed(seedColor: Colors.blue[900]!, brightness: Brightness.dark, background: Colors.black);
 
   @override
   State<Spritpreise> createState() => _SpritpreiseState();
@@ -61,10 +66,13 @@ class _SpritpreiseState extends State<Spritpreise> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: lightColorScheme ?? Spritpreise._defaultLightColorScheme,
+          scaffoldBackgroundColor: Spritpreise._defaultLightColorScheme.background,
           useMaterial3: true,
         ),
         darkTheme: ThemeData(
           colorScheme: darkColorScheme ?? Spritpreise._defaultDarkColorScheme,
+          appBarTheme: AppBarTheme(backgroundColor: Spritpreise._defaultDarkColorScheme.background),
+          scaffoldBackgroundColor: Spritpreise._defaultDarkColorScheme.background,
           useMaterial3: true,
         ),
         themeMode: ThemeMode.system,
@@ -118,38 +126,51 @@ class Main extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Consumer2<FilterModel, ItemListModel>(
-                        builder: (BuildContext context, FilterModel filterModel,
-                            ItemListModel itemListModel, Widget? child) {
-                          return Row(
+                        builder: (BuildContext context, FilterModel filterModel, ItemListModel itemListModel,
+                            Widget? child) {
+                          return Column(
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Filter(),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.tune),
-                              ),
-                              if (filterModel.filterEnabled)
-                                const Text(
-                                  'Filter aktiv',
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              if (filterModel.filterEnabled && itemListModel.hiddenEntries > 0)
-                                Text(
-                                  ', ausgeblendete Enträge: ${itemListModel.hiddenEntries}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              if (filterModel.filterEnabled)
+                              Row(children: [
                                 IconButton(
                                   onPressed: () {
-                                    filterModel.setFilterEnabled(false);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Settings(),
+                                      ),
+                                    );
                                   },
-                                  icon: const Icon(Icons.close),
-                                )
+                                  icon: const Icon(Icons.settings),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Filter(),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.tune),
+                                ),
+                                if (filterModel.filterEnabled)
+                                  const Text(
+                                    'Filter aktiv',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                if (filterModel.filterEnabled && itemListModel.hiddenEntries > 0)
+                                  Text(
+                                    ', ausgeblendet: ${itemListModel.hiddenEntries}',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                if (filterModel.filterEnabled)
+                                  IconButton(
+                                    onPressed: () {
+                                      filterModel.setFilterEnabled(false);
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
+                              ]),
                             ],
                           );
                         },
@@ -164,7 +185,7 @@ class Main extends StatelessWidget {
                         ),
                         Center(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 80),
+                            padding: EdgeInsets.only(top: 80),
                             child: FractionallySizedBox(
                               widthFactor: 0.55,
                               child: Overview(),

@@ -37,13 +37,10 @@ class SPPriceText extends StatelessWidget {
           ),
           WidgetSpan(
             child: Transform.translate(
-              offset: Offset(
-                  1.5, -DefaultTextStyle.of(context).style.fontSize! * 4 / 7),
+              offset: Offset(1.5, -DefaultTextStyle.of(context).style.fontSize! * 4 / 7),
               child: Text(
                 superscript,
-                style: TextStyle(
-                    fontSize:
-                        DefaultTextStyle.of(context).style.fontSize! * 5 / 7),
+                style: TextStyle(fontSize: DefaultTextStyle.of(context).style.fontSize! * 5 / 7),
               ),
             ),
           ),

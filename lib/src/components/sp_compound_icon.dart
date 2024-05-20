@@ -43,10 +43,8 @@ class CompoundIcon extends StatelessWidget {
                 secondIcon,
                 size: size * .55,
               ),
-              decoration: IconDecoration(
-                  border: IconBorder(
-                      color: Theme.of(context).colorScheme.background,
-                      width: size / 8)),
+              decoration:
+                  IconDecoration(border: IconBorder(color: Theme.of(context).colorScheme.background, width: size / 8)),
             ),
           ),
         ],
