@@ -25,4 +25,5 @@ A simple app to keep track of how much fuel you're using on average.
     - [ ] Add option set starting date from listview item
 - [ ] Settings page via breadcrumbs
     - [ ] File explorer for csv import
+    - [ ] Option to only load elements and do not delete old
     - [ ] Color Theme changer
