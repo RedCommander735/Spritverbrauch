@@ -12,6 +12,7 @@ import 'package:spritverbrauch/src/settings/filter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/settings/settings.dart';
+import 'package:spritverbrauch/src/settings/settings_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,8 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (BuildContext context) => ItemListModel()),
-      ChangeNotifierProvider(create: (BuildContext context) => FilterModel())
+      ChangeNotifierProvider(create: (BuildContext context) => FilterModel()),
+      ChangeNotifierProvider(create: (BuildContext context) => SettingsModel()),
     ], child: const Spritpreise()),
   );
 }

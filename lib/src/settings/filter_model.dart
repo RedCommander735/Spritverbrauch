@@ -11,7 +11,7 @@ const dateStartKey = 'dateStart';
 const dateEndKey = 'dateEnd';
 
 class FilterModel extends ChangeNotifier {
-  late SharedPreferences preferences;
+  late SharedPreferences _preferences;
 
   bool _filterEnabled = false;
   DateFilter _dateFilter = DateFilter.fromDate;
@@ -28,24 +28,24 @@ class FilterModel extends ChangeNotifier {
   bool reset = false;
 
   void loadPreferences() async {
-    preferences = await SharedPreferences.getInstance();
+    _preferences = await SharedPreferences.getInstance();
 
     // Filter Toggle
-    var filterEnabledDb = preferences.getBool(filterEnabledKey);
+    var filterEnabledDb = _preferences.getBool(filterEnabledKey);
 
     if (filterEnabledDb == null) {
       filterEnabledDb = false;
-      preferences.setBool(filterEnabledKey, false);
+      _preferences.setBool(filterEnabledKey, false);
     }
 
     _filterEnabled = filterEnabledDb;
 
     // Filter State
-    var dateFilterDb = preferences.getString(dateFilterKey);
+    var dateFilterDb = _preferences.getString(dateFilterKey);
 
     if (dateFilterDb == null) {
       dateFilterDb = DateFilter.fromDate.toString();
-      preferences.setString(dateFilterKey, DateFilter.fromDate.toString());
+      _preferences.setString(dateFilterKey, DateFilter.fromDate.toString());
     }
 
     switch (dateFilterDb) {
@@ -58,14 +58,14 @@ class FilterModel extends ChangeNotifier {
     }
 
     // Value for fromDate Filter
-    var dateStartSingleDb = preferences.getInt(dateStartSingleKey);
+    var dateStartSingleDb = _preferences.getInt(dateStartSingleKey);
 
     _startDateSingle = (dateStartSingleDb == null)
         ? null
         : DateTime.fromMillisecondsSinceEpoch(dateStartSingleDb);
 
     // Start value for dateRange Filter
-    var dateStartDb = preferences.getInt(dateStartKey);
+    var dateStartDb = _preferences.getInt(dateStartKey);
 
     if (dateStartDb == null) {
       var sqlitesevice = SqliteService();
@@ -78,7 +78,7 @@ class FilterModel extends ChangeNotifier {
     _startDate = DateTime.fromMillisecondsSinceEpoch(dateStartDb);
 
     // End value for dateRange Filter
-    var dateEndDb = preferences.getInt(dateEndKey);
+    var dateEndDb = _preferences.getInt(dateEndKey);
 
     dateEndDb ??= DateTime.now().millisecondsSinceEpoch;
     _endDate = DateTime.fromMillisecondsSinceEpoch(dateEndDb);
@@ -89,7 +89,7 @@ class FilterModel extends ChangeNotifier {
   /// Adds [item] to the list.
   void setFilterEnabled(bool enabled) {
     _filterEnabled = enabled;
-    preferences.setBool(filterEnabledKey, enabled);
+    _preferences.setBool(filterEnabledKey, enabled);
 
     if (reset) loadPreferences();
 
@@ -100,7 +100,7 @@ class FilterModel extends ChangeNotifier {
   /// Removes an items from the list.
   void setDateFilter(DateFilter filter) {
     _dateFilter = filter;
-    preferences.setString(dateFilterKey, filter.toString());
+    _preferences.setString(dateFilterKey, filter.toString());
 
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
@@ -108,7 +108,7 @@ class FilterModel extends ChangeNotifier {
 
   void setStartDateSingle(DateTime date) {
     _startDateSingle = date;
-    preferences.setInt(dateStartSingleKey, date.millisecondsSinceEpoch);
+    _preferences.setInt(dateStartSingleKey, date.millisecondsSinceEpoch);
 
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
@@ -116,7 +116,7 @@ class FilterModel extends ChangeNotifier {
 
   void setStartDate(DateTime date) {
     _startDate = date;
-    preferences.setInt(dateStartKey, date.millisecondsSinceEpoch);
+    _preferences.setInt(dateStartKey, date.millisecondsSinceEpoch);
 
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
@@ -124,18 +124,18 @@ class FilterModel extends ChangeNotifier {
 
   void setEndDate(DateTime date) {
     _endDate = date;
-    preferences.setInt(dateEndKey, date.millisecondsSinceEpoch);
+    _preferences.setInt(dateEndKey, date.millisecondsSinceEpoch);
 
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
   void resetFilter() {
-    preferences.setBool(filterEnabledKey, false);
-    preferences.setString(dateFilterKey, DateFilter.fromDate.toString());
-    preferences.remove(dateStartSingleKey);
-    preferences.remove(dateStartKey);
-    preferences.remove(dateEndKey);
+    _preferences.setBool(filterEnabledKey, false);
+    _preferences.setString(dateFilterKey, DateFilter.fromDate.toString());
+    _preferences.remove(dateStartSingleKey);
+    _preferences.remove(dateStartKey);
+    _preferences.remove(dateEndKey);
 
     _filterEnabled = false;
     _dateFilter = DateFilter.fromDate;
