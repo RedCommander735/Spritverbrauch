@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:spritverbrauch/src/utils/number_formatter.dart';
 
 class SPPriceText extends StatelessWidget {
   final double value;
@@ -15,15 +16,16 @@ class SPPriceText extends StatelessWidget {
   Widget build(BuildContext context) {
     String locale = Intl.systemLocale;
 
-    final formatter =
-        NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
+    final formatter = NumberFormatter(locale: locale);
 
-    final String normal = formatter.format(value);
-    final decimal = value.toString().split('.')[1];
+    final FormattedDouble formatted = formatter.format(value);
+
+    final normal = formatted.toString(roundLastDigit: false, fractionDigits: 2);
+    final fraction = formatted.fractionalPartAsIntToString(fractionDigits: 3);
 
     var superscript = '';
-    if (decimal.length > 2) {
-      superscript = decimal.substring(2, 3);
+    if (fraction.length > 2) {
+      superscript = fraction.substring(2, 3);
     }
 
     return Text.rich(
@@ -35,13 +37,10 @@ class SPPriceText extends StatelessWidget {
           ),
           WidgetSpan(
             child: Transform.translate(
-              offset: Offset(
-                  1.5, -DefaultTextStyle.of(context).style.fontSize! * 4 / 7),
+              offset: Offset(1.5, -DefaultTextStyle.of(context).style.fontSize! * 4 / 7),
               child: Text(
                 superscript,
-                style: TextStyle(
-                    fontSize:
-                        DefaultTextStyle.of(context).style.fontSize! * 5 / 7),
+                style: TextStyle(fontSize: DefaultTextStyle.of(context).style.fontSize! * 5 / 7),
               ),
             ),
           ),

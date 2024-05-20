@@ -1,10 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/components/sp_price_text.dart';
-import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/settings/filter_model.dart';
 import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 
@@ -20,8 +18,8 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
-    return Consumer2<FilterModel, ItemListModel>(builder: (BuildContext context,
-        FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
+    return Consumer2<FilterModel, ItemListModel>(
+        builder: (BuildContext context, FilterModel filterModel, ItemListModel itemListModel, Widget? child) {
       final filterEnabled = filterModel.filterEnabled;
       final dateFilter = filterModel.dateFilter;
       final startDateSingle = filterModel.startDateSingle;
@@ -31,16 +29,13 @@ class Overview extends StatelessWidget {
       if (filterEnabled) {
         switch (dateFilter) {
           case DateFilter.fromDate:
-            Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(start: startDateSingle);
+            Provider.of<ItemListModel>(context, listen: false).loadFiltered(start: startDateSingle);
             break;
           case DateFilter.dateRange:
-            Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(start: startDate, end: endDate);
+            Provider.of<ItemListModel>(context, listen: false).loadFiltered(start: startDate, end: endDate);
             break;
           default:
-            Provider.of<ItemListModel>(context, listen: false)
-                .loadFiltered(start: startDateSingle);
+            Provider.of<ItemListModel>(context, listen: false).loadFiltered(start: startDateSingle);
             break;
         }
       } else {
@@ -68,33 +63,25 @@ class Overview extends StatelessWidget {
           litersDB.add(element.fuelInLiters);
         }
 
-        litersPerKilometerDisplay = (litersPerKilometerDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            litersPerKilometerDB.length;
+        litersPerKilometerDisplay =
+            (litersPerKilometerDB.fold(0.0, (previousValue, element) => previousValue + element)) /
+                litersPerKilometerDB.length;
 
-        priceDisplay = (priceTotalDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            priceTotalDB.length;
+        priceDisplay =
+            (priceTotalDB.fold(0.0, (previousValue, element) => previousValue + element)) / priceTotalDB.length;
 
-        distanceDisplay = (distanceDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            distanceDB.length;
+        distanceDisplay =
+            (distanceDB.fold(0.0, (previousValue, element) => previousValue + element)) / distanceDB.length;
 
-        pricePerLiterDisplay = (priceTotalDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            (litersDB.fold(
-                0.0, (previousValue, element) => previousValue + element));
+        pricePerLiterDisplay = (priceTotalDB.fold(0.0, (previousValue, element) => previousValue + element)) /
+            (litersDB.fold(0.0, (previousValue, element) => previousValue + element));
 
-        pricePerKilometerDisplay = (priceTotalDB.fold(
-                0.0, (previousValue, element) => previousValue + element)) /
-            (distanceDB.fold(
-                0.0, (previousValue, element) => previousValue + element));
+        pricePerKilometerDisplay = (priceTotalDB.fold(0.0, (previousValue, element) => previousValue + element)) /
+            (distanceDB.fold(0.0, (previousValue, element) => previousValue + element));
       }
 
       return DefaultTextStyle(
-        style: TextStyle(
-            fontSize: textSize,
-            color: Theme.of(context).colorScheme.onBackground),
+        style: TextStyle(fontSize: textSize, color: Theme.of(context).colorScheme.onBackground),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,8 +91,8 @@ class Overview extends StatelessWidget {
               value: litersPerKilometerDisplay,
               unit: 'L/km',
               icon: const CompoundIcon(
-                firstIcon: Icons.local_gas_station_outlined,
-                secondIcon: Icons.route_outlined,
+                firstIcon: Icons.local_gas_station_rounded,
+                secondIcon: Icons.route_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -115,7 +102,7 @@ class Overview extends StatelessWidget {
               value: priceDisplay,
               unit: '€',
               icon: const Icon(
-                Icons.euro_outlined,
+                Icons.euro_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -126,7 +113,7 @@ class Overview extends StatelessWidget {
               value: distanceDisplay,
               unit: 'km',
               icon: const Icon(
-                Icons.route_outlined,
+                Icons.route_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -136,8 +123,8 @@ class Overview extends StatelessWidget {
               value: pricePerLiterDisplay,
               unit: '€/L',
               icon: const CompoundIcon(
-                firstIcon: Icons.local_gas_station_outlined,
-                secondIcon: Icons.euro_outlined,
+                firstIcon: Icons.local_gas_station_rounded,
+                secondIcon: Icons.euro_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -148,8 +135,8 @@ class Overview extends StatelessWidget {
               value: pricePerKilometerDisplay,
               unit: '€/km',
               icon: const CompoundIcon(
-                firstIcon: Icons.route_outlined,
-                secondIcon: Icons.euro_outlined,
+                firstIcon: Icons.route_rounded,
+                secondIcon: Icons.euro_rounded,
                 size: iconSize,
               ),
               padding: padding,
@@ -184,8 +171,7 @@ class OverviewElement extends StatelessWidget {
   Widget build(BuildContext context) {
     String locale = Intl.systemLocale;
 
-    final formatter =
-        NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
+    final formatter = NumberFormat.decimalPatternDigits(decimalDigits: 2, locale: locale);
 
     final textValue = formatter.format(value);
 

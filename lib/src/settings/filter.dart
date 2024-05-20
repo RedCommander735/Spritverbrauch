@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:intl/intl.dart';
 import 'package:spritverbrauch/src/components/sp_button.dart';
-import 'package:spritverbrauch/src/filter/filter_model.dart';
+import 'package:spritverbrauch/src/settings/filter_model.dart';
 
 class Filter extends StatefulWidget {
   const Filter({super.key});
@@ -59,7 +59,7 @@ class _FilterState extends State<Filter> {
     Provider.of<FilterModel>(context, listen: false).loadPreferences();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Filter konfigurieren')),
+      appBar: AppBar(title: const Text('Filter konfigurieren'), centerTitle: true,),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Consumer<FilterModel>(
