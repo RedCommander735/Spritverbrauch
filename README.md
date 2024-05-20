@@ -13,7 +13,7 @@ A simple app to keep track of how much fuel you're using on average.
 - [x] Time date selector for overview
 - [ ] Settings page via breadcrumbs
     - [x] App info
-    - [ ] Backup to csv/xslx/...?
+    - [x] Backup to csv/xslx/...?
 
 #### Extra stuff:
 - [ ] Edit Items on longpress instead of deleting
