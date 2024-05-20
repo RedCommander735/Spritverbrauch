@@ -1,4 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,9 +14,11 @@ import 'package:spritverbrauch/src/settings/filter.dart';
 import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/settings/settings.dart';
 import 'package:spritverbrauch/src/settings/settings_model.dart';
+import 'package:spritverbrauch/src/utils/licenses.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  addLicenses();
 
   runApp(
     MultiProvider(providers: [
