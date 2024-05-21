@@ -106,7 +106,7 @@ class _ListEntryState extends State<ListEntry> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const CompoundIcon(
+                          CompoundIcon(
                             firstIcon: Icons.local_gas_station_rounded,
                             secondIcon: Icons.route_rounded,
                           ),
@@ -159,7 +159,7 @@ class _ListEntryState extends State<ListEntry> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const CompoundIcon(
+                            CompoundIcon(
                               firstIcon: Icons.euro_rounded,
                               secondIcon: Icons.local_gas_station_rounded,
                             ),
