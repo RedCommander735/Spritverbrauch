@@ -1,29 +1,25 @@
+![App Icon](https://github.com/RedCommander735/Spritverbrauch/blob/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 #  Spritverbrauch
 
 A simple app to keep track of how much fuel you're using on average.
 
 
-## TODO:
+## Available languages
+- German
 
-#### Initial functionality:
-- [x] Swipe left to access list view
-- [x] Add floating action button action
-- [x] Database and backend stuff (actual function)
-- [x] Prices with 3rd digit ^
-- [x] Time date selector for overview
-- [x] Settings page via breadcrumbs
+## Project Git Structure
+I established a simple system to manage this Git repository.
+Basically, there are two main branches: **master** and **develop**. They both are permanent and cannot be deleted.
 
-#### Extra stuff:
-- [ ] Edit Items on longpress instead of deleting
-- [ ] Make Overview items clickable for extra stats
-    - [ ] Usage for usage over time graph
-    - [ ] Price for all time money spent and graph
-    - [ ] distance and price graphs
-    - [ ] price per kilometer for distance price calc
-- [ ] Fun facts (how much money used for gas, etc.)
-- [ ] Time date selector for overview
-    - [ ] Add option set starting date from listview item
-- [ ] Settings page via breadcrumbs
-    - [ ] File explorer for csv import
-    - [ ] Option to only load elements and do not delete old
-    - [ ] Color Theme changer
+### Branch: master
+This branch always and only contains the latest release version. This includes alpha/beta releases.
+
+### Branch: develop
+This branch contains the current development version. Small changes and fixes can be committed directly to this branch.
+
+When it reaches a state ready to release, it can be merged into the **master**-branch and a new release can be published.
+
+### Other branches
+Especially bigger features which require multiple commits should branch off **develop** and merge back into it. These should be named in a way to describe the feature as clearly as possible.
+
+These branches have a limited lifetime. After the last merge back into **develop**, they should be deleted if no longer needed.
