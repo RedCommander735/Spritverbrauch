@@ -90,7 +90,7 @@ class Overview extends StatelessWidget {
             OverviewElement(
               value: litersPerKilometerDisplay,
               unit: 'L/km',
-              icon: const CompoundIcon(
+              icon: CompoundIcon(
                 firstIcon: Icons.local_gas_station_rounded,
                 secondIcon: Icons.route_rounded,
                 size: iconSize,
@@ -122,10 +122,11 @@ class Overview extends StatelessWidget {
             OverviewElement(
               value: pricePerLiterDisplay,
               unit: '€/L',
-              icon: const CompoundIcon(
+              icon: CompoundIcon(
                 firstIcon: Icons.local_gas_station_rounded,
                 secondIcon: Icons.euro_rounded,
                 size: iconSize,
+                shape: CompoundIconClipShape.circle,
               ),
               padding: padding,
               iconSize: iconSize,
@@ -134,10 +135,11 @@ class Overview extends StatelessWidget {
             OverviewElement(
               value: pricePerKilometerDisplay,
               unit: '€/km',
-              icon: const CompoundIcon(
+              icon: CompoundIcon(
                 firstIcon: Icons.route_rounded,
                 secondIcon: Icons.euro_rounded,
                 size: iconSize,
+                shape: CompoundIconClipShape.circle,
               ),
               padding: padding,
               iconSize: iconSize,
