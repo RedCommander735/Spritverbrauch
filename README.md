@@ -1,4 +1,4 @@
-![App Icon](https://github.com/RedCommander735/Spritverbrauch/blob/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
+![AppIcon](https://github.com/RedCommander735/Spritverbrauch/blob/master/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 #  Spritverbrauch
 
 A simple app to keep track of how much fuel you're using on average.
