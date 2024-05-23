@@ -84,7 +84,9 @@ class ListItem {
   final double pricePerLiter;
   final double litersPerKilometer;
 
-  const ListItem({
+  bool selected = false;
+
+  ListItem({
     required this.id,
     required this.date,
     required this.distance,

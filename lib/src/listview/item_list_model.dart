@@ -7,7 +7,8 @@ class ItemListModel extends ChangeNotifier {
   
   List<ListItem> _items = [];
   int _hiddenEntries = 0;
-
+  bool multiselect = false;
+  int selected = 0;
 
   UnmodifiableListView<ListItem> get items => UnmodifiableListView(_items);
   int get hiddenEntries => _hiddenEntries;
@@ -30,7 +31,6 @@ class ItemListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void add(ListItem item) {
     final sqlitesevice = SqliteService();
     sqlitesevice.createItem(item);
@@ -39,12 +39,27 @@ class ItemListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void remove(ListItem item) {
     final sqlitesevice = SqliteService();
     sqlitesevice.deleteItem(item.id);
     _items.remove(item);
     
+    notifyListeners();
+  }
+
+  void select(ListItem item) {
+    item.selected = !item.selected;
+
+    if (item.selected) {
+      selected += 1;
+    } else {
+      selected -= 1;
+    }
+
+    if (selected < 1) {
+      multiselect = false;
+    }
+
     notifyListeners();
   }
 }

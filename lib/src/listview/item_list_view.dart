@@ -20,10 +20,7 @@ class ItemListViewState extends State<ItemListView> {
         itemBuilder: (context, index) {
           return ListEntry(item: items[index]);
         },
-        separatorBuilder: (context, build) => const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Divider(height: 1),
-        ),
+        separatorBuilder: (context, build) => const Divider(height: 1),
       );
     });
   }
