@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:spritverbrauch/src/components/font_awesome.dart';
 import 'package:spritverbrauch/src/components/settings/settings_group.dart';
 import 'package:spritverbrauch/src/components/settings/settings_item.dart';
 import 'package:spritverbrauch/src/components/settings/settings_topic_page.dart';
 import 'package:spritverbrauch/src/utils/csv_handler.dart';
-import 'package:spritverbrauch/src/utils/url_launcher.dart';
 
 class General extends StatefulWidget {
   General({super.key});

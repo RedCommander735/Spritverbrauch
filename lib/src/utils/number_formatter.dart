@@ -59,19 +59,10 @@ class FormattedDouble {
   }
 
   String fractionalPartToString() {
-    return '0$decimalSeperator${fractionalPartAsInt()}';
+    return '0$decimalSeperator${fractionalPartAsIntToString()}';
   }
 
   String fractionalPartAsIntToString({bool roundLastDigit = true, int? fractionDigits}) {
-    int? frac = fractionalPartAsInt(roundLastDigit: roundLastDigit, fractionDigits: fractionDigits);
-    if (frac != null) {
-      return frac.toString();
-    }
-
-    return '';
-  }
-
-  int? fractionalPartAsInt({bool roundLastDigit = true, int? fractionDigits}) {
     late String fractionalString;
 
     if (fractionDigits != null && fractionDigits.isNegative) {
@@ -84,13 +75,12 @@ class FormattedDouble {
       String fracPart = _value.toString().split('.').last;
       fractionalString = (fracPart.length > fractionDigits) ? fracPart.substring(0, fractionDigits) : fracPart;
     } else if (fractionDigits != null && fractionDigits == 0 && !roundLastDigit) {
-      return null;
+      return '';
     } else {
       fractionalString = _value.toString().split('.').last;
     }
 
-    final int? fractionAsInt = (fractionalString.isNotEmpty) ? int.parse(fractionalString) : null;
-    return fractionAsInt;
+    return fractionalString;
   }
 }
 
