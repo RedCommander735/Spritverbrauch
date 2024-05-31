@@ -13,7 +13,7 @@ description: "A simple app to keep track of how much fuel you're using on averag
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.2.0+4
+version: 1.2.1+4
 
 environment:
   flutter: '3.19.0'
