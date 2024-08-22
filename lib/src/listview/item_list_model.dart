@@ -7,6 +7,8 @@ class ItemListModel extends ChangeNotifier {
   
   List<ListItem> _items = [];
   int _hiddenEntries = 0;
+  DateTime? _start;
+  DateTime? _end;
 
 
   UnmodifiableListView<ListItem> get items => UnmodifiableListView(_items);
@@ -21,6 +23,8 @@ class ItemListModel extends ChangeNotifier {
   }
 
   void loadFiltered({DateTime? start, DateTime? end}) async {
+    _start = start;
+    _end = end;
     final sqlitesevice = SqliteService();
     final list = await sqlitesevice.getItems();
     final listFiltered = await sqlitesevice.getItemsFiltered(start ?? DateTime(1970), end ?? DateTime.now());
@@ -42,9 +46,7 @@ class ItemListModel extends ChangeNotifier {
 
   void remove(ListItem item) {
     final sqlitesevice = SqliteService();
-    sqlitesevice.deleteItem(item.id);
-    _items.remove(item);
-    
-    notifyListeners();
+    sqlitesevice.deleteItem(item.id).then((value) => {
+      if (value > 0) {loadFiltered(start: _start, end: _end)}});
   }
 }

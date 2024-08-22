@@ -56,12 +56,14 @@ class SqliteService {
     return list.reversed.toList();
   }
 
-  Future<void> deleteItem(int id) async {
+  Future<int> deleteItem(int id) async {
     final db = await _initDB();
     try {
-      await db.delete("fuel_usage", where: "id = ?", whereArgs: [id]);
+      final count = await db.delete("fuel_usage", where: "id = ?", whereArgs: [id]);
+      return count;
     } catch (err) {
       debugPrint("Something went wrong when deleting an item: $err");
+      return 0;
     }
   }
 
