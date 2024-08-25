@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:spritverbrauch/src/components/sp_compound_icon.dart';
 import 'package:spritverbrauch/src/components/sp_price_text.dart';
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
-import 'package:spritverbrauch/src/settings/filter_model.dart';
 import 'package:spritverbrauch/src/utils/sqlite_service.dart';
 
 double roundDouble(double value, int places) {
@@ -16,26 +15,20 @@ double roundDouble(double value, int places) {
 
 class ListEntry extends StatefulWidget {
   final ListItem item;
-  const ListEntry({super.key, required this.item});
+  final List<ListItem> items;
+  const ListEntry({super.key, required this.items, required this.item});
 
   @override
   State<ListEntry> createState() => _ListEntryState();
 }
 
 class _ListEntryState extends State<ListEntry> {
-  late ListItem item;
-
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      item = widget.item;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    ListItem item = widget.item;
+
+
     DateTime date = DateTime.fromMillisecondsSinceEpoch(item.date);
     String day = date.day.toString().padLeft(2, '0');
     String month = date.month.toString().padLeft(2, '0');
@@ -63,15 +56,15 @@ class _ListEntryState extends State<ListEntry> {
           bool multiselect = Provider.of<ItemListModel>(context, listen: false).multiselect;
           if (!multiselect) {
             Provider.of<ItemListModel>(context, listen: false).multiselect = true;
-            Provider.of<ItemListModel>(context, listen: false).select(item);
+            Provider.of<ItemListModel>(context, listen: false).select([item]);
           } else {
-            Provider.of<ItemListModel>(context, listen: false).select(item);
+            Provider.of<ItemListModel>(context, listen: false).select([item]);
           }
         },
         onTap: () {
           bool multiselect = Provider.of<ItemListModel>(context, listen: false).multiselect;
           if (multiselect) {
-            Provider.of<ItemListModel>(context, listen: false).select(item);
+            Provider.of<ItemListModel>(context, listen: false).select([item]);
           }
         },
         splashColor: (highlighted) ? Colors.transparent : null,
