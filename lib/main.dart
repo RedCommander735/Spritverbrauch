@@ -100,6 +100,11 @@ class _MainState extends State<Main> {
         icon: Icons.add,
         activeIcon: Icons.close,
         openCloseDial: itemListModel.openCloseDial,
+        closeManually: true,
+        renderOverlay: false,
+        spaceBetweenChildren: 4,
+        childPadding: const EdgeInsets.all(10),
+        spacing: 3,
         onPress: () {
           if (!itemListModel.multiselect) {
             Navigator.push(
@@ -109,10 +114,6 @@ class _MainState extends State<Main> {
           }
         },
         onClose: () => itemListModel.multiselect = false,
-        renderOverlay: false,
-        spaceBetweenChildren: 4,
-        childPadding: const EdgeInsets.all(10),
-        spacing: 3,
         children: [
           SpeedDialChild(
             child: const Icon(Icons.delete_forever),
