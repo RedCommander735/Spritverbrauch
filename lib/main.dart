@@ -2,12 +2,14 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:spritverbrauch/src/add_item.dart';
+import 'package:spritverbrauch/src/components/alert_dialog.dart';
 import 'package:spritverbrauch/src/settings/filter_model.dart';
 
 import 'package:spritverbrauch/src/listview/item_list_model.dart';
 import 'package:spritverbrauch/src/listview/item_list_view.dart';
 import 'package:spritverbrauch/src/overview.dart';
-import 'package:spritverbrauch/src/add_item.dart';
 import 'package:spritverbrauch/src/settings/filter.dart';
 
 import 'package:provider/provider.dart';
@@ -76,28 +78,64 @@ class _SpritpreiseState extends State<Spritpreise> {
           useMaterial3: true,
         ),
         themeMode: ThemeMode.system,
-        home: const Main(),
+        home: Main(),
       );
     });
   }
 }
 
-class Main extends StatelessWidget {
-  const Main({super.key});
+class Main extends StatefulWidget {
+  Main({super.key});
 
   @override
+  State<Main> createState() => _MainState();
+}
+
+class _MainState extends State<Main> {
+  @override
   Widget build(BuildContext context) {
+    ItemListModel itemListModel = Provider.of<ItemListModel>(context, listen: false);
     return Scaffold(
-      floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
-                child: const Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AddItem()),
-                  );
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        openCloseDial: itemListModel.openCloseDial,
+        closeManually: true,
+        renderOverlay: false,
+        spaceBetweenChildren: 4,
+        childPadding: const EdgeInsets.all(10),
+        spacing: 3,
+        onPress: () {
+          if (!itemListModel.multiselect) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddItem()),
+            );
+          }
+        },
+        onClose: () => itemListModel.multiselect = false,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.delete_forever),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            onTap: () {
+              Popup.showAlert(
+                context: context,
+                title: itemListModel.selected > 1 ? '${itemListModel.selected} Eintrage löschen?' : 'Eintrag löschen?',
+                content: itemListModel.selected > 1
+                    ? 'Bist du dir sicher, dass du die ausgewählten Einträge löschen willst?'
+                    : 'Bist du dir sicher, dass du den ausgewählten Einträg löschen willst?',
+                onConfirm: () {
+                  itemListModel.remove(List.from(itemListModel.getSelected));
+                  itemListModel.deselectAll();
                 },
-              )),
+              );
+            },
+            shape: const CircleBorder(),
+          )
+        ],
+      ),
       body: SafeArea(
         child: DefaultTabController(
           length: 2,
