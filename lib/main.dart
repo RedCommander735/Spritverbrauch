@@ -115,30 +115,24 @@ class _MainState extends State<Main> {
         spacing: 3,
         children: [
           SpeedDialChild(
-              child: const Icon(Icons.delete_forever),
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              onTap: () {
-                String title =
-                    itemListModel.selected > 1 ? '${itemListModel.selected} Eintrage löschen?' : 'Eintrag löschen?';
-
-                String content = itemListModel.selected > 1
-                    ? 'Willst du die ausgewählten Einträge wirklich löschen?'
-                    : 'Willst du den ausgewählten Einträge wirklich löschen?';
-
-                Popup.showAlert(
-                  context: context,
-                  title: title,
-                  content: content,
-                  onConfirm: () {
-                    itemListModel.remove(itemListModel.getSelected);
-                    itemListModel.deselectAll();
-                  },
-                  onDeny: () {
-                  }
-                );
-              },
-              shape: const CircleBorder())
+            child: const Icon(Icons.delete_forever),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            onTap: () {
+              Popup.showAlert(
+                context: context,
+                title: itemListModel.selected > 1 ? '${itemListModel.selected} Eintrage löschen?' : 'Eintrag löschen?',
+                content: itemListModel.selected > 1
+                    ? 'Bist du dir sicher, dass du die ausgewählten Einträge löschen willst?'
+                    : 'Bist du dir sicher, dass du den ausgewählten Einträg löschen willst?',
+                onConfirm: () {
+                  itemListModel.remove(List.from(itemListModel.getSelected));
+                  itemListModel.deselectAll();
+                },
+              );
+            },
+            shape: const CircleBorder(),
+          )
         ],
       ),
       body: SafeArea(
