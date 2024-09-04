@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "de.redcommander735.spritverbrauch_react.debug"
     },
     "web": {
       "bundler": "metro",
