@@ -1,17 +1,14 @@
 import React from 'react';
 
-import { AnimatableNumericValue, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useMaterialYouTheme } from '@/constants/Theme';
 import { MaterialTopTabs } from '../../components/navigation/MaterialTopTabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useMaterialYouTheme();
   const insets = useSafeAreaInsets();
-  const textColor = useThemeColor({}, 'text')
 
   return (
     <SafeAreaProvider
@@ -20,13 +17,14 @@ export default function TabLayout() {
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
+        backgroundColor: colorScheme.background
       }}
     >
       <MaterialTopTabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          tabBarStyle: [styles.tabBar, {borderColor: textColor}],
-          tabBarIndicatorStyle: styles.indicator,
+          tabBarActiveTintColor: colorScheme.text,
+          tabBarStyle: [styles.tabBar, {borderColor: colorScheme.text, backgroundColor: colorScheme.background}],
+          tabBarIndicatorStyle: [styles.indicator, {backgroundColor: colorScheme.primary}],
         }}
         >
         <MaterialTopTabs.Screen
@@ -42,7 +40,7 @@ export default function TabLayout() {
           options={{
             tabBarShowLabel: true,
             tabBarShowIcon: false,
-            tabBarLabel: ({ color, focused }) => (<TabBarIcon name={'format-list-bulleted'} color={color} />),
+            tabBarLabel: ({ color }) => (<TabBarIcon name={'format-list-bulleted'} color={color} />),
           }}
         />
       </MaterialTopTabs>
@@ -58,8 +56,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   indicator: {
-    height: 3, 
-    marginBottom: -1.2,
+    height: 3,
     marginLeft: '20%',
     width: '10%',
     borderTopRightRadius: 10,
