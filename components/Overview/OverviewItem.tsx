@@ -33,12 +33,12 @@ export function OverviewItem({
     return (
         <View style={{
             gap: 8,
-            marginBottom: 8,
+            marginBottom: 16,
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: '100%',
-            paddingHorizontal: '26%',
+            paddingHorizontal: '23%',
             alignItems: 'center'
             }}>
             {icon}

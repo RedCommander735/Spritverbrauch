@@ -36,7 +36,7 @@ export default function TabLayout() {
           }}
         />
         <MaterialTopTabs.Screen
-          name="explore"
+          name="list"
           options={{
             tabBarShowLabel: true,
             tabBarShowIcon: false,
