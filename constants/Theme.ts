@@ -11,6 +11,7 @@ function generateTheme(palette: MaterialYouPalette) {
     isDark: false,
     primary: palette.system_accent1[7], // shade 500
     text: palette.system_accent1[9], // shade 700
+    secondaryText: palette.system_accent1[4],
     textColored: palette.system_accent1[2], // shade 50
     background: palette.system_neutral1[1], // shade 10
     card: palette.system_accent2[2], // shade 50
@@ -20,6 +21,7 @@ function generateTheme(palette: MaterialYouPalette) {
     isDark: true,
     primary: palette.system_accent1[4], // shade 200
     text: palette.system_neutral1[1], // shade 100
+    secondaryText: palette.system_neutral1[4],
     textColored: palette.system_accent1[9], // shade 700
     background: palette.system_neutral1[12], // shade 900
     card: palette.system_accent2[10], // shade 800

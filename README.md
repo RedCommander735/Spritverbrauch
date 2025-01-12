@@ -13,8 +13,13 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-    pnpm run start
+   pnpm run start
    ```
+
+
+## TODO:
+
+- [ ] Add last added entry to homescreen somehow/switch default screen
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
