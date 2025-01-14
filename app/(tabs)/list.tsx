@@ -1,7 +1,5 @@
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import { CompoundIcon, Shape } from '@/components/CompoundIcon';
 import { useMaterialYouTheme } from '@/constants/Theme';
 import { ThemedText } from '@/components/ThemedText';
 
@@ -46,7 +44,7 @@ export default function TabTwoScreen() {
         ]}
         renderItem={({ item, index }) => <View style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           alignSelf: 'stretch',
           alignItems: 'center'
         }}>
@@ -56,13 +54,14 @@ export default function TabTwoScreen() {
           <View style={{
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-evenly',
+            justifyContent: 'center',
             alignSelf: 'stretch',
-            marginBottom: 18
+            marginVertical: 18
           }}>
-            <ThemedText style={styles.text}>
+            <ThemedText style={[styles.text, {paddingLeft: '10%'}]}>
               €  9.13 l/km
             </ThemedText>
+            <View style={{width: '8%'}}></View>
             {/* todo replace leading € with icon */}
             <ThemedText style={styles.text}>
               €  73.26 €

@@ -8,7 +8,7 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/ic_launcher.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,8 +17,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/ic_launcher_foreground.png",
+        "backgroundImage": "./assets/images/ic_launcher_background.png"
       },
       "package": "de.redcommander735.spritverbrauch_react.debug"
     },
@@ -28,7 +28,15 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-sqlite",
+        {
+          "enableFTS": true,
+          "useSQLCipher": false
+        }
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
