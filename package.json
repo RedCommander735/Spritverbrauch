@@ -20,7 +20,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@react-native-masked-view/masked-view": "0.3.2",
     "@react-navigation/material-top-tabs": "^6.6.14",
-    "@react-navigation/native": "^6.1.18",
+    "@react-navigation/native": "^7.0.14",
     "expo": "~52.0.25",
     "expo-constants": "~17.0.4",
     "expo-dev-client": "~5.0.9",
