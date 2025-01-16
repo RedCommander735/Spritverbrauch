@@ -11,6 +11,8 @@ export default function TabLayout() {
   const insets = useSafeAreaInsets();
 
   return (
+    <>
+    <StatusBar style={useMaterialYouTheme().isDark ? "light" : "dark"}/>
     <SafeAreaProvider
       style={{        // Paddings to handle safe area
         paddingTop: insets.top,
@@ -32,7 +34,7 @@ export default function TabLayout() {
           options={{
             tabBarShowLabel: true,
             tabBarShowIcon: false,
-            tabBarLabel: ({ color, focused }) => (<TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />),
+            tabBarLabel: ({ color }) => (<TabBarIcon name={'home'} color={color} />),
           }}
         />
         <MaterialTopTabs.Screen
@@ -45,6 +47,7 @@ export default function TabLayout() {
         />
       </MaterialTopTabs>
     </SafeAreaProvider>
+    </>
   );
 }
 
