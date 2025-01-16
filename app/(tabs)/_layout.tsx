@@ -5,6 +5,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { useMaterialYouTheme } from '@/constants/Theme';
 import { MaterialTopTabs } from '../../components/navigation/MaterialTopTabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 
 export default function TabLayout() {
   const colorScheme = useMaterialYouTheme();
