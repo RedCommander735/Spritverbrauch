@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { StyleSheet } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
@@ -24,12 +24,11 @@ export default function TabLayout() {
       }}
     >
       <MaterialTopTabs
-        screenOptions={{
-          tabBarActiveTintColor: colorScheme.text,
-          tabBarStyle: [styles.tabBar, {borderColor: colorScheme.text, backgroundColor: colorScheme.background}],
-          tabBarIndicatorStyle: [styles.indicator, {backgroundColor: colorScheme.primary}],
-        }}
-        >
+          screenOptions={{
+            tabBarActiveTintColor: colorScheme.text,
+            tabBarStyle: [styles.tabBar, { borderColor: colorScheme.text, backgroundColor: colorScheme.background }],
+            tabBarIndicatorStyle: [styles.indicator, { backgroundColor: colorScheme.primary }],
+          }} id={undefined}>
         <MaterialTopTabs.Screen
           name="index"
           options={{
@@ -44,6 +43,14 @@ export default function TabLayout() {
             tabBarShowLabel: true,
             tabBarShowIcon: false,
             tabBarLabel: ({ color }) => (<TabBarIcon name={'format-list-bulleted'} color={color} />),
+          }}
+        />
+        <MaterialTopTabs.Screen
+          name="debug"
+          options={{
+            tabBarShowLabel: true,
+            tabBarShowIcon: false,
+            tabBarLabel: ({ color }) => (<TabBarIcon name={'script'} color={color} />),
           }}
         />
       </MaterialTopTabs>

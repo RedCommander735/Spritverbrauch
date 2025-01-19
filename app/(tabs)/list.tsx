@@ -2,6 +2,28 @@ import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { useMaterialYouTheme } from '@/constants/Theme';
 import { ThemedText } from '@/components/ThemedText';
+import { useSQLiteContext } from 'expo-sqlite';
+import { useState, useEffect } from 'react';
+
+interface DBRow {
+  id: number;
+  date?: number;
+  distance?: number;
+  price?: number;
+  liters?: number;
+  price_liter?: number;
+  liters_kilometer?: number;
+  is_meta_entry: boolean;
+  meta_value?: string 
+}
+
+interface ListViewRow {
+  id: number;
+  date?: number;
+  price?: number;
+  is_meta_entry: boolean;
+  meta_value?: string;
+}
 
 const renderSeparator = () => {
   const dividerColor = useMaterialYouTheme().card
@@ -15,9 +37,21 @@ const renderSeparator = () => {
 };
 
 export default function TabTwoScreen() {
-
-  const textColor = useMaterialYouTheme().text
   const secondary = useMaterialYouTheme().secondaryText
+
+  const db = useSQLiteContext();
+  const [rows, setRows] = useState<ListViewRow[]>([]);
+
+  useEffect(() => {
+    async function loadRows() {
+      const result = await db.getAllAsync<ListViewRow>(
+        'SELECT id, date, price, is_meta_entry, meta_value FROM usage'
+      );
+      console.log(result.length)
+      setRows(result);
+    }
+    loadRows();
+  }, []);
 
   return (
     <ThemedView
@@ -30,18 +64,7 @@ export default function TabTwoScreen() {
         style={{
           alignSelf: 'stretch'
         }}
-        data={[
-          { key: 'Devin' },
-          { key: 'Dan' },
-          { key: 'Dominic' },
-          { key: 'Jackson' },
-          { key: 'James' },
-          { key: 'Joel' },
-          { key: 'John' },
-          { key: 'Jillian' },
-          { key: 'Jimmy' },
-          { key: 'Julie' },
-        ]}
+        data={rows}
         renderItem={({ item, index }) => <View style={{
           display: 'flex',
           flexDirection: 'row',
@@ -49,7 +72,7 @@ export default function TabTwoScreen() {
           alignItems: 'center'
         }}>
           <ThemedText style={[{alignSelf: 'stretch', marginLeft: 10, fontSize: 12}, {color: secondary}]}>
-            01.01.2025
+            {index}
           </ThemedText>
           <View style={{
             display: 'flex',
@@ -59,7 +82,7 @@ export default function TabTwoScreen() {
             marginVertical: 18
           }}>
             <ThemedText style={[styles.text, {paddingLeft: '10%'}]}>
-              €  9.13 l/km
+              {item.id}
             </ThemedText>
             <View style={{width: '8%'}}></View>
             {/* todo replace leading € with icon */}
