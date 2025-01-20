@@ -14,13 +14,14 @@ interface DBRow {
   price_liter?: number;
   liters_kilometer?: number;
   is_meta_entry: boolean;
-  meta_value?: string 
+  meta_value?: string
 }
 
 interface ListViewRow {
   id: number;
   date?: number;
-  price?: number;
+  liters_kilometer?: number;
+  distance?: number;
   is_meta_entry: boolean;
   meta_value?: string;
 }
@@ -47,7 +48,6 @@ export default function TabTwoScreen() {
       const result = await db.getAllAsync<ListViewRow>(
         'SELECT id, date, price, is_meta_entry, meta_value FROM usage'
       );
-      console.log(result.length)
       setRows(result);
     }
     loadRows();
@@ -71,8 +71,8 @@ export default function TabTwoScreen() {
           alignSelf: 'stretch',
           alignItems: 'center'
         }}>
-          <ThemedText style={[{alignSelf: 'stretch', marginLeft: 10, fontSize: 12}, {color: secondary}]}>
-            {index}
+          <ThemedText style={[{ alignSelf: 'stretch', marginLeft: 10, fontSize: 12 }, { color: secondary }]}>
+            {item.date}
           </ThemedText>
           <View style={{
             display: 'flex',
@@ -81,22 +81,39 @@ export default function TabTwoScreen() {
             alignSelf: 'stretch',
             marginVertical: 18
           }}>
-            <ThemedText style={[styles.text, {paddingLeft: '10%'}]}>
-              {item.id}
-            </ThemedText>
-            <View style={{width: '8%'}}></View>
-            {/* todo replace leading € with icon */}
-            <ThemedText style={styles.text}>
-              €  73.26 €
-            </ThemedText>
+            <ListItem {...item}/>
           </View>
-  
+
         </View>
         }
         ItemSeparatorComponent={renderSeparator}
       />
     </ThemedView>
   );
+}
+
+function ListItem(item: ListViewRow) {
+
+  if (item.is_meta_entry) {
+    return (
+      <ThemedText style={[styles.text, { paddingLeft: '10%' }]}>
+        {item.meta_value}
+      </ThemedText>
+    )
+  }
+
+  return (
+    <>
+      <ThemedText style={[styles.text, { paddingLeft: '10%' }]}>
+        {item.liters_kilometer} l/km
+      </ThemedText>
+      <View style={{ width: '8%' }}></View>
+      {/* todo replace leading € with icon */}
+      <ThemedText style={styles.text}>
+        {item.distance} km
+      </ThemedText>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({

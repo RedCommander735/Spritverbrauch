@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { useMaterialYouTheme } from '@/constants/Theme';
 import { MaterialTopTabs } from '../../components/navigation/MaterialTopTabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { FAB } from 'react-native-paper';
 
 export default function TabLayout() {
   const colorScheme = useMaterialYouTheme();
@@ -55,6 +56,12 @@ export default function TabLayout() {
         />
       </MaterialTopTabs>
     </SafeAreaProvider>
+    <FAB
+      icon="plus"
+      style={[styles.fab, {backgroundColor: colorScheme.primary}]}
+      color={colorScheme.background}
+      onPress={() => console.log('Pressed')}
+    />
     </>
   );
 }
@@ -72,5 +79,11 @@ const styles = StyleSheet.create({
     width: '10%',
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 24,
+    right: 0,
+    bottom: 0,
   },
 });
