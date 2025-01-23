@@ -7,6 +7,8 @@ import { MaterialTopTabs } from '../../components/navigation/MaterialTopTabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { FAB } from 'react-native-paper';
+import { navigate } from 'expo-router/build/global-state/routing';
+import { router } from 'expo-router';
 
 export default function TabLayout() {
   const colorScheme = useMaterialYouTheme();
@@ -60,7 +62,7 @@ export default function TabLayout() {
       icon="plus"
       style={[styles.fab, {backgroundColor: colorScheme.primary}]}
       color={colorScheme.background}
-      onPress={() => console.log('Pressed')}
+      onPress={() => router.push('../add-entry', { relativeToDirectory: true })}
     />
     </>
   );
